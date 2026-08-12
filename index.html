@@ -1,0 +1,4925 @@
+en <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexura Platform — JCC Tarjeta Digital</title>
+  <style>
+    :root{
+      --primary:#174a7e;
+      --primary-dark:#0d3158;
+      --primary-2:#2c7fb8;
+      --primary-soft:#eef5fb;
+      --sidebar:#082b5c;
+      --sidebar-dark:#061e42;
+      --bg:#f5f7fa;
+      --card:#ffffff;
+      --border:#dce5ee;
+      --text:#243447;
+      --muted:#66788a;
+      --success:#198754;
+      --warning:#d89200;
+      --danger:#dc3545;
+      --info:#087b96;
+      --purple:#7647c8;
+      --shadow:0 8px 24px rgba(17,56,95,.08);
+      --radius:15px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter,Segoe UI,Arial,sans-serif;
+    }
+
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    a{text-decoration:none}
+
+    .app{min-height:100vh;display:flex}
+
+    /* Menú lateral */
+    .sidebar{
+      width:270px;
+      position:fixed;
+      inset:0 auto 0 0;
+      z-index:30;
+      overflow-y:auto;
+      padding:20px 14px;
+      color:#fff;
+      background:linear-gradient(180deg,var(--sidebar) 0%,var(--sidebar-dark) 100%);
+      box-shadow:8px 0 24px rgba(5,28,62,.12);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:3px 8px 20px;
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
+
+    .brand-logo{
+      width:49px;
+      height:49px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      flex:0 0 49px;
+      background:rgba(255,255,255,.13);
+      font-size:24px;
+    }
+
+    .brand strong{
+      display:block;
+      font-size:14px;
+      line-height:1.25;
+    }
+
+    .brand small{
+      display:block;
+      color:#bdcceb;
+      margin-top:4px;
+      font-size:11px;
+    }
+
+    .menu-label{
+      margin:18px 11px 7px;
+      color:#8fa7cf;
+      font-size:10px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .menu a{
+      display:flex;
+      align-items:center;
+      gap:11px;
+      margin:4px 0;
+      padding:11px 13px;
+      border-radius:11px;
+      color:#dce7fa;
+      transition:.2s;
+      font-size:13px;
+    }
+
+    .menu a:hover,
+    .menu a.active{
+      color:#fff;
+      background:rgba(52,119,224,.34);
+    }
+
+    .menu a.active{
+      box-shadow:inset 3px 0 0 #7bb6ff;
+    }
+
+    .menu-icon{
+      width:22px;
+      text-align:center;
+      font-size:16px;
+      flex:0 0 22px;
+    }
+
+    .menu-divider{
+      height:1px;
+      background:rgba(255,255,255,.11);
+      margin:14px 8px;
+    }
+
+    .profile{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-top:28px;
+      padding:15px 9px 3px;
+      border-top:1px solid rgba(255,255,255,.12);
+    }
+
+    .avatar{
+      width:41px;
+      height:41px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      flex:0 0 41px;
+      color:var(--primary-dark);
+      background:#fff;
+      font-weight:800;
+    }
+
+    .profile strong{display:block;font-size:12px}
+    .profile small{display:block;color:#bdcceb;margin-top:3px;font-size:11px}
+
+    /* Contenido */
+    .main{
+      width:calc(100% - 270px);
+      margin-left:270px;
+      padding:25px;
+    }
+
+    .view{display:none}
+    .view.active{display:block}
+
+    .page-header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:18px;
+    }
+
+    .page-header h1{
+      margin:0;
+      color:var(--primary-dark);
+      font-size:27px;
+      letter-spacing:-.3px;
+    }
+
+    .page-header p{
+      margin:7px 0 0;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .header-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+    }
+
+    .btn{
+      min-height:39px;
+      padding:9px 14px;
+      border:1px solid transparent;
+      border-radius:9px;
+      font-weight:700;
+      transition:.2s;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+      background:#fff;
+    }
+
+    .btn:hover{transform:translateY(-1px)}
+    .btn-sm{min-height:34px;padding:7px 11px;font-size:12px}
+    .btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}
+    .btn-primary:hover{background:var(--primary-dark)}
+    .btn-outline-primary{background:#fff;border-color:#8bb0d5;color:var(--primary)}
+    .btn-outline-secondary{background:#fff;border-color:#cbd5df;color:#526477}
+    .btn-light{background:#fff;border-color:var(--border);color:#526477}
+    .btn-danger{background:var(--danger);color:#fff}
+    .btn-icon{width:36px;height:36px;padding:0}
+
+    .card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    /* Tarjetas digitales */
+    .module-selector{
+      display:inline-flex;
+      gap:7px;
+      padding:6px;
+      border:1px solid var(--border);
+      border-radius:13px;
+      background:#fff;
+      box-shadow:var(--shadow);
+    }
+
+    .module-button{
+      border:0;
+      border-radius:9px;
+      padding:10px 14px;
+      background:transparent;
+      color:#526477;
+      font-weight:700;
+    }
+
+    .module-button:hover{background:var(--primary-soft);color:var(--primary)}
+    .module-button.active{background:var(--primary);color:#fff}
+
+    .module-banner{
+      margin-bottom:16px;
+      padding:22px;
+      color:#fff;
+      background:linear-gradient(120deg,var(--primary-dark),var(--primary-2));
+      border:0;
+      overflow:hidden;
+    }
+
+    .module-banner.sociedades{
+      background:linear-gradient(120deg,#294f63,#367c89);
+    }
+
+    .banner-layout{
+      display:flex;
+      align-items:center;
+      gap:16px;
+    }
+
+    .banner-icon{
+      width:62px;
+      height:62px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      flex:0 0 62px;
+      background:rgba(255,255,255,.15);
+      font-size:29px;
+    }
+
+    .banner-content{flex:1}
+    .banner-title-line{
+      display:flex;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:5px;
+    }
+    .banner-content h2{margin:0;font-size:20px}
+    .banner-content p{margin:0;color:rgba(255,255,255,.77);font-size:13px}
+    .banner-badge{
+      border:1px solid rgba(255,255,255,.38);
+      border-radius:999px;
+      padding:5px 8px;
+      font-size:10px;
+      font-weight:800;
+      background:rgba(255,255,255,.11);
+    }
+
+    .summary-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin-bottom:16px;
+    }
+
+    .summary-card{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:16px;
+    }
+
+    .summary-icon{
+      width:46px;
+      height:46px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      flex:0 0 46px;
+      font-size:20px;
+    }
+
+    .summary-icon.blue{background:#e6efff;color:var(--primary)}
+    .summary-icon.green{background:#e6f7ee;color:var(--success)}
+    .summary-icon.yellow{background:#fff3d7;color:#b77900}
+    .summary-icon.red{background:#fdebec;color:var(--danger)}
+    .summary-icon.purple{background:#f0e8ff;color:var(--purple)}
+
+    .summary-value{
+      color:var(--primary-dark);
+      font-size:24px;
+      line-height:1;
+      font-weight:800;
+    }
+
+    .summary-label{
+      margin-top:5px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .toolbar{
+      padding:15px;
+      margin-bottom:16px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .filters-card{
+      padding:16px;
+      margin-bottom:16px;
+    }
+
+    .filter-grid{
+      display:grid;
+      grid-template-columns:minmax(180px,.8fr) minmax(240px,1.4fr) auto;
+      gap:10px;
+      align-items:end;
+    }
+
+    .field label{
+      display:block;
+      margin-bottom:6px;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .control{
+      width:100%;
+      min-height:40px;
+      padding:9px 11px;
+      border:1px solid #ccd5e2;
+      border-radius:9px;
+      background:#fff;
+      outline:none;
+      color:var(--text);
+    }
+
+    .control:focus{
+      border-color:var(--primary-2);
+      box-shadow:0 0 0 3px rgba(44,127,184,.12);
+    }
+
+    textarea.control{min-height:91px;resize:vertical}
+
+    .table-card{overflow:hidden}
+    .table-card-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:15px 17px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .table-card-head h3{margin:0;font-size:15px}
+    .table-card-head p{margin:5px 0 0;color:var(--muted);font-size:12px}
+    .table-head-actions{display:flex;gap:8px;align-items:center}
+    .table-head-actions .control{min-width:210px}
+
+    .table-wrap{overflow:auto}
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+    }
+
+    .data-table{min-width:1050px}
+    .history-table{min-width:1120px}
+
+    thead th{
+      padding:12px 11px;
+      text-align:left;
+      color:#40556b;
+      background:#f4f7fa;
+      border-bottom:1px solid var(--border);
+      font-size:11px;
+      letter-spacing:.03em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+
+    tbody td{
+      padding:12px 11px;
+      border-bottom:1px solid #edf1f6;
+      font-size:13px;
+      vertical-align:middle;
+    }
+
+    tbody tr:hover{background:#f9fbff}
+
+    code,.code{
+      display:inline-block;
+      color:#2455a6;
+      background:#eef4ff;
+      padding:5px 7px;
+      border-radius:7px;
+      font-family:Consolas,monospace;
+      white-space:nowrap;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:75px;
+      padding:6px 9px;
+      border-radius:999px;
+      font-size:10px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .badge.success{background:#e6f7ee;color:var(--success)}
+    .badge.warning{background:#fff3d7;color:#9d6500}
+    .badge.danger{background:#fdebec;color:var(--danger)}
+    .badge.info{background:#e5f8fb;color:var(--info)}
+    .badge.neutral{background:#eff2f5;color:#657386}
+    .badge.dark{background:#e5e8ec;color:#252f3d}
+
+    .row-actions{
+      display:flex;
+      gap:5px;
+    }
+
+    .card-actions-host{position:relative}
+    .card-actions-menu{
+      position:absolute;right:0;top:calc(100% + 4px);z-index:30;
+      min-width:135px;padding:5px;display:none;
+      border:1px solid var(--border);border-radius:7px;
+      background:#fff;box-shadow:0 8px 24px rgba(0,0,0,.14);
+    }
+    .card-actions-menu.open{display:block}
+    .card-actions-menu button{
+      width:100%;padding:8px 10px;border:0;border-radius:5px;
+      display:flex;gap:7px;align-items:center;
+      color:var(--text);background:transparent;font-size:10px;text-align:left;
+    }
+    .card-actions-menu button:hover{background:#f1f4f8}
+    .credential-preview{max-width:620px;margin:auto;overflow:hidden;border:1px solid #d8dde3;border-radius:12px;background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.12)}
+    .credential-preview-head{display:flex;gap:12px;align-items:center;padding:13px 16px;color:#fff;background:linear-gradient(135deg,#174a7e,#2378c7)}
+    .credential-preview-brand-logo{width:92px;height:42px;padding:4px;border-radius:5px;background:#fff;object-fit:contain}
+    .credential-preview-brand-copy{min-width:0}
+    .credential-preview-head strong{display:block;font-size:14px}
+    .credential-preview-head small{font-size:9px;opacity:.85}
+    .credential-preview-body{display:flex;gap:14px;align-items:center;padding:18px}
+    .credential-preview-photo{width:76px;height:88px;display:grid;place-items:center;flex:0 0 76px;border-radius:7px;background:#e9edf2;color:#6c757d;font-size:34px}
+    .credential-preview-data h4{margin:0 0 8px;font-size:13px}
+    .credential-preview-data p{margin:4px 0;color:var(--muted);font-size:10px}
+    .credential-qr-section{display:flex;gap:16px;align-items:center;padding:0 18px 18px}
+    .credential-qr{width:112px;height:112px;padding:8px;display:grid;grid-template-columns:repeat(11,1fr);grid-template-rows:repeat(11,1fr);gap:1px;flex:0 0 112px;border:1px solid #cfd5dc;border-radius:7px;background:#fff}
+    .credential-qr i{display:block;background:transparent}
+    .credential-qr i.on{background:#17202a}
+    .credential-qr-copy strong{display:block;margin-bottom:6px;font-size:12px}
+    .credential-qr-copy p{margin:3px 0;color:var(--muted);font-size:10px;line-height:1.45}
+    .credential-qr-countdown{color:var(--primary);font-weight:800}
+    .credential-history-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 18px 18px}
+    .credential-history-card{border:1px solid var(--border);border-radius:8px;background:#fbfcfe;overflow:hidden}
+    .credential-history-card h4{margin:0;padding:10px 12px;border-bottom:1px solid var(--border);background:#f4f6f8;font-size:11px}
+    .credential-timeline,.credential-readings{margin:0;padding:10px 12px;list-style:none}
+    .credential-timeline li,.credential-readings li{position:relative;padding:0 0 11px 14px;color:var(--muted);font-size:9px;line-height:1.4}
+    .credential-timeline li:last-child,.credential-readings li:last-child{padding-bottom:0}
+    .credential-timeline li::before,.credential-readings li::before{content:"";position:absolute;left:0;top:4px;width:6px;height:6px;border-radius:50%;background:var(--primary)}
+    .credential-timeline strong,.credential-readings strong{display:block;color:var(--text);font-size:10px}
+    .credential-export-actions{display:flex;justify-content:flex-end;padding:0 18px 18px}
+    .card-history-content{margin:18px 22px}
+    .card-history-person{display:grid;grid-template-columns:auto 1fr;gap:15px;align-items:center;padding:16px}
+    .card-history-avatar{width:68px;height:76px;display:grid;place-items:center;border-radius:8px;background:#e9edf2;color:#6c757d;font-size:30px}
+    .card-history-person h3{margin:0 0 7px;font-size:15px}
+    .card-history-meta{display:flex;gap:8px 16px;flex-wrap:wrap;color:var(--muted);font-size:10px}
+    .card-history-sections{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+    .card-history-sections .credential-history-card{background:#fff}
+
+    @media print{
+      body.credential-printing *{visibility:hidden!important}
+      body.credential-printing #detailModal,
+      body.credential-printing #detailModalBody,
+      body.credential-printing .credential-preview,
+      body.credential-printing .credential-preview *{visibility:visible!important}
+      body.credential-printing #detailModal{position:absolute;inset:0;display:block;background:#fff}
+      body.credential-printing .modal-card{width:100%;max-width:none;max-height:none;margin:0;overflow:visible;border:0;box-shadow:none}
+      body.credential-printing .modal-header,
+      body.credential-printing .modal-footer,
+      body.credential-printing .credential-export-actions{display:none!important}
+      body.credential-printing .modal-body{padding:0}
+      body.credential-printing .credential-preview{max-width:700px;margin:0 auto;border:1px solid #d8dde3;box-shadow:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    }
+
+    .table-footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding:14px 17px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .pagination{
+      display:flex;
+      gap:5px;
+    }
+
+    .page-btn{
+      min-width:32px;
+      height:32px;
+      border:1px solid var(--border);
+      border-radius:8px;
+      background:#fff;
+      color:#526477;
+    }
+
+    .page-btn.active{
+      background:var(--primary);
+      border-color:var(--primary);
+      color:#fff;
+    }
+
+    .page-btn:disabled{opacity:.45;cursor:not-allowed}
+
+    .empty-state{
+      padding:38px 15px;
+      text-align:center;
+      color:var(--muted);
+    }
+
+    /* Configuración de notificaciones */
+    .notification-stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-bottom:16px;
+    }
+
+    .notification-stat{
+      padding:16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .notification-stat h3{margin:0;font-size:13px}
+    .notification-stat strong{display:block;margin-top:4px;font-size:24px}
+    .notification-stat small{color:var(--muted)}
+
+    .status-pill{
+      margin-left:auto;
+      align-self:flex-start;
+      padding:5px 8px;
+      border-radius:999px;
+      color:var(--success);
+      background:#e6f7ee;
+      font-size:10px;
+      font-weight:800;
+    }
+
+    .notification-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1.65fr) minmax(310px,.7fr);
+      gap:16px;
+    }
+
+    .section-card{
+      padding:18px;
+      margin-bottom:14px;
+    }
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      margin-bottom:14px;
+      color:var(--primary-dark);
+      font-size:14px;
+      font-weight:800;
+    }
+
+    .section-help{
+      margin:-7px 0 14px 29px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+
+    .channel-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+    }
+
+    .channel-card{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:13px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:#fff;
+      transition:.2s;
+    }
+
+    .channel-card.active{
+      border-color:#5b8ff0;
+      box-shadow:0 0 0 2px rgba(64,125,240,.1);
+    }
+
+    .channel-card h4{margin:0;font-size:12px}
+    .channel-card p{margin:5px 0 0;color:var(--muted);font-size:10px;line-height:1.4}
+    .channel-icon{
+      width:38px;
+      height:38px;
+      flex:0 0 38px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      font-size:18px;
+    }
+
+    .switch{margin-left:auto;position:relative;width:39px;height:22px;flex:0 0 39px}
+    .switch input{display:none}
+    .slider{
+      position:absolute;
+      inset:0;
+      border-radius:99px;
+      background:#c7d0dd;
+      transition:.22s;
+    }
+    .slider:before{
+      content:"";
+      position:absolute;
+      width:16px;
+      height:16px;
+      left:3px;
+      top:3px;
+      border-radius:50%;
+      background:#fff;
+      box-shadow:0 1px 3px rgba(0,0,0,.2);
+      transition:.22s;
+    }
+    .switch input:checked + .slider{background:var(--primary)}
+    .switch input:checked + .slider:before{transform:translateX(17px)}
+
+    .radio-line{
+      display:flex;
+      gap:17px;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+
+    .radio-line label{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      font-size:12px;
+    }
+
+    .preview-card{
+      position:sticky;
+      top:18px;
+      padding:18px;
+    }
+
+    .preview-card h3{margin:0;color:var(--primary-dark);font-size:15px}
+    .preview-card .intro{margin:6px 0 16px;color:var(--muted);font-size:11px}
+
+    .phone{
+      position:relative;
+      width:250px;
+      max-width:100%;
+      min-height:360px;
+      margin:0 auto 18px;
+      padding:43px 13px 16px;
+      overflow:hidden;
+      border:9px solid #111827;
+      border-radius:31px;
+      background:linear-gradient(180deg,#4f83b8,#c5d4e3);
+    }
+
+    .notch{
+      position:absolute;
+      top:0;
+      left:50%;
+      width:92px;
+      height:22px;
+      transform:translateX(-50%);
+      border-radius:0 0 14px 14px;
+      background:#111827;
+    }
+
+    .phone-time{text-align:center;color:#fff;font-size:34px;font-weight:300}
+    .phone-date{text-align:center;color:#eef5fb;font-size:11px;margin:4px 0 20px}
+    .push-preview{
+      padding:11px;
+      border-radius:14px;
+      background:rgba(255,255,255,.91);
+      box-shadow:0 8px 20px rgba(0,0,0,.14);
+    }
+    .push-meta{display:flex;justify-content:space-between;color:#667085;font-size:9px}
+    .push-preview strong{display:block;margin:6px 0 4px;font-size:12px}
+    .push-preview p{margin:0;font-size:10px;line-height:1.4}
+
+    .in-app-phone{min-height:330px;padding:38px 12px 14px;background:#eef2f6}
+    .in-app-screen{position:absolute;inset:31px 0 0;padding:15px;background:#f5f7fa}
+    .in-app-screen::before{content:"JCC Tarjeta Digital";display:block;padding:10px;margin:-15px -15px 18px;color:#fff;background:var(--primary);font-size:11px;font-weight:700}
+    .in-app-backdrop{position:absolute;inset:0;display:grid;place-items:center;padding:18px;background:rgba(22,31,43,.42)}
+    .in-app-modal{width:100%;padding:17px;border-radius:13px;background:#fff;box-shadow:0 14px 34px rgba(0,0,0,.25);text-align:center}
+    .in-app-modal-icon{width:40px;height:40px;margin:0 auto 9px;display:grid;place-items:center;border-radius:50%;background:#fff3d7;font-size:20px}
+    .in-app-modal h4{margin:0;font-size:13px}
+    .in-app-modal p{margin:7px 0 12px;color:#4d5870;font-size:10px;line-height:1.45}
+    .form-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:9px;
+      position:sticky;
+      bottom:0;
+      padding:12px 0 3px;
+      background:rgba(245,247,250,.94);
+      backdrop-filter:blur(8px);
+    }
+
+    /* Historial */
+    .history-summary{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin-bottom:16px;
+    }
+
+    .history-filters{
+      display:grid;
+      grid-template-columns:1.3fr repeat(4,1fr) auto;
+      gap:10px;
+      align-items:end;
+      padding:16px;
+      background:#fbfcfe;
+      border-bottom:1px solid var(--border);
+    }
+
+    .channel-label{
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      white-space:nowrap;
+    }
+
+    /* Modal */
+    .modal-backdrop{
+      display:none;
+      position:fixed;
+      inset:0;
+      z-index:100;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(11,25,48,.6);
+    }
+
+    .modal-backdrop.open{display:flex}
+
+    .modal{
+      width:min(760px,100%);
+      max-height:90vh;
+      overflow:auto;
+      border-radius:17px;
+      background:#fff;
+      box-shadow:0 25px 70px rgba(0,0,0,.25);
+    }
+
+    .modal-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:13px;
+      padding:18px 20px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .modal-header h3{margin:0;font-size:18px}
+    .modal-header p{margin:5px 0 0;color:var(--muted);font-size:12px}
+    .close-btn{
+      width:34px;height:34px;border:0;border-radius:9px;background:#f1f4f8;font-size:18px
+    }
+
+    .modal-body{padding:20px}
+    .modal-footer{
+      display:flex;
+      justify-content:flex-end;
+      gap:9px;
+      padding:15px 20px;
+      border-top:1px solid var(--border);
+    }
+
+    .detail-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:11px;
+      margin-bottom:14px;
+    }
+
+    .detail-item{
+      padding:12px;
+      border:1px solid var(--border);
+      border-radius:11px;
+      background:#fbfcfe;
+    }
+
+    .detail-item label{
+      display:block;
+      margin-bottom:5px;
+      color:var(--muted);
+      font-size:9px;
+      font-weight:800;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+
+    .detail-photo-item{grid-column:1/-1}
+    .detail-photo-box{
+      width:96px;height:112px;display:grid;place-items:center;
+      border:1px solid #cfd5dc;border-radius:7px;
+      background:linear-gradient(145deg,#eef1f4,#dfe4e9);
+      color:#77818d;font-size:42px;
+    }
+
+    .detail-message{
+      padding:14px;
+      border-left:4px solid var(--primary);
+      border-radius:9px;
+      background:#f5f8ff;
+      line-height:1.5;
+      font-size:13px;
+    }
+
+    .individual-issue-content{max-width:760px;margin:18px 22px}
+    .individual-issue-breadcrumb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 14px;padding:0;list-style:none;color:var(--muted);font-size:11px}
+    .individual-issue-breadcrumb li:not(:last-child)::after{content:"/";margin-left:6px;color:#a5abb3}
+    .individual-issue-breadcrumb a{color:var(--primary);text-decoration:none}
+    .individual-issue-card{margin-bottom:14px;overflow:hidden}
+    .individual-issue-card-header{padding:11px 14px;border-bottom:1px solid var(--border);background:#f7f8fa;font-size:13px;font-weight:700}
+    .individual-issue-card-header.preview{background:#eaf6ff;color:#176b9e}
+    .individual-issue-card-body{padding:16px}
+    .individual-issue-help{margin:0 0 12px;color:var(--muted);font-size:11px;line-height:1.5}
+    .individual-issue-search{display:flex;gap:8px;align-items:center}
+    .individual-issue-search .control{flex:1}
+    .individual-issue-preview{display:none}
+    .individual-issue-preview.visible{display:block}
+    .individual-holder{display:flex;gap:14px;align-items:center;padding:12px;border:1px solid var(--border);border-radius:7px;background:#fbfcfe}
+    .individual-holder-avatar{width:62px;height:72px;display:grid;place-items:center;flex:0 0 62px;border-radius:6px;background:#e9edf2;color:#68717d;font-size:26px}
+    .individual-holder h3{margin:0 0 6px;font-size:15px}
+    .individual-holder p{margin:3px 0;color:var(--muted);font-size:11px}
+    .individual-holder-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 22px;margin-top:9px}
+    .individual-holder-details p{margin:0}
+    .individual-holder-details span{display:block;margin-bottom:2px;color:#7a838e;font-size:9px;font-weight:700;text-transform:uppercase}
+    .individual-holder-details strong{color:#303640;font-size:11px}
+    .individual-confirm-row{display:flex;justify-content:flex-end;margin-top:15px;padding-top:15px;border-top:1px solid var(--border)}
+    .individual-confirm-button{min-width:190px;padding:11px 22px!important;border:0!important;border-radius:8px!important;background:linear-gradient(135deg,#198754,#116b40)!important;box-shadow:0 5px 13px rgba(25,135,84,.25);font-size:12px!important;font-weight:800!important;letter-spacing:.01em;transition:transform .18s ease,box-shadow .18s ease}
+    .individual-confirm-button:hover{transform:translateY(-1px);box-shadow:0 7px 17px rgba(25,135,84,.32)}
+    .individual-result{display:none;margin-top:14px;padding:11px 13px;border:1px solid #badbcc;border-radius:6px;background:#d1e7dd;color:#0f5132;font-size:11px}
+    .individual-result.visible{display:block}
+    .bulk-issue-steps{margin:0 0 14px;padding-left:20px;color:var(--muted);font-size:11px;line-height:1.6}
+    .bulk-issue-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+    .bulk-file-control{flex:1;min-width:240px;padding:6px 9px}
+    .bulk-result{display:none;margin-top:14px;padding:13px;border:1px solid #b6d4fe;border-radius:6px;background:#cfe2ff;color:#084298;font-size:11px;line-height:1.5}
+    .bulk-result.visible{display:block}
+    .bulk-result.error{border-color:#f5c2c7;background:#f8d7da;color:#842029}
+    .branding-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,1fr);gap:16px;margin:18px 22px}
+    .branding-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .branding-field.full{grid-column:1/-1}
+    .branding-field label{display:block;margin-bottom:5px;color:#555;font-size:10px;font-weight:700}
+    .branding-color{width:100%;height:36px;padding:3px;border:1px solid var(--border);border-radius:5px;background:#fff;cursor:pointer}
+    .branding-actions{display:flex;gap:8px;margin-top:15px}
+    .branding-preview-card{overflow:hidden;border:1px solid var(--border);border-radius:6px;background:#fff}
+    .branding-preview-header{display:flex;gap:10px;align-items:center;padding:12px;color:#fff;background:#cbab52}
+    .branding-preview-logo{width:50px;height:36px;padding:4px;border-radius:4px;background:#fff;object-fit:contain}
+    .branding-preview-body{padding:26px;text-align:center}
+    .branding-preview-badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#1dd384;color:#fff;font-size:10px;font-weight:700}
+    .branding-preview-message{margin:10px 0 0;color:var(--muted);font-size:11px}
+    .branding-history{margin:0;padding:0;list-style:none}
+    .branding-history li{display:flex;justify-content:space-between;gap:12px;padding:11px 14px;border-top:1px solid var(--border);font-size:10px}
+    .branding-history li:first-child{border-top:0}
+    .branding-published{padding:3px 7px;border-radius:999px;background:#d1e7dd;color:#0f5132;font-weight:700}
+    .qr-validator-content{max-width:620px;margin:18px 22px}
+    .qr-field-list{display:grid;gap:0;margin-bottom:16px;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .qr-field-option{display:flex;gap:10px;align-items:center;padding:11px 13px;border-top:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer}
+    .qr-field-option:first-child{border-top:0}
+    .qr-field-option:hover{background:#f8f9fa}
+    .qr-field-option input{width:16px;height:16px;margin:0;accent-color:var(--primary)}
+    .qr-validator-footer{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .qr-validator-note{color:var(--muted);font-size:10px}
+    .audit-content{margin:18px 22px}
+    .audit-filters{display:grid;grid-template-columns:1.2fr 1.2fr 1.5fr 1fr auto;gap:10px;align-items:end}
+    .audit-summary{margin:12px 0;color:var(--muted);font-size:10px}
+    .audit-method,.audit-http{display:inline-block;padding:3px 7px;border-radius:999px;font-size:9px;font-weight:800}
+    .audit-method{background:#e9ecef;color:#495057}
+    .audit-http.success{background:#d1e7dd;color:#0f5132}
+    .audit-http.error{background:#f8d7da;color:#842029}
+    .audit-detail-row{display:none}
+    .audit-detail-row.visible{display:table-row}
+    .audit-detail-cell{padding:14px!important;background:#f8f9fa!important}
+    .audit-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .audit-detail-grid strong{display:block;margin:8px 0 5px;font-size:10px}
+    .audit-detail-grid strong:first-child{margin-top:0}
+    .audit-code{max-height:180px;margin:0;padding:10px;overflow:auto;border:1px solid var(--border);border-radius:5px;background:#fff;white-space:pre-wrap;word-break:break-all;font-size:9px;line-height:1.45}
+
+    .toast{
+      position:fixed;
+      right:22px;
+      bottom:22px;
+      z-index:200;
+      padding:13px 16px;
+      border-radius:11px;
+      color:#fff;
+      background:#17233d;
+      box-shadow:var(--shadow);
+      opacity:0;
+      transform:translateY(16px);
+      pointer-events:none;
+      transition:.22s;
+    }
+
+    .toast.show{opacity:1;transform:translateY(0)}
+
+    @media(max-width:1200px){
+      .summary-grid,.history-summary{grid-template-columns:repeat(2,1fr)}
+      .filter-grid,.history-filters{grid-template-columns:repeat(2,1fr)}
+      .notification-layout{grid-template-columns:1fr}
+      .branding-layout{grid-template-columns:1fr}
+      .audit-filters{grid-template-columns:repeat(2,1fr)}
+      .preview-card{position:static}
+    }
+
+    @media(max-width:930px){
+      .sidebar{position:static;width:100%;min-height:auto}
+      .app{display:block}
+      .main{width:100%;margin-left:0;padding:18px}
+      .menu{display:grid;grid-template-columns:repeat(2,1fr)}
+      .menu-label,.menu-divider,.profile{display:none}
+      .page-header{flex-direction:column}
+      .module-selector{width:100%}
+      .module-button{flex:1}
+      .grid-3,.grid-2,.channel-grid{grid-template-columns:1fr}
+    }
+
+    @media(max-width:620px){
+      .summary-grid,.history-summary,.notification-stats{grid-template-columns:1fr}
+      .filter-grid,.history-filters{grid-template-columns:1fr}
+      .banner-layout{align-items:flex-start;flex-wrap:wrap}
+      .table-card-head{align-items:flex-start;flex-direction:column}
+      .table-head-actions{width:100%;flex-direction:column}
+      .table-head-actions .control{width:100%;min-width:0}
+      .detail-grid{grid-template-columns:1fr}
+      .individual-issue-content{margin:13px}
+      .individual-issue-search,.individual-email-row{display:flex;flex-direction:column;align-items:stretch}
+      .bulk-issue-actions{align-items:stretch;flex-direction:column}
+      .bulk-file-control{width:100%;min-width:0}
+      .branding-layout{margin:13px}
+      .branding-fields{grid-template-columns:1fr}
+      .qr-validator-content{margin:13px}
+      .audit-content{margin:13px}
+      .audit-filters,.audit-detail-grid{grid-template-columns:1fr}
+      .credential-qr-section{align-items:flex-start;flex-direction:column}
+      .credential-history-grid{grid-template-columns:1fr}
+      .card-history-content{margin:13px}
+      .card-history-sections{grid-template-columns:1fr}
+      .table-footer{align-items:flex-start;flex-direction:column}
+    }
+  
+    /* =========================================================
+       AJUSTE NEXURA SIN CAMBIAR EL ORDEN ORIGINAL
+       ========================================================= */
+    :root{
+      --nx-blue:#0d6efd;
+      --nx-blue-dark:#0b5ed7;
+      --nx-sidebar-width:260px;
+      --nx-header-height:64px;
+      --nx-border:#dadce0;
+      --nx-text:#3c4043;
+      --nx-muted:#6c757d;
+      --nx-soft:#f1f3f4;
+    }
+
+    body{
+      padding-top:var(--nx-header-height);
+      background:#f8f9fa;
+      color:var(--nx-text);
+      font-family:Arial,Helvetica,sans-serif;
+    }
+
+    .nx-topbar{
+      position:fixed;
+      inset:0 0 auto 0;
+      z-index:100;
+      height:var(--nx-header-height);
+      display:flex;
+      align-items:center;
+      background:#fff;
+      border-bottom:1px solid var(--nx-border);
+      box-shadow:0 1px 3px rgba(60,64,67,.16);
+    }
+
+    .nx-topbar-brand{
+      width:var(--nx-sidebar-width);
+      height:100%;
+      padding:0 14px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex:0 0 var(--nx-sidebar-width);
+      border-right:1px solid #e5e7eb;
+      transition:.22s;
+    }
+
+    .nx-menu-button{
+      width:38px;
+      height:38px;
+      padding:9px;
+      border:0;
+      border-radius:50%;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:4px;
+      background:transparent;
+    }
+
+    .nx-menu-button:hover{background:var(--nx-soft)}
+    .nx-menu-button span{
+      width:19px;height:2px;border-radius:2px;display:block;background:#5f6368;
+    }
+
+    .nx-brand-link{display:flex;align-items:center;min-width:0}
+    .nx-platform-logo{width:190px;height:44px;display:block}
+
+    .nx-topbar-entity{
+      min-width:0;
+      flex:1;
+      padding:0 20px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      overflow:hidden;
+    }
+
+    .jcc-seal-small{width:38px;height:38px;flex:0 0 38px}
+    .nx-topbar-entity-logo{
+      width:min(100%,390px);
+      height:50px;
+      display:block;
+      object-fit:contain;
+      object-position:left center;
+    }
+    .nx-topbar-entity strong{
+      display:block;
+      overflow:hidden;
+      color:#4a4d51;
+      font-size:12px;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .nx-topbar-entity small{
+      display:block;margin-top:3px;color:#80868b;font-size:10px;
+    }
+
+    .nx-topbar-actions{
+      height:100%;
+      padding:0 14px;
+      display:flex;
+      align-items:center;
+      gap:3px;
+    }
+
+    .nx-dropdown-host{position:relative}
+
+    .nx-circle-button,
+    .nx-avatar-button{
+      position:relative;
+      width:39px;
+      height:39px;
+      border:0;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:transparent;
+      color:#5f6368;
+      font-size:18px;
+    }
+
+    .nx-circle-button:hover{background:var(--nx-soft)}
+    .nx-avatar-button{
+      margin-left:5px;
+      background:#6c757d;
+      color:#fff;
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .nx-grid-icon{
+      width:18px;height:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+    }
+    .nx-grid-icon i{display:block;border-radius:1px;background:#5f6368}
+
+    .nx-bell{
+      width:18px;height:18px;display:grid;place-items:center;
+      font-size:0;
+    }
+    .nx-bell:before{
+      content:"";
+      width:12px;height:14px;
+      border:2px solid #5f6368;
+      border-top-left-radius:8px;
+      border-top-right-radius:8px;
+      border-bottom:0;
+      display:block;
+    }
+    .nx-bell:after{
+      content:"";
+      width:16px;height:2px;
+      margin-top:-2px;
+      border-radius:2px;
+      background:#5f6368;
+      display:block;
+    }
+
+    .nx-notification-count{
+      position:absolute;top:1px;right:0;
+      min-width:16px;height:16px;padding:0 4px;
+      border-radius:9px;display:grid;place-items:center;
+      background:#dc3545;color:#fff;font-size:9px;font-weight:700;
+    }
+
+    .nx-dropdown{
+      display:none;
+      position:absolute;
+      top:49px;
+      right:0;
+      z-index:130;
+      min-width:230px;
+      padding:7px 0;
+      border:1px solid var(--nx-border);
+      border-radius:4px;
+      background:#fff;
+      box-shadow:0 8px 25px rgba(60,64,67,.24);
+    }
+    .nx-dropdown.open{display:block}
+
+    .nx-dropdown-title{
+      padding:9px 14px;
+      border-bottom:1px solid #eee;
+      color:#70757a;
+      font-size:10px;
+      font-weight:700;
+      text-transform:uppercase;
+    }
+
+    .nx-dropdown button,
+    .nx-dropdown > a{
+      width:100%;
+      padding:10px 14px;
+      border:0;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background:#fff;
+      color:#3c4043;
+      font-size:12px;
+      text-align:left;
+    }
+    .nx-dropdown button:hover,
+    .nx-dropdown > a:hover{background:var(--nx-soft)}
+
+    .nx-apps-menu{width:305px;padding:12px}
+    .nx-app-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:7px;
+    }
+    .nx-app-grid a{
+      min-height:76px;
+      padding:8px;
+      border-radius:7px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      color:#3c4043;
+      font-size:10px;
+      text-align:center;
+    }
+    .nx-app-grid a:hover{background:var(--nx-soft)}
+    .nx-app-tile{
+      width:34px;height:34px;border-radius:8px;
+      display:grid;place-items:center;color:#fff;font-size:17px;
+    }
+    .nx-app-tile.blue{background:#4285f4}
+    .nx-app-tile.orange{background:#f59e0b}
+    .nx-app-tile.green{background:#34a853}
+    .nx-app-tile.gray{background:#6c757d}
+    .nx-app-tile.purple{background:#7e57c2}
+    .nx-app-tile.dark{background:#455a64}
+
+    .nx-alert-menu{width:330px}
+    .nx-alert-menu button{align-items:flex-start}
+    .nx-alert-menu strong{display:block;font-size:11px}
+    .nx-alert-menu small{display:block;margin-top:3px;color:#777;font-size:9px;line-height:1.35}
+    .nx-alert-symbol{
+      width:27px;height:27px;border-radius:50%;
+      display:grid;place-items:center;flex:0 0 27px;font-weight:700;
+    }
+    .nx-alert-symbol.warning{background:#fff3cd;color:#997404}
+    .nx-alert-symbol.info{background:#cff4fc;color:#087990}
+    .nx-alert-symbol.danger{background:#f8d7da;color:#b02a37}
+
+    .nx-profile-menu{width:268px}
+    .nx-profile-summary{
+      padding:14px;
+      display:flex;
+      gap:11px;
+      align-items:center;
+      border-bottom:1px solid #eee;
+    }
+    .nx-profile-avatar{
+      width:46px;height:46px;border-radius:50%;
+      display:grid;place-items:center;flex:0 0 46px;
+      background:#6c757d;color:#fff;font-size:17px;font-weight:700;
+    }
+    .nx-profile-summary strong{display:block;font-size:12px}
+    .nx-profile-summary small{display:block;margin-top:2px;color:#777;font-size:10px}
+    .nx-profile-summary span{display:block;margin-top:4px;color:#0d6efd;font-size:9px}
+
+    .nx-environment-label{
+      position:fixed;
+      top:2px;
+      left:50%;
+      z-index:160;
+      transform:translateX(-50%);
+      padding:3px 7px;
+      border:1px dashed #dc3545;
+      background:rgba(255,255,255,.97);
+      color:#dc3545;
+      font-size:11px;
+      font-weight:700;
+      pointer-events:none;
+    }
+
+    .app{display:block;min-height:calc(100vh - var(--nx-header-height))}
+
+    .sidebar{
+      width:var(--nx-sidebar-width);
+      top:var(--nx-header-height);
+      bottom:0;
+      left:0;
+      inset:var(--nx-header-height) auto 0 0;
+      padding:0 0 118px;
+      position:fixed;
+      z-index:80;
+      overflow-y:auto;
+      background:#fff;
+      color:var(--nx-text);
+      border-right:1px solid var(--nx-border);
+      box-shadow:none;
+      transition:width .22s,transform .22s;
+    }
+
+    .sidebar .brand{
+      min-height:85px;
+      padding:12px 16px;
+      gap:10px;
+      border-bottom:1px solid #e7e9ec;
+      background:#fafafa;
+    }
+
+    .jcc-sidebar-logo{width:58px;height:58px;flex:0 0 58px}
+    .brand-copy strong{color:#3c4043;font-size:12px}
+    .brand-copy small{color:#80868b;font-size:10px}
+
+    .menu{margin:0;padding:7px 0}
+    .menu-label{
+      margin:13px 16px 5px;
+      color:#8a9097;
+      font-size:9px;
+      letter-spacing:.05em;
+    }
+
+    .menu a{
+      min-height:42px;
+      margin:0;
+      padding:10px 16px;
+      border-radius:0;
+      display:flex;
+      align-items:center;
+      gap:11px;
+      color:#3c4043;
+      font-size:12px;
+    }
+
+    .menu a:hover{background:var(--nx-soft);color:#202124}
+    .menu a.active{
+      background:var(--nx-soft);
+      color:#202124;
+      box-shadow:none;
+      font-weight:700;
+    }
+    .menu a.active:before{
+      content:"";
+      position:absolute;
+      left:0;
+      width:4px;
+      height:42px;
+      background:var(--nx-blue);
+    }
+
+    .menu-icon{
+      width:22px;flex:0 0 22px;
+      color:#5f6368;
+      font-size:15px;
+    }
+    .menu a.active .menu-icon{color:var(--nx-blue)}
+    .menu-divider{height:1px;margin:8px 0;background:#e6e8eb}
+
+    .profile{
+      margin:15px 0 0;
+      padding:13px 16px;
+      border-top:1px solid #e7e9ec;
+      border-bottom:1px solid #e7e9ec;
+      background:#fafafa;
+    }
+    .avatar{
+      width:36px;height:36px;flex:0 0 36px;
+      background:#6c757d;color:#fff;font-size:11px;
+    }
+    .profile-copy strong{color:#3c4043;font-size:11px}
+    .profile-copy small{color:#777;font-size:9px}
+
+    .nx-sidebar-footer{
+      position:absolute;
+      inset:auto 0 0 0;
+      min-height:57px;
+      padding:8px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border-top:1px solid #e6e8eb;
+      background:#fff;
+    }
+    .nx-sidebar-footer img{width:102px;height:25px;object-fit:contain}
+    .nx-sidebar-footer small{color:#8a9097;font-size:8px}
+
+    .main{
+      width:auto;
+      margin-left:var(--nx-sidebar-width);
+      padding:0;
+      min-height:calc(100vh - var(--nx-header-height));
+      background:#fff;
+      transition:margin-left .22s;
+    }
+
+    .view{min-height:calc(100vh - var(--nx-header-height));padding-bottom:28px}
+
+    .page-header{
+      min-height:63px;
+      margin:0 0 16px;
+      padding:10px 22px;
+      align-items:center;
+      border-bottom:1px solid var(--nx-border);
+      background:#fff;
+    }
+    .page-header h1{color:#3c4043;font-size:19px;font-weight:500}
+    .page-header p{margin-top:4px;color:#777;font-size:10px}
+
+    .view > section:not(.page-header),
+    .view > .notification-layout,
+    .view > .summary-grid{
+      margin-left:22px;
+      margin-right:22px;
+    }
+
+    .card{
+      border:1px solid #dee2e6;
+      border-radius:4px;
+      box-shadow:none;
+    }
+
+    .module-selector{
+      padding:0;
+      gap:5px;
+      border:0;
+      border-radius:0;
+      box-shadow:none;
+    }
+    .module-button{
+      min-height:33px;padding:6px 10px;
+      border:1px solid #ced4da;border-radius:3px;
+      font-size:10px;font-weight:600;
+    }
+    .module-button.active{background:var(--nx-blue);color:#fff}
+
+    .module-banner,
+    .module-banner.sociedades{
+      margin:0 22px 14px!important;
+      padding:15px 17px;
+      color:#343a40;
+      background:#f8f9fa;
+      border:1px solid #dee2e6;
+      border-left:4px solid var(--nx-blue);
+      border-radius:4px;
+      box-shadow:none;
+    }
+    .module-banner.sociedades{border-left-color:#198754}
+    .banner-icon{
+      width:45px;height:45px;flex-basis:45px;
+      border-radius:50%;background:#e8f1ff;color:var(--nx-blue);font-size:20px;
+    }
+    .module-banner.sociedades .banner-icon{background:#e6f5ed;color:#198754}
+    .banner-content h2{font-size:15px}
+    .banner-content p{color:#6c757d;font-size:10px}
+    .banner-badge{
+      padding:4px 6px;border-radius:3px;
+      border-color:#ced4da;background:#fff;color:#495057;font-size:8px;
+    }
+
+    .summary-grid,.notification-stats,.history-summary{gap:10px;margin-bottom:14px}
+    .summary-card,.notification-stat{min-height:73px;padding:12px}
+    .summary-icon{
+      width:37px;height:37px;flex-basis:37px;border-radius:50%;font-size:15px;
+    }
+    .summary-value{font-size:19px;color:#343a40}
+    .summary-label{font-size:9px;color:#6c757d}
+    .notification-stat h3{font-size:10px}
+    .notification-stat strong{font-size:19px}
+    .notification-stat small{font-size:9px}
+    .status-pill{padding:4px 6px;border-radius:3px;font-size:8px}
+
+    .toolbar{padding:10px 12px;gap:6px;margin-bottom:14px!important}
+
+    .btn{
+      min-height:31px;padding:6px 9px;
+      border-radius:3px;gap:5px;
+      font-size:10px;font-weight:600;box-shadow:none;
+    }
+    .btn:hover{transform:none}
+    .btn-sm{min-height:28px;padding:5px 8px;font-size:9px}
+    .btn-primary{background:var(--nx-blue);border-color:var(--nx-blue)}
+    .btn-primary:hover{background:var(--nx-blue-dark)}
+    .btn-outline-primary{color:var(--nx-blue);border-color:var(--nx-blue)}
+    .btn-outline-secondary,.btn-light{color:#5f6368;border-color:#ced4da;background:#fff}
+    .btn-icon{width:29px;height:29px;min-height:29px;padding:0}
+
+    .filters-card{padding:13px;margin-bottom:14px!important}
+    .field label{margin-bottom:4px;color:#495057;font-size:9px;font-weight:600}
+    .control{
+      min-height:31px;padding:5px 8px;
+      border:1px solid #ced4da;border-radius:3px;
+      color:#495057;font-size:10px;
+    }
+    .control:focus{border-color:#86b7fe;box-shadow:0 0 0 .17rem rgba(13,110,253,.14)}
+    textarea.control{min-height:76px}
+
+    .table-card{overflow:hidden;background:#fff}
+    .table-card-head{padding:11px 14px;background:#fff}
+    .table-card-head h3{font-size:12px}
+    .table-card-head p{font-size:9px}
+    .table-head-actions .control{min-width:180px}
+
+    thead th{
+      padding:9px 10px;
+      color:#343a40;background:#f1f3f4;
+      border-bottom:2px solid #dee2e6;
+      font-size:8px;font-weight:700;
+    }
+    tbody td{
+      padding:9px 10px;
+      border-bottom:1px solid #e7eaed;
+      font-size:10px;
+    }
+    tbody tr:nth-child(odd){background:#f8f9fa}
+    tbody tr:hover{background:#eef4fb}
+    code,.code{
+      padding:3px 5px;border-radius:2px;
+      background:#eef1f4;color:#0b5ed7;font-size:9px;
+    }
+    .badge{min-width:62px;padding:4px 6px;border-radius:2px;font-size:8px}
+    .table-footer{padding:10px 14px;border-top:1px solid #dee2e6;font-size:9px}
+    .page-btn{min-width:27px;height:27px;border-radius:2px;font-size:9px}
+
+    .notification-layout{gap:13px}
+    .section-card{padding:14px;margin-bottom:12px;border-radius:4px}
+    .section-title{margin-bottom:12px;color:#3c4043;font-size:11px}
+    .section-help{font-size:9px}
+    .channel-card{padding:10px;border-radius:3px}
+    .channel-card.active{border-color:#86b7fe;box-shadow:inset 3px 0 0 var(--nx-blue)}
+    .channel-card h4{font-size:9px}
+    .channel-card p{font-size:8px}
+    .channel-icon{width:31px;height:31px;flex-basis:31px;border-radius:50%;font-size:14px}
+    .preview-card{padding:14px;border-radius:4px}
+    .preview-card h3{font-size:12px}
+    .preview-card .intro{font-size:9px}
+    .phone{width:225px;min-height:325px;border-width:7px;border-radius:24px}
+    .history-filters{padding:13px;background:#f8f9fa}
+
+    .modal{border-radius:4px}
+    .modal-header,.modal-footer{background:#f8f9fa}
+    .detail-item{border-radius:3px}
+    .detail-message{border-radius:2px}
+
+    body.nx-sidebar-collapsed .nx-topbar-brand{
+      width:var(--nx-sidebar-width);
+      flex-basis:var(--nx-sidebar-width);
+      padding:0 14px;
+    }
+    body.nx-sidebar-collapsed .nx-brand-link{display:flex}
+    body.nx-sidebar-collapsed .sidebar{width:70px}
+    body.nx-sidebar-collapsed .main{margin-left:70px}
+    body.nx-sidebar-collapsed .sidebar .brand-copy,
+    body.nx-sidebar-collapsed .menu-label,
+    body.nx-sidebar-collapsed .menu-text,
+    body.nx-sidebar-collapsed .profile-copy,
+    body.nx-sidebar-collapsed .nx-sidebar-footer{display:none}
+    body.nx-sidebar-collapsed .sidebar .brand{justify-content:center;padding:12px 6px}
+    body.nx-sidebar-collapsed .jcc-sidebar-logo{width:48px;height:48px}
+    body.nx-sidebar-collapsed .menu a{justify-content:center;padding:10px 0}
+    body.nx-sidebar-collapsed .menu-icon{width:auto;flex-basis:auto}
+    body.nx-sidebar-collapsed .profile{justify-content:center;padding:12px 0}
+
+    @media(max-width:960px){
+      :root{--nx-header-height:58px}
+      .nx-topbar{height:58px}
+      .nx-topbar-brand{width:auto;flex-basis:auto;height:58px;border-right:0}
+      .nx-platform-logo{width:165px}
+      .nx-topbar-entity{display:none}
+      .nx-environment-label{display:none}
+      .sidebar{
+        top:58px;
+        inset:58px auto 0 0;
+        width:260px;
+        transform:translateX(-100%);
+        box-shadow:3px 0 13px rgba(0,0,0,.18);
+      }
+      body.nx-sidebar-open .sidebar{transform:translateX(0)}
+      .main,
+      body.nx-sidebar-collapsed .main{margin-left:0}
+      body.nx-sidebar-collapsed .sidebar{width:260px}
+      body.nx-sidebar-collapsed .sidebar .brand-copy,
+      body.nx-sidebar-collapsed .menu-label,
+      body.nx-sidebar-collapsed .menu-text,
+      body.nx-sidebar-collapsed .profile-copy,
+      body.nx-sidebar-collapsed .nx-sidebar-footer{display:block}
+      body.nx-sidebar-collapsed .sidebar .brand{justify-content:flex-start;padding:12px 16px}
+      body.nx-sidebar-collapsed .menu a{justify-content:flex-start;padding:10px 16px}
+      body.nx-sidebar-collapsed .profile{justify-content:flex-start;padding:13px 16px}
+      .page-header{padding:9px 13px}
+      .view > section:not(.page-header),
+      .view > .notification-layout,
+      .view > .summary-grid{margin-left:13px;margin-right:13px}
+      .module-banner,.module-banner.sociedades{margin-left:13px!important;margin-right:13px!important}
+    }
+
+    @media(max-width:620px){
+      .nx-platform-logo{width:145px}
+      .nx-topbar-actions{padding-right:7px}
+      .nx-circle-button{width:34px;height:34px}
+      .nx-apps-menu,.nx-alert-menu{right:-80px;max-width:calc(100vw - 20px)}
+    }
+
+  
+    /* Reportes */
+    .reports-filter-card{
+      padding:13px;
+      margin-bottom:14px!important;
+    }
+
+    .reports-filter-grid{
+      display:grid;
+      grid-template-columns:1.2fr repeat(4,1fr) auto;
+      gap:10px;
+      align-items:end;
+    }
+
+    .reports-period{
+      margin-top:10px;
+      padding-top:9px;
+      border-top:1px solid #e7eaed;
+      color:#6c757d;
+      font-size:9px;
+    }
+
+    .reports-kpi-grid{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:10px;
+      margin-bottom:14px!important;
+    }
+
+    .report-kpi{
+      min-height:82px;
+      padding:12px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .report-kpi-icon{
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      flex:0 0 38px;
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .report-kpi-icon.blue{background:#e6efff;color:#0d6efd}
+    .report-kpi-icon.green{background:#e7f7ef;color:#198754}
+    .report-kpi-icon.yellow{background:#fff4d8;color:#a76a00}
+    .report-kpi-icon.purple{background:#f0e8ff;color:#7647c8}
+    .report-kpi-icon.cyan{background:#e6f8fc;color:#087b96}
+
+    .report-kpi span{
+      display:block;
+      color:#6c757d;
+      font-size:9px;
+    }
+
+    .report-kpi strong{
+      display:block;
+      margin-top:3px;
+      color:#343a40;
+      font-size:18px;
+      line-height:1;
+    }
+
+    .report-kpi small{
+      display:block;
+      margin-top:6px;
+      color:#7a8188;
+      font-size:8px;
+      line-height:1.3;
+    }
+
+    .positive{color:#198754}
+    .negative{color:#dc3545}
+    .warning-text{color:#b77900}
+
+    .reports-dashboard-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+      margin-bottom:14px!important;
+    }
+
+    .report-chart-card{
+      min-height:260px;
+      padding:14px;
+    }
+
+    .report-card-header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      padding-bottom:10px;
+      border-bottom:1px solid #e8ebee;
+    }
+
+    .report-card-header h3{
+      margin:0;
+      color:#343a40;
+      font-size:12px;
+    }
+
+    .report-card-header p{
+      margin:4px 0 0;
+      color:#777;
+      font-size:9px;
+    }
+
+    .report-card-period{
+      padding:4px 6px;
+      border:1px solid #dfe3e7;
+      border-radius:3px;
+      color:#6c757d;
+      background:#f8f9fa;
+      font-size:8px;
+      white-space:nowrap;
+    }
+
+    .horizontal-chart{
+      padding:18px 2px 10px;
+    }
+
+    .horizontal-chart-row{
+      display:grid;
+      grid-template-columns:75px minmax(120px,1fr) 45px;
+      gap:9px;
+      align-items:center;
+      margin-bottom:15px;
+    }
+
+    .chart-label{
+      color:#5f6368;
+      font-size:9px;
+    }
+
+    .chart-track{
+      height:10px;
+      overflow:hidden;
+      border-radius:2px;
+      background:#edf0f2;
+    }
+
+    .chart-fill{
+      height:100%;
+      min-width:3px;
+      border-radius:2px;
+      transition:width .35s ease;
+    }
+
+    .chart-fill.active,.legend.active{background:#198754}
+    .chart-fill.cancelled,.legend.cancelled{background:#dc3545}
+    .chart-fill.deceased,.legend.deceased{background:#5f6368}
+    .chart-fill.issued,.legend.issued{background:#0d6efd}
+
+    .horizontal-chart-row strong{
+      color:#343a40;
+      font-size:9px;
+      text-align:right;
+    }
+
+    .report-chart-footer{
+      padding-top:8px;
+      border-top:1px solid #eee;
+      display:flex;
+      gap:13px;
+      flex-wrap:wrap;
+      color:#6c757d;
+      font-size:8px;
+    }
+
+    .report-chart-footer span,
+    .donut-legend span{
+      display:flex;
+      align-items:center;
+      gap:5px;
+    }
+
+    .legend{
+      width:8px;
+      height:8px;
+      border-radius:2px;
+      display:inline-block;
+    }
+
+    .vertical-chart{
+      height:188px;
+      padding:18px 20px 4px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-around;
+      gap:18px;
+      border-bottom:1px solid #dfe3e7;
+    }
+
+    .vertical-column{
+      width:86px;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-end;
+    }
+
+    .vertical-value{
+      margin-bottom:5px;
+      color:#343a40;
+      font-size:9px;
+      font-weight:700;
+    }
+
+    .vertical-track{
+      width:38px;
+      height:132px;
+      display:flex;
+      align-items:flex-end;
+      border-radius:3px 3px 0 0;
+      background:#f0f2f4;
+      overflow:hidden;
+    }
+
+    .vertical-fill{
+      width:100%;
+      min-height:3px;
+      transition:height .35s ease;
+    }
+
+    .vertical-fill.push{background:#0d6efd}
+    .vertical-fill.standard{background:#f0ad4e}
+    .vertical-fill.internal{background:#7647c8}
+
+    .vertical-column > span{
+      min-height:27px;
+      padding-top:6px;
+      color:#5f6368;
+      font-size:8px;
+      text-align:center;
+    }
+
+    .donut-report-layout{
+      min-height:195px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:34px;
+    }
+
+    .report-donut{
+      position:relative;
+      width:142px;
+      height:142px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:conic-gradient(#0d6efd 0 79.4%,#34a853 79.4% 100%);
+    }
+
+    .report-donut:after{
+      content:"";
+      position:absolute;
+      width:84px;
+      height:84px;
+      border-radius:50%;
+      background:#fff;
+    }
+
+    .report-donut-center{
+      position:relative;
+      z-index:1;
+      text-align:center;
+    }
+
+    .report-donut-center strong{
+      display:block;
+      color:#343a40;
+      font-size:17px;
+    }
+
+    .report-donut-center span{
+      display:block;
+      margin-top:2px;
+      color:#777;
+      font-size:8px;
+    }
+
+    .donut-legend{
+      min-width:130px;
+    }
+
+    .donut-legend > div{
+      padding:10px 0;
+      border-bottom:1px solid #eee;
+    }
+
+    .donut-legend > div:last-child{border-bottom:0}
+    .donut-legend .legend.accountants{background:#0d6efd}
+    .donut-legend .legend.companies{background:#34a853}
+
+    .donut-legend span{
+      color:#5f6368;
+      font-size:9px;
+    }
+
+    .donut-legend strong{
+      display:block;
+      margin:4px 0 1px 13px;
+      color:#343a40;
+      font-size:13px;
+    }
+
+    .donut-legend small{
+      display:block;
+      margin-left:13px;
+      color:#777;
+      font-size:8px;
+    }
+
+    .compliance-list{
+      padding:17px 2px 3px;
+    }
+
+    .compliance-item{margin-bottom:17px}
+
+    .compliance-item > div:first-child{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:6px;
+      color:#5f6368;
+      font-size:9px;
+    }
+
+    .compliance-item strong{color:#343a40}
+
+    .compliance-track{
+      height:8px;
+      overflow:hidden;
+      border-radius:2px;
+      background:#edf0f2;
+    }
+
+    .compliance-track div{
+      height:100%;
+      border-radius:2px;
+      background:#0d6efd;
+    }
+
+    .reports-table-card{
+      margin-bottom:20px!important;
+    }
+
+    .reports-table{min-width:1050px}
+
+    .reports-generated-at{
+      color:#6c757d;
+      font-size:8px;
+    }
+
+    @media(max-width:1250px){
+      .reports-kpi-grid{grid-template-columns:repeat(3,1fr)}
+      .reports-filter-grid{grid-template-columns:repeat(3,1fr)}
+    }
+
+    @media(max-width:900px){
+      .reports-dashboard-grid{grid-template-columns:1fr}
+      .reports-kpi-grid{grid-template-columns:repeat(2,1fr)}
+      .reports-filter-grid{grid-template-columns:repeat(2,1fr)}
+    }
+
+    @media(max-width:600px){
+      .reports-kpi-grid,
+      .reports-filter-grid{grid-template-columns:1fr}
+      .donut-report-layout{flex-direction:column;gap:15px;padding-top:17px}
+    }
+
+    @media print{
+      .nx-topbar,
+      .sidebar,
+      .nx-environment-label,
+      .header-actions,
+      .reports-filter-card,
+      .toast{display:none!important}
+
+      body{padding-top:0;background:#fff}
+      .main{margin-left:0!important}
+      .view{display:none!important}
+      #reportsView{display:block!important;padding:0}
+      .page-header{margin:0 0 14px;padding:0 0 10px}
+      .reports-dashboard-grid{grid-template-columns:repeat(2,1fr)}
+      .report-chart-card,.card{break-inside:avoid}
+    }
+
+  
+    /* Ajuste exclusivo de tipografía: aumento leve */
+    body{font-size:17px}
+
+    .nx-topbar-entity strong{font-size:13px}
+    .nx-topbar-entity small{font-size:11px}
+    .nx-dropdown-title{font-size:11px}
+    .nx-dropdown button,
+    .nx-dropdown > a{font-size:13px}
+    .nx-app-grid a{font-size:11px}
+    .nx-alert-menu strong{font-size:12px}
+    .nx-alert-menu small{font-size:10px}
+    .nx-profile-summary strong{font-size:13px}
+    .nx-profile-summary small{font-size:11px}
+    .nx-profile-summary span{font-size:10px}
+    .nx-environment-label{font-size:12px}
+
+    .brand-copy strong{font-size:13px}
+    .brand-copy small{font-size:11px}
+    .menu-label{font-size:10px}
+    .menu a{font-size:13px}
+    .profile-copy strong{font-size:12px}
+    .profile-copy small{font-size:10px}
+    .nx-sidebar-footer small{font-size:9px}
+
+    .page-header h1{font-size:20px}
+    .page-header p{font-size:11px}
+    .module-button{font-size:11px}
+    .banner-content h2{font-size:16px}
+    .banner-content p{font-size:11px}
+    .banner-badge{font-size:9px}
+
+    .summary-value{font-size:20px}
+    .summary-label{font-size:10px}
+    .notification-stat h3{font-size:11px}
+    .notification-stat strong{font-size:20px}
+    .notification-stat small{font-size:10px}
+    .status-pill{font-size:9px}
+
+    .btn{font-size:11px}
+    .btn-sm{font-size:10px}
+    .field label{font-size:10px}
+    .control{font-size:11px}
+
+    .table-card-head h3{font-size:13px}
+    .table-card-head p{font-size:10px}
+    thead th{font-size:9px}
+    tbody td{font-size:11px}
+    code,.code{font-size:10px}
+    .badge{font-size:9px}
+    .table-footer{font-size:10px}
+    .page-btn{font-size:10px}
+
+    .section-title{font-size:12px}
+    .section-help{font-size:10px}
+    .channel-card h4{font-size:10px}
+    .channel-card p{font-size:9px}
+    .preview-card h3{font-size:13px}
+    .preview-card .intro{font-size:10px}
+
+    .reports-period{font-size:10px}
+    .report-kpi span{font-size:10px}
+    .report-kpi strong{font-size:19px}
+    .report-kpi small{font-size:9px}
+    .report-card-header h3{font-size:13px}
+    .report-card-header p{font-size:10px}
+    .report-card-period{font-size:9px}
+    .chart-label{font-size:10px}
+    .horizontal-chart-row strong{font-size:10px}
+    .report-chart-footer{font-size:9px}
+    .vertical-value{font-size:10px}
+    .vertical-column > span{font-size:9px}
+    .report-donut-center strong{font-size:18px}
+    .report-donut-center span{font-size:9px}
+    .donut-legend span{font-size:10px}
+    .donut-legend strong{font-size:14px}
+    .donut-legend small{font-size:9px}
+    .compliance-item > div:first-child{font-size:10px}
+    .reports-generated-at{font-size:9px}
+
+    #exportCardsBtn,
+    #exportCertificatesBtn{
+      width:112px;
+      height:32px;
+      padding:0 10px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      flex:0 0 112px;
+      white-space:nowrap;
+      font-size:11px;
+    }
+
+    /* Aumento general de lectura, excluyendo menú lateral y modales */
+    .nx-topbar .nx-dropdown-title{font-size:12px}
+    .nx-topbar .nx-dropdown button,
+    .nx-topbar .nx-dropdown > a{font-size:14px}
+    .nx-topbar .nx-app-grid a{font-size:12px}
+    .nx-topbar .nx-alert-menu strong{font-size:13px}
+    .nx-topbar .nx-alert-menu small{font-size:11px}
+    .nx-topbar .nx-profile-summary strong{font-size:14px}
+    .nx-topbar .nx-profile-summary small{font-size:12px}
+    .nx-environment-label{font-size:13px}
+
+    .main .page-header h1{font-size:22px}
+    .main .page-header p{font-size:12px}
+    .main .banner-content h2{font-size:18px}
+    .main .banner-content p{font-size:12px}
+    .main .banner-badge{font-size:10px}
+    .main .summary-value,
+    .main .notification-stat strong{font-size:22px}
+    .main .summary-label,
+    .main .notification-stat small{font-size:11px}
+    .main .btn{font-size:12px}
+    .main .btn-sm{font-size:11px}
+    .main .field label{font-size:11px}
+    .main .control{font-size:12px}
+    .main .table-card-head h3,
+    .main .report-card-header h3{font-size:14px}
+    .main .table-card-head p,
+    .main .report-card-header p{font-size:11px}
+    .main thead th{font-size:10px}
+    .main tbody td{font-size:12px}
+    .main code,
+    .main .code{font-size:11px}
+    .main .badge{font-size:10px}
+    .main .table-footer,
+    .main .page-btn,
+    .main .reports-period,
+    .main .chart-label,
+    .main .horizontal-chart-row strong{font-size:11px}
+    .main .section-title{font-size:13px}
+    .main .section-help{font-size:11px}
+    .main .report-kpi span{font-size:11px}
+    .main .report-kpi strong{font-size:21px}
+    .main .report-kpi small,
+    .main .report-card-period,
+    .main .report-chart-footer{font-size:10px}
+    .main .individual-issue-help,
+    .main .individual-holder p,
+    .main .individual-result,
+    .main .bulk-issue-steps,
+    .main .bulk-result{font-size:12px}
+    .main .individual-holder h3{font-size:17px}
+
+  </style>
+</head>
+<body>
+
+<header class="nx-topbar">
+  <div class="nx-topbar-brand">
+    <button type="button" id="nxSidebarToggle" class="nx-menu-button" aria-label="Abrir o cerrar menú" title="Menú">
+      <span></span><span></span><span></span>
+    </button>
+
+    <a href="#tarjetas" class="nx-brand-link" data-view-shortcut="cards" aria-label="Ir a tarjetas digitales">
+      <img class="nx-platform-logo" src="logo-app-solution.svg" alt="Nexura Platform">
+    </a>
+  </div>
+
+  <div class="nx-topbar-entity">
+    <img class="nx-topbar-entity-logo" src="logo (1).png" alt="Unidad Administrativa Especial Junta Central de Contadores">
+  </div>
+
+  <nav class="nx-topbar-actions" aria-label="Acciones de usuario">
+    <div class="nx-dropdown-host">
+      <button type="button" class="nx-circle-button nx-dropdown-trigger" data-dropdown="nxAppsMenu" title="Aplicaciones">
+        <span class="nx-grid-icon"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+      </button>
+      <div class="nx-dropdown nx-apps-menu" id="nxAppsMenu">
+        <div class="nx-dropdown-title">Aplicaciones</div>
+        <div class="nx-app-grid">
+          <a href="#tarjetas" data-view-shortcut="cards">
+            <span class="nx-app-tile blue">▣</span><span>Tarjetas</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="nx-dropdown-host">
+      <button type="button" class="nx-circle-button nx-dropdown-trigger" data-dropdown="nxSettingsMenu" title="Configuración">⚙</button>
+      <div class="nx-dropdown" id="nxSettingsMenu">
+        <div class="nx-dropdown-title">Configuración</div>
+        <button type="button" data-top-placeholder="Configuración general">⚙ <span>Configuración general</span></button>
+        <button type="button" data-top-placeholder="Ayuda">? <span>Ayuda</span></button>
+      </div>
+    </div>
+
+    <div class="nx-dropdown-host">
+      <button type="button" class="nx-avatar-button nx-dropdown-trigger" data-dropdown="nxProfileMenu" title="Sebastian Cuencar">S</button>
+      <div class="nx-dropdown nx-profile-menu" id="nxProfileMenu">
+        <div class="nx-profile-summary">
+          <div class="nx-profile-avatar">S</div>
+          <div>
+            <strong>Sebastian Cuencar</strong>
+            <small>scuencar@nexura.com</small>
+            <span>Administrador</span>
+          </div>
+        </div>
+        <button type="button" data-top-placeholder="Mis datos">👤 <span>Mis datos</span></button>
+        <button type="button" data-top-placeholder="Cambiar contraseña">🔒 <span>Cambiar contraseña</span></button>
+        <button type="button" data-top-placeholder="Cerrar sesión">⏻ <span>Cerrar sesión</span></button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div class="nx-environment-label">Entorno pruebas</div>
+
+<div class="app">
+  
+  <aside class="sidebar" id="nxSidebar">
+    <nav class="menu">
+      <div class="menu-label">Gestión principal</div>
+
+      <a href="#tarjetas-contadores" data-view="cards" data-card-module="contadores" class="active">
+        <span class="menu-icon">▣</span>
+        <span class="menu-text">Tarjetas Contadores</span>
+      </a>
+
+      <a href="#tarjetas-sociedades" data-view="cards" data-card-module="sociedades">
+        <span class="menu-icon">▣</span>
+        <span class="menu-text">Tarjetas Sociedades</span>
+      </a>
+
+      <a href="#notificaciones" data-view="notifications">
+        <span class="menu-icon">●</span>
+        <span class="menu-text">Crear notificación</span>
+      </a>
+
+      <a href="#historial" data-view="history">
+        <span class="menu-icon">◷</span>
+        <span class="menu-text">Historial de notificaciones</span>
+      </a>
+
+      <div class="menu-divider"></div>
+      <div class="menu-label">Administración</div>
+
+      <a href="#reportes" data-view="reports">
+        <span class="menu-icon">▥</span>
+        <span class="menu-text">Reportes</span>
+      </a>
+
+      <a href="#certificados" data-view="certificates">
+        <span class="menu-icon">▤</span>
+        <span class="menu-text">Certificados</span>
+      </a>
+
+      <a href="#branding" data-view="branding">
+        <span class="menu-icon">✎</span>
+        <span class="menu-text">Branding</span>
+      </a>
+
+      <a href="#validador-qr" data-view="qrValidator">
+        <span class="menu-icon">▦</span>
+        <span class="menu-text">Validador QR</span>
+      </a>
+
+      <a href="#auditoria" data-view="audit">
+        <span class="menu-icon">↺</span>
+        <span class="menu-text">Auditoría API</span>
+      </a>
+
+      <a href="#" data-placeholder="Usuarios">
+        <span class="menu-icon">♙</span>
+        <span class="menu-text">Usuarios</span>
+      </a>
+    </nav>
+
+    <div class="profile">
+      <div class="avatar">SC</div>
+      <div class="profile-copy">
+        <strong>Sebastian Cuencar</strong>
+        <small>Administrador</small>
+      </div>
+    </div>
+
+    <div class="nx-sidebar-footer">
+      <img src="logo-app-solution.svg" alt="Nexura Platform">
+      <small>Versión 1.0.0</small>
+    </div>
+  </aside>
+
+
+<main class="main">
+
+    <!-- VISTA TARJETAS DIGITALES -->
+    <section id="cardsView" class="view active">
+      <section class="card module-banner" id="moduleBanner">
+        <div class="banner-layout">
+          <div class="banner-icon" id="moduleIcon">🪪</div>
+          <div class="banner-content">
+            <div class="banner-title-line">
+              <h2 id="moduleTitle">Tarjeta Digital para Contadores</h2>
+              <span class="banner-badge" id="moduleBadge">PERSONA NATURAL</span>
+            </div>
+            <p id="moduleDescription">Gestión de solicitudes y credenciales digitales de contadores públicos registrados.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card toolbar">
+        <button class="btn btn-primary btn-sm" data-action-demo="Nueva tarjeta">💳 Nueva tarjeta</button>
+        <button class="btn btn-outline-primary btn-sm" data-action-demo="Emisión masiva">⬆ Emisión masiva</button>
+      </section>
+
+      <section class="card filters-card">
+        <div class="filter-grid">
+          <div class="field">
+            <label for="cardsFilterColumn">Columna</label>
+            <select class="control" id="cardsFilterColumn">
+              <option value="">Seleccione una columna</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="cardsFilterValue" id="cardsFilterValueLabel">Valor</label>
+            <div id="cardsFilterValueHost">
+              <input class="control" id="cardsFilterValue" disabled placeholder="Seleccione una columna">
+            </div>
+          </div>
+
+          <button class="btn btn-primary" id="cardsFilterBtn">Filtrar</button>
+        </div>
+      </section>
+
+      <section class="card table-card">
+        <div class="table-card-head">
+          <div>
+            <h3 id="cardsTableTitle">Solicitudes de tarjetas para contadores</h3>
+            <p id="cardsTableSubtitle">Resultados del módulo de persona natural.</p>
+          </div>
+
+          <div class="table-head-actions">
+            <button type="button" class="btn btn-outline-primary" id="exportCardsBtn">⬇ Exportar CSV</button>
+            <input class="control" id="cardsLocalSearch" placeholder="Buscar en la tabla...">
+            <select class="control" id="cardsPageSize" style="min-width:130px">
+              <option value="5">5 registros</option>
+              <option value="10" selected>10 registros</option>
+              <option value="25">25 registros</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr id="cardsTableHead"></tr></thead>
+            <tbody id="cardsTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="table-footer">
+          <span id="cardsRecordInfo"></span>
+          <div class="pagination" id="cardsPagination"></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- VISTA CREAR NOTIFICACIÓN -->
+    <!-- VISTA NUEVA TARJETA - EMISION INDIVIDUAL -->
+    <!-- VISTA HISTORIAL DE TARJETA -->
+    <section id="cardHistoryView" class="view">
+      <header class="page-header">
+        <div>
+          <h1>Historial de tarjeta</h1>
+          <p id="cardHistorySubtitle">Estados y verificaciones públicas de la credencial.</p>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="btn btn-outline-secondary" id="cardHistoryBack">← Volver</button>
+        </div>
+      </header>
+
+      <div class="card-history-content">
+        <section class="card">
+          <div class="card-history-person">
+            <div class="card-history-avatar" id="cardHistoryAvatar">👤</div>
+            <div>
+              <h3 id="cardHistoryHolder"></h3>
+              <div class="card-history-meta">
+                <span id="cardHistoryIdentification"></span>
+                <span id="cardHistoryRegistration"></span>
+                <span id="cardHistoryExpedient"></span>
+                <span id="cardHistoryCode"></span>
+                <span id="cardHistoryEmail"></span>
+                <span id="cardHistoryDate"></span>
+                <span id="cardHistoryPersonDetail"></span>
+                <span id="cardHistoryStatus"></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="card-history-sections">
+          <section class="credential-history-card">
+            <h4>Historial de estado</h4>
+            <ul class="credential-timeline" id="cardStatusHistory"></ul>
+          </section>
+          <section class="credential-history-card">
+            <h4>Historial de lecturas del QR</h4>
+            <ul class="credential-readings" id="cardQrReadingHistory"></ul>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="individualIssueView" class="view">
+      <header class="page-header">
+        <div>
+          <h1>Nueva tarjeta — emisión individual</h1>
+          <p id="individualIssueHeaderText">Emita una tarjeta profesional para un contador registrado.</p>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="btn btn-outline-secondary" id="individualIssueBack">← Volver</button>
+        </div>
+      </header>
+
+      <div class="individual-issue-content">
+        <section class="card individual-issue-card">
+          <div class="individual-issue-card-header" id="individualIssueStepTitle">1. Identificación del contador</div>
+          <div class="individual-issue-card-body">
+            <p class="individual-issue-help" id="individualIssueHelp">Ingrese el número de identificación. El sistema consulta el registro de matrícula y muestra una vista previa antes de emitir.</p>
+            <div class="individual-issue-search">
+              <input type="text" id="individualIssueIdentification" inputmode="numeric" maxlength="20" class="control" placeholder="Número de identificación">
+              <button type="button" class="btn btn-primary btn-sm" id="individualIssueSearch">⌕ Consultar matrícula</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="individualIssuePreview" class="card individual-issue-card individual-issue-preview">
+          <div class="individual-issue-card-header preview">2. Vista previa de la tarjeta</div>
+          <div class="individual-issue-card-body">
+            <div class="individual-holder">
+              <div class="individual-holder-avatar" id="individualIssueAvatar">👤</div>
+              <div style="flex:1">
+                <h3 id="individualIssueName">Titular consultado</h3>
+                <div class="individual-holder-details">
+                  <p><span>Número de documento</span><strong id="individualIssueDocument"></strong></p>
+                  <p><span>Tarjeta profesional</span><strong id="individualIssueRegistration"></strong></p>
+                  <p><span id="individualIssueExtraLabel">Universidad</span><strong id="individualIssueExtraValue"></strong></p>
+                  <p><span>Estado</span><strong><span class="status approved">Activo</span></strong></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="individual-confirm-row">
+              <button type="button" id="individualIssueConfirm" class="btn btn-success individual-confirm-button">Confirmar emisión</button>
+            </div>
+            <div id="individualIssueResult" class="individual-result" role="status"></div>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <!-- VISTA EMISION MASIVA -->
+    <section id="bulkIssueView" class="view">
+      <header class="page-header">
+        <div>
+          <h1>Emisión masiva de credenciales</h1>
+          <p id="bulkIssueHeaderText">Emita credenciales para varios contadores mediante un archivo CSV.</p>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="btn btn-outline-secondary" id="bulkIssueBack">← Volver</button>
+        </div>
+      </header>
+
+      <div class="individual-issue-content">
+        <section class="card individual-issue-card">
+          <div class="individual-issue-card-header">Carga masiva por archivo CSV</div>
+          <div class="individual-issue-card-body">
+            <ol class="bulk-issue-steps">
+              <li id="bulkIssueTemplateHelp">Descargue la plantilla y complete <code>numero_identificacion</code> por fila.</li>
+              <li id="bulkIssueProcessHelp">Suba el archivo: el sistema consulta el registro de matrícula, emite cada credencial y notifica al titular. Los duplicados se omiten y los errores se listan.</li>
+            </ol>
+
+            <button type="button" class="btn btn-outline-secondary btn-sm" id="bulkIssueDownload">↓ Descargar plantilla</button>
+
+            <div class="bulk-issue-actions" style="margin-top:14px">
+              <input type="file" id="bulkIssueFile" accept=".csv,.txt,text/csv,text/plain" class="control bulk-file-control">
+              <button type="button" class="btn btn-primary btn-sm" id="bulkIssueProcess">↑ Procesar</button>
+            </div>
+
+            <div id="bulkIssueResult" class="bulk-result" role="status"></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- VISTA BRANDING -->
+    <section id="brandingView" class="view">
+      <header class="page-header">
+        <div>
+          <h1>Branding de credenciales</h1>
+          <p>Configure la identidad visual aplicada a las credenciales y comunicaciones de emisión.</p>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="btn btn-outline-secondary" id="brandingBack">← Volver</button>
+        </div>
+      </header>
+
+      <div class="branding-layout">
+        <section class="card individual-issue-card">
+          <div class="individual-issue-card-header">Configuración (versión actual: <span id="brandingVersion">8</span>)</div>
+          <div class="individual-issue-card-body">
+            <div class="branding-fields">
+              <div class="branding-field">
+                <label for="brandingPrimary">Color primario</label>
+                <input type="color" id="brandingPrimary" class="branding-color" value="#cbab52">
+              </div>
+              <div class="branding-field">
+                <label for="brandingSecondary">Color secundario</label>
+                <input type="color" id="brandingSecondary" class="branding-color" value="#1dd384">
+              </div>
+              <div class="branding-field full">
+                <label for="brandingLogo">Logo (PNG/JPG/SVG, máximo 300 KB)</label>
+                <input type="file" id="brandingLogo" accept="image/png,image/jpeg,image/svg+xml" class="control">
+              </div>
+            </div>
+            <div class="branding-actions">
+              <button type="button" class="btn btn-primary btn-sm" id="brandingSave">Guardar nueva versión</button>
+            </div>
+          </div>
+        </section>
+
+        <div>
+          <section class="card individual-issue-card">
+            <div class="individual-issue-card-header">Vista previa</div>
+            <div class="individual-issue-card-body">
+              <div class="branding-preview-card">
+                <div class="branding-preview-header" id="brandingPreviewHeader">
+                  <img src="logo (1).png" id="brandingPreviewLogo" class="branding-preview-logo" alt="Logo de la credencial">
+                  <strong id="brandingPreviewHeading">Junta Central De Contadores</strong>
+                </div>
+                <div class="branding-preview-body">
+                  <span class="branding-preview-badge" id="brandingPreviewBadge">Tarjeta válida</span>
+                  <p class="branding-preview-message" id="brandingPreviewMessage">Tarjeta profesional</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card individual-issue-card">
+            <div class="individual-issue-card-header">Historial de versiones</div>
+            <ul class="branding-history" id="brandingHistory">
+              <li><span>v8 — 2026-07-14 09:41</span><span class="branding-published">Publicada</span></li>
+              <li><span>v7 — 2026-07-14 09:41</span></li>
+              <li><span>v6 — 2026-07-01 09:29</span></li>
+              <li><span>v5 — 2026-06-17 08:30</span></li>
+              <li><span>v4 — 2026-06-10 11:44</span></li>
+              <li><span>v3 — 2026-06-09 14:08</span></li>
+              <li><span>v2 — 2026-06-04 17:09</span></li>
+              <li><span>v1 — 2026-06-04 17:00</span></li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISTA VALIDADOR QR -->
+    <section id="qrValidatorView" class="view">
+      <header class="page-header">
+        <div>
+          <h1>Campos del validador (verificación pública)</h1>
+          <p>Defina la información visible al consultar el código QR de una tarjeta.</p>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="btn btn-outline-secondary" id="qrValidatorBack">← Volver</button>
+        </div>
+      </header>
+
+      <div class="qr-validator-content">
+        <section class="card individual-issue-card">
+          <div class="individual-issue-card-header">Seleccione los campos visibles al verificar el QR de una tarjeta</div>
+          <div class="individual-issue-card-body">
+            <form id="qrValidatorForm">
+              <div class="qr-field-list">
+                <label class="qr-field-option"><input type="checkbox" value="foto" checked> <span>Fotografía</span></label>
+                <label class="qr-field-option"><input type="checkbox" value="nombres" checked> <span>Nombres</span></label>
+                <label class="qr-field-option"><input type="checkbox" value="matricula" checked> <span>Matrícula</span></label>
+                <label class="qr-field-option"><input type="checkbox" value="numero_identificacion"> <span>Identificación</span></label>
+                <label class="qr-field-option"><input type="checkbox" value="codigo_tarjeta" checked> <span>Código de tarjeta</span></label>
+                <label class="qr-field-option"><input type="checkbox" value="estado" checked> <span>Estado (vigente)</span></label>
+              </div>
+            </form>
+            <div class="qr-validator-footer">
+              <button type="button" class="btn btn-primary btn-sm" id="qrValidatorSave">Guardar</button>
+              <small class="qr-validator-note">Aplica a la página pública <code>/demogen/verificar/&lt;token&gt;</code>.</small>
+            </div>
+          </div>
+        </section>
+
+        <section class="card individual-issue-card">
+          <div class="individual-issue-card-header">Tiempo de expiración del QR de la app</div>
+          <div class="individual-issue-card-body">
+            <p class="individual-issue-help">Defina cada cuántos segundos debe expirar y renovarse el código QR dinámico.</p>
+            <div class="individual-issue-search">
+              <div class="field" style="flex:1">
+                <label for="qrExpirationSeconds">Tiempo de expiración (segundos)</label>
+                <input type="number" id="qrExpirationSeconds" class="control" min="5" max="3600" step="1" value="12">
+              </div>
+              <button type="button" class="btn btn-primary btn-sm" id="qrExpirationSave">Guardar</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- VISTA AUDITORIA API -->
+    <section id="auditView" class="view">
+      <header class="page-header">
+        <div>
+          <h1>Auditoría de llamados a la API</h1>
+          <p>Consulte las peticiones, respuestas y tiempos de ejecución de los servicios.</p>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="btn btn-outline-secondary" id="auditBack">← Volver</button>
+        </div>
+      </header>
+
+      <div class="audit-content">
+        <section class="card individual-issue-card">
+          <div class="individual-issue-card-body">
+            <div class="audit-filters">
+              <div class="field"><label for="auditFrom">Desde (fecha y hora)</label><input type="datetime-local" class="control" id="auditFrom"></div>
+              <div class="field"><label for="auditTo">Hasta (fecha y hora)</label><input type="datetime-local" class="control" id="auditTo"></div>
+              <div class="field"><label for="auditText">Texto (petición o respuesta)</label><input type="text" class="control" id="auditText" placeholder="Buscar similitud..."></div>
+              <div class="field"><label for="auditEndpoint">Endpoint</label><select class="control" id="auditEndpoint"><option value="">Todos</option><option value="myjcc">myjcc</option><option value="verificarTarjeta">verificarTarjeta</option></select></div>
+              <button type="button" class="btn btn-primary btn-sm" id="auditSearch">⌕ Buscar</button>
+            </div>
+            <div class="field" style="max-width:130px;margin-top:10px"><label for="auditPageSize">Por página</label><select class="control" id="auditPageSize"><option>10</option><option>20</option><option>50</option><option>100</option></select></div>
+          </div>
+        </section>
+
+        <p class="audit-summary" id="auditSummary"></p>
+        <section class="card table-card">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Fecha y hora</th><th>Endpoint</th><th>Método</th><th>HTTP</th><th>IP</th><th>Duración</th><th></th></tr></thead>
+              <tbody id="auditTableBody"></tbody>
+            </table>
+          </div>
+          <div class="table-footer"><span>La API key se muestra enmascarada y los blobs Base64 se truncan.</span><div class="pagination" id="auditPagination"></div></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- VISTA CERTIFICADOS -->
+    <section id="certificatesView" class="view">
+      <header class="page-header">
+        <div>
+          <h1>Certificados</h1>
+          <p>Consulte y descargue los certificados disponibles para contadores y sociedades.</p>
+        </div>
+      </header>
+
+      <section class="card table-card" style="margin-top:18px">
+        <div class="table-card-head">
+          <div>
+            <h3>Certificados generados</h3>
+            <p>Documentos emitidos por la Junta Central de Contadores.</p>
+          </div>
+          <div class="table-head-actions">
+            <button type="button" class="btn btn-outline-primary btn-sm" id="exportCertificatesBtn">⬇ Exportar CSV</button>
+            <input class="control" id="certificatesSearch" placeholder="Buscar documento o expediente...">
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>No</th><th>Expediente</th><th>Contador/sociedad</th><th>Documento</th><th>Tarjeta profesional</th><th>Correo</th><th>Acciones</th></tr>
+            </thead>
+            <tbody id="certificatesTableBody">
+              <tr data-document="1035441227" data-expedient="427524">
+                <td>1</td>
+                <td>427524</td>
+                <td>Sebastian Cuencar Cardona</td>
+                <td>CC 1035441227</td>
+                <td>TP 441227-T</td>
+                <td>scuencar@nexura.com</td>
+                <td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td>
+              </tr>
+              <tr data-document="1035441229" data-expedient="427525"><td>2</td><td>427525</td><td>Laura Martínez Gómez</td><td>CC 1035441229</td><td>TP 441229-T</td><td>laura.martinez@example.com</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
+              <tr data-document="1035441228" data-expedient="427526"><td>3</td><td>427526</td><td>Andrés Felipe Ruiz</td><td>CC 1035441228</td><td>TP 441228-T</td><td>andres.ruiz@example.com</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
+              <tr data-document="9014567891" data-expedient="427530"><td>4</td><td>427530</td><td>Cuencar Consultores S.A.S.</td><td>NIT 901.456.789-1</td><td>SC-001458</td><td>contacto@cuencarconsultores.com</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
+              <tr data-document="9003257418" data-expedient="427531"><td>5</td><td>427531</td><td>Auditores del Valle Ltda.</td><td>NIT 900.325.741-8</td><td>SC-001459</td><td>contacto@auditoresdelvalle.com</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-footer"><span id="certificatesRecordInfo">5 certificados disponibles</span></div>
+      </section>
+    </section>
+
+    <section id="notificationsView" class="view">
+      <header class="page-header">
+        <div>
+          <h1>Configuración de Notificaciones</h1>
+          <p>Administre notificaciones push, alertas estándar y mensajes informativos.</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-outline-primary" id="goHistoryBtn">🕘 Ver historial</button>
+        </div>
+      </header>
+
+      <div class="notification-layout">
+        <div>
+          <section class="card section-card">
+            <div class="section-title">🕒 1. Rango horario para envío</div>
+            <div class="grid-3">
+              <div class="field">
+                <label for="startTime">Hora de inicio</label>
+                <input class="control" type="time" id="startTime" value="07:00">
+              </div>
+              <div class="field">
+                <label for="endTime">Hora de fin</label>
+                <input class="control" type="time" id="endTime" value="17:00">
+              </div>
+              <div class="field">
+                <label for="maxDaily">Máximo de notificaciones por día *</label>
+                <input class="control" type="number" id="maxDaily" min="1" max="99" value="2">
+              </div>
+            </div>
+          </section>
+
+          <section class="card section-card">
+            <div class="section-title">✈️ 2. Canales de envío</div>
+            <div class="section-help">Seleccione los canales a través de los cuales se enviará la alerta.</div>
+
+            <div class="channel-grid">
+              <div class="channel-card active" id="pushCard">
+                <div class="channel-icon" style="background:#e6efff">📲</div>
+                <div>
+                  <h4>Notificación Push</h4>
+                  <p>Enviar mensajes a dispositivos móviles registrados.</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="pushToggle" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="channel-card active" id="standardCard">
+                <div class="channel-icon" style="background:#fff3d7">📣</div>
+                <div>
+                  <h4>Alerta estándar</h4>
+                  <p>Mostrar una notificación móvil como modal emergente dentro de la app.</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="standardToggle" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="channel-card active" id="internalCard">
+                <div class="channel-icon" style="background:#f0e8ff">🔔</div>
+                <div>
+                  <h4>Notificación interna</h4>
+                  <p>Registrar el mensaje en el centro de notificaciones.</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="internalToggle" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="card section-card">
+            <div class="section-title">📄 3. Información de la alerta</div>
+
+            <div class="grid-2">
+              <div class="field">
+                <label for="notificationTitle">Título de la alerta *</label>
+                <input class="control" id="notificationTitle" value="Mantenimiento programado">
+              </div>
+
+              <div class="field">
+                <label for="notificationMessage">Mensaje *</label>
+                <textarea class="control" id="notificationMessage">El sistema estará en mantenimiento el domingo 25 de mayo de 8:00 p. m. a 11:00 p. m.</textarea>
+              </div>
+            </div>
+
+            <div class="grid-2" style="margin-top:12px">
+              <div class="field">
+                <label for="notificationType">Tipo</label>
+                <select class="control" id="notificationType">
+                  <option selected>Informativa</option>
+                  <option>Preventiva</option>
+                  <option>Urgente</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="audience">Audiencia</label>
+                <select class="control" id="audience">
+                  <option selected>Todos</option>
+                  <option>Contadores</option>
+                  <option>Sociedades</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="card section-card">
+            <div class="section-title">📅 4. Programación</div>
+
+            <div class="radio-line">
+              <label><input type="radio" name="sendMode" value="now"> Enviar ahora</label>
+              <label><input type="radio" name="sendMode" value="scheduled" checked> Programar envío</label>
+            </div>
+
+            <div class="grid-3">
+              <div class="field">
+                <label for="sendDate">Fecha de envío</label>
+                <input class="control" type="date" id="sendDate">
+              </div>
+
+              <div class="field">
+                <label for="sendTime">Hora de envío</label>
+                <input class="control" type="time" id="sendTime" value="09:00">
+              </div>
+
+              <div class="field">
+                <label for="recurrence">Recurrencia</label>
+                <select class="control" id="recurrence">
+                  <option selected>No repetir</option>
+                  <option>Diariamente</option>
+                  <option>Semanalmente</option>
+                  <option>Mensualmente</option>
+                </select>
+              </div>
+            </div>
+
+            <label style="display:flex;gap:7px;align-items:center;margin-top:12px;font-size:12px">
+              <input type="checkbox" id="respectRange" checked>
+              Respetar el rango horario configurado
+            </label>
+          </section>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" id="saveNotificationBtn">Guardar configuración</button>
+            <button class="btn btn-light" id="clearNotificationBtn">Cancelar</button>
+          </div>
+        </div>
+
+        <aside class="card preview-card">
+          <h3>👁️ 5. Vista previa</h3>
+          <p class="intro">Así verán los usuarios esta alerta en cada canal.</p>
+
+          <h4 style="font-size:11px">Vista en dispositivo móvil (Push)</h4>
+          <div class="phone">
+            <div class="notch"></div>
+            <div class="phone-time">9:41</div>
+            <div class="phone-date">Lunes, 22 de mayo</div>
+
+            <div class="push-preview">
+              <div class="push-meta">
+                <span>Junta Central de Contadores</span>
+                <span>Ahora</span>
+              </div>
+              <strong id="previewTitle">Mantenimiento programado</strong>
+              <p id="previewMessage">El sistema estará en mantenimiento el domingo 25 de mayo de 8:00 p. m. a 11:00 p. m.</p>
+            </div>
+          </div>
+
+          <h4 style="font-size:11px">Vista en dispositivo móvil (Alerta estándar)</h4>
+          <div class="phone in-app-phone">
+            <div class="notch"></div>
+            <div class="in-app-screen">
+              <div class="in-app-backdrop">
+                <div class="in-app-modal">
+                  <div class="in-app-modal-icon">📣</div>
+                  <h4 id="inAppPreviewTitle">Mantenimiento programado</h4>
+                  <p id="inAppPreviewMessage">El sistema estará en mantenimiento el domingo 25 de mayo de 8:00 p. m. a 11:00 p. m.</p>
+                  <button class="btn btn-primary btn-sm">Entendido</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- VISTA HISTORIAL -->
+    <section id="historyView" class="view">
+      <header class="page-header">
+        <div>
+          <h1>Historial de notificaciones enviadas</h1>
+          <p>Consulte las alertas enviadas a contadores, sociedades y usuarios del sistema.</p>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn btn-outline-primary" id="exportHistoryBtn">⬇ Exportar CSV</button>
+          <button class="btn btn-primary" id="newNotificationBtn">＋ Nueva notificación</button>
+        </div>
+      </header>
+
+      <section class="history-summary">
+        <article class="card summary-card">
+          <div class="summary-icon blue">✉️</div>
+          <div>
+            <div class="summary-label">Total registradas</div>
+            <div class="summary-value" id="historyTotal">0</div>
+          </div>
+        </article>
+
+        <article class="card summary-card">
+          <div class="summary-icon green">✓</div>
+          <div>
+            <div class="summary-label">Entregadas</div>
+            <div class="summary-value" id="historyDelivered">0</div>
+          </div>
+        </article>
+
+        <article class="card summary-card">
+          <div class="summary-icon yellow">⏱</div>
+          <div>
+            <div class="summary-label">Programadas</div>
+            <div class="summary-value" id="historyScheduled">0</div>
+          </div>
+        </article>
+
+        <article class="card summary-card">
+          <div class="summary-icon red">!</div>
+          <div>
+            <div class="summary-label">Fallidas</div>
+            <div class="summary-value" id="historyFailed">0</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="card table-card">
+        <div class="table-card-head">
+          <div>
+            <h3>Registro de envíos</h3>
+            <p>Seleccione el botón de acción para consultar el detalle completo.</p>
+          </div>
+        </div>
+
+        <div class="history-filters">
+          <div class="field">
+            <label for="historySearch">Buscar</label>
+            <input class="control" id="historySearch" placeholder="Título, código o audiencia">
+          </div>
+
+          <div class="field">
+            <label for="historyChannel">Canal</label>
+            <select class="control" id="historyChannel">
+              <option value="">Todos</option>
+              <option>Push</option>
+              <option>Alerta estándar</option>
+              <option>Notificación interna</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="historyStatus">Estado</label>
+            <select class="control" id="historyStatus">
+              <option value="">Todos</option>
+              <option>Entregada</option>
+              <option>Programada</option>
+              <option>Fallida</option>
+              <option>En proceso</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="historyFrom">Desde</label>
+            <input class="control" type="date" id="historyFrom">
+          </div>
+
+          <div class="field">
+            <label for="historyTo">Hasta</label>
+            <input class="control" type="date" id="historyTo">
+          </div>
+
+          <button class="btn btn-light" id="clearHistoryFilters">Limpiar</button>
+        </div>
+
+        <div class="table-wrap">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Título</th>
+                <th>Canal</th>
+                <th>Audiencia</th>
+                <th>Destinatarios</th>
+                <th>Fecha y hora</th>
+                <th>Estado</th>
+                <th>Creado por</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="table-footer">
+          <span id="historyRecordInfo"></span>
+          <div class="pagination" id="historyPagination"></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- VISTA REPORTES -->
+    <section id="reportsView" class="view">
+      <header class="page-header">
+        <div>
+          <h1>Reportes e indicadores</h1>
+          <p>Consulte información consolidada de tarjetas digitales y notificaciones.</p>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn btn-outline-primary" id="refreshReportsBtn">↻ Actualizar</button>
+          <button class="btn btn-outline-primary" id="exportReportsBtn">⬇ Exportar CSV</button>
+          <button class="btn btn-primary" id="printReportsBtn">▣ Imprimir</button>
+        </div>
+      </header>
+
+      <section class="card reports-filter-card">
+        <div class="reports-filter-grid">
+          <div class="field">
+            <label for="reportType">Tipo de reporte</label>
+            <select class="control" id="reportType">
+              <option value="general">Reporte general</option>
+              <option value="cards">Tarjetas digitales</option>
+              <option value="notifications">Notificaciones</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="reportFrom">Fecha inicial</label>
+            <input class="control" type="date" id="reportFrom" value="2026-07-01">
+          </div>
+
+          <div class="field">
+            <label for="reportTo">Fecha final</label>
+            <input class="control" type="date" id="reportTo" value="2026-07-31">
+          </div>
+
+          <div class="field">
+            <label for="reportSegment">Segmento</label>
+            <select class="control" id="reportSegment">
+              <option value="all">Todos</option>
+              <option value="accountants">Contadores</option>
+              <option value="companies">Sociedades</option>
+            </select>
+          </div>
+
+          <div class="field" id="reportStatusField" hidden>
+            <label for="reportStatus">Estado</label>
+            <select class="control" id="reportStatus"></select>
+          </div>
+
+          <button class="btn btn-primary" id="generateReportBtn">⌕ Generar reporte</button>
+        </div>
+
+        <div class="reports-period" id="reportsPeriod">
+          Periodo consultado: 1 de julio de 2026 al 31 de julio de 2026
+        </div>
+      </section>
+
+      <section class="reports-kpi-grid">
+        <article class="card report-kpi">
+          <div class="report-kpi-icon blue">▣</div>
+          <div>
+            <span>Tarjetas registradas</span>
+            <strong id="reportCardsTotal">1.572</strong>
+            <small><b class="positive">+8,4 %</b> frente al periodo anterior</small>
+          </div>
+        </article>
+
+        <article class="card report-kpi">
+          <div class="report-kpi-icon green">✓</div>
+          <div>
+            <span>Tarjetas activas</span>
+            <strong id="reportCardsActive">1.253</strong>
+            <small><b class="positive" id="reportCardsActiveRate">79,7 %</b> del total registrado</small>
+          </div>
+        </article>
+
+        <article class="card report-kpi">
+          <div class="report-kpi-icon yellow">◷</div>
+          <div>
+            <span>Tarjetas emitidas</span>
+            <strong id="reportPending">319</strong>
+            <small><b class="warning-text" id="reportCardsIssuedRate">20,3 %</b> pendientes de activación</small>
+          </div>
+        </article>
+
+        <article class="card report-kpi">
+          <div class="report-kpi-icon purple">●</div>
+          <div>
+            <span>Notificaciones registradas</span>
+            <strong id="reportNotifications">8</strong>
+            <small><b class="positive">5</b> entregadas correctamente</small>
+          </div>
+        </article>
+
+        <article class="card report-kpi">
+          <div class="report-kpi-icon cyan">%</div>
+          <div>
+            <span>Tasa de entrega</span>
+            <strong id="reportDeliveryRate">62,5 %</strong>
+            <small><b class="negative">1 envío fallido</b> en el periodo</small>
+          </div>
+        </article>
+      </section>
+
+      <section class="reports-dashboard-grid">
+        <article class="card report-chart-card">
+          <div class="report-card-header">
+            <div>
+              <h3>Tarjetas por estado</h3>
+              <p>Distribución consolidada de contadores y sociedades.</p>
+            </div>
+            <span class="report-card-period">Julio 2026</span>
+          </div>
+
+          <div class="horizontal-chart" id="cardsStatusChart">
+            <div class="horizontal-chart-row">
+              <span class="chart-label">Activa</span>
+              <div class="chart-track"><div class="chart-fill active" style="width:79.7%"></div></div>
+              <strong>1.253</strong>
+            </div>
+            <div class="horizontal-chart-row">
+              <span class="chart-label">Cancelada</span>
+              <div class="chart-track"><div class="chart-fill cancelled" style="width:0%"></div></div>
+              <strong>0</strong>
+            </div>
+            <div class="horizontal-chart-row">
+              <span class="chart-label">Fallecido</span>
+              <div class="chart-track"><div class="chart-fill deceased" style="width:0%"></div></div>
+              <strong>0</strong>
+            </div>
+            <div class="horizontal-chart-row">
+              <span class="chart-label">Emitida</span>
+              <div class="chart-track"><div class="chart-fill issued" style="width:20.3%"></div></div>
+              <strong>319</strong>
+            </div>
+          </div>
+
+          <div class="report-chart-footer">
+            <span><i class="legend active"></i>Activa</span>
+            <span><i class="legend cancelled"></i>Cancelada</span>
+            <span><i class="legend deceased"></i>Fallecido</span>
+            <span><i class="legend issued"></i>Emitida</span>
+          </div>
+        </article>
+
+        <article class="card report-chart-card">
+          <div class="report-card-header">
+            <div>
+              <h3>Notificaciones por canal</h3>
+              <p>Volumen registrado según el medio de envío.</p>
+            </div>
+            <span class="report-card-period">8 registros</span>
+          </div>
+
+          <div class="vertical-chart" id="notificationsChannelChart">
+            <div class="vertical-column">
+              <div class="vertical-value">4</div>
+              <div class="vertical-track"><div class="vertical-fill push" style="height:88%"></div></div>
+              <span>Push</span>
+            </div>
+            <div class="vertical-column">
+              <div class="vertical-value">2</div>
+              <div class="vertical-track"><div class="vertical-fill standard" style="height:44%"></div></div>
+              <span>Alerta estándar</span>
+            </div>
+            <div class="vertical-column">
+              <div class="vertical-value">2</div>
+              <div class="vertical-track"><div class="vertical-fill internal" style="height:44%"></div></div>
+              <span>Interna</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card report-chart-card">
+          <div class="report-card-header">
+            <div>
+              <h3>Distribución por usuario</h3>
+              <p>Participación de personas naturales y jurídicas.</p>
+            </div>
+          </div>
+
+          <div class="donut-report-layout">
+            <div class="report-donut">
+              <div class="report-donut-center">
+                <strong>1.572</strong>
+                <span>Total</span>
+              </div>
+            </div>
+
+            <div class="donut-legend">
+              <div>
+                <span><i class="legend accountants"></i>Contadores</span>
+                <strong>1.248</strong>
+                <small>79,4 %</small>
+              </div>
+              <div>
+                <span><i class="legend companies"></i>Sociedades</span>
+                <strong>324</strong>
+                <small>20,6 %</small>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card report-chart-card">
+          <div class="report-card-header">
+            <div>
+              <h3>Cumplimiento operativo</h3>
+              <p>Indicadores principales del servicio.</p>
+            </div>
+          </div>
+
+          <div class="compliance-list">
+            <div class="compliance-item">
+              <div><span>Activación de tarjetas</span><strong>79,7 %</strong></div>
+              <div class="compliance-track"><div style="width:79.7%"></div></div>
+            </div>
+            <div class="compliance-item">
+              <div><span>Entrega de notificaciones</span><strong>62,5 %</strong></div>
+              <div class="compliance-track"><div style="width:62.5%"></div></div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="card table-card reports-table-card">
+        <div class="table-card-head">
+          <div>
+            <h3>Consolidado por módulo</h3>
+            <p>Resumen de resultados para el periodo seleccionado.</p>
+          </div>
+
+          <div class="table-head-actions">
+            <input class="control" id="reportTableSearch" placeholder="Buscar módulo...">
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="reports-table">
+            <thead>
+              <tr>
+                <th>Módulo</th>
+                <th>Segmento</th>
+                <th>Total</th>
+                <th>Activos / entregados</th>
+                <th>Pendientes</th>
+                <th>Incidencias</th>
+                <th>Cumplimiento</th>
+                <th>Última actualización</th>
+              </tr>
+            </thead>
+            <tbody id="reportsTableBody">
+              <tr>
+                <td><strong>Tarjetas digitales</strong></td>
+                <td>Contadores</td>
+                <td>1.248</td>
+                <td>986</td>
+                <td>262</td>
+                <td>0</td>
+                <td><span class="badge success">79,0 %</span></td>
+                <td>17/07/2026 04:35 p. m.</td>
+              </tr>
+              <tr>
+                <td><strong>Tarjetas digitales</strong></td>
+                <td>Sociedades</td>
+                <td>324</td>
+                <td>267</td>
+                <td>57</td>
+                <td>0</td>
+                <td><span class="badge success">82,4 %</span></td>
+                <td>17/07/2026 04:31 p. m.</td>
+              </tr>
+              <tr>
+                <td><strong>Notificaciones</strong></td>
+                <td>Todos</td>
+                <td>8</td>
+                <td>5</td>
+                <td>1</td>
+                <td>1</td>
+                <td><span class="badge warning">62,5 %</span></td>
+                <td>17/07/2026 04:29 p. m.</td>
+              </tr>
+              <tr>
+                <td><strong>Certificados</strong></td>
+                <td>Contadores</td>
+                <td>2.186</td>
+                <td>2.151</td>
+                <td>21</td>
+                <td>14</td>
+                <td><span class="badge success">98,4 %</span></td>
+                <td>17/07/2026 04:18 p. m.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-footer">
+          <span id="reportsRecordInfo">Mostrando 5 registros</span>
+          <div class="reports-generated-at">Generado: <strong id="reportsGeneratedAt">17/07/2026 05:00 p. m.</strong></div>
+        </div>
+      </section>
+    </section>
+
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="detailModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h3 id="detailModalTitle">Detalle</h3>
+        <p id="detailModalSubtitle"></p>
+      </div>
+      <button class="close-btn" id="closeDetailModal">×</button>
+    </div>
+
+    <div class="modal-body" id="detailModalBody"></div>
+
+    <div class="modal-footer">
+      <button class="btn btn-outline-primary" id="duplicateNotificationBtn" style="display:none">Duplicar envío</button>
+      <button class="btn btn-primary" id="closeDetailModalFooter">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  const $ = id => document.getElementById(id);
+
+  /* Navegación */
+  const views = {
+    cards: $("cardsView"),
+    cardHistory: $("cardHistoryView"),
+    individualIssue: $("individualIssueView"),
+    bulkIssue: $("bulkIssueView"),
+    branding: $("brandingView"),
+    qrValidator: $("qrValidatorView"),
+    audit: $("auditView"),
+    certificates: $("certificatesView"),
+    notifications: $("notificationsView"),
+    history: $("historyView"),
+    reports: $("reportsView")
+  };
+
+  function showView(viewName){
+    Object.entries(views).forEach(([name,element])=>{
+      element.classList.toggle("active",name===viewName);
+    });
+
+    document.querySelectorAll("[data-view]").forEach(link=>{
+      const isActiveView=link.dataset.view===viewName;
+      const isActiveCardModule=!link.dataset.cardModule||link.dataset.cardModule===activeCardModule;
+      link.classList.toggle("active",isActiveView&&isActiveCardModule);
+    });
+
+    const hashMap = {
+      cards:"tarjetas",
+      cardHistory:"historial-tarjeta",
+      individualIssue:"nueva-tarjeta",
+      bulkIssue:"emision-masiva",
+      branding:"branding",
+      qrValidator:"validador-qr",
+      audit:"auditoria",
+      certificates:"certificados",
+      notifications:"notificaciones",
+      history:"historial",
+      reports:"reportes"
+    };
+
+    const viewHash=viewName==="cards"?`tarjetas-${activeCardModule}`:hashMap[viewName];
+    history.replaceState(null,"","#"+viewHash);
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  document.querySelectorAll("[data-view]").forEach(link=>{
+    link.addEventListener("click",event=>{
+      event.preventDefault();
+      if(link.dataset.cardModule)activateCardModule(link.dataset.cardModule);
+      showView(link.dataset.view);
+    });
+  });
+
+  document.querySelectorAll("[data-placeholder]").forEach(link=>{
+    link.addEventListener("click",event=>{
+      event.preventDefault();
+      showToast(`La opción "${link.dataset.placeholder}" está lista para enlazarse con su módulo.`);
+    });
+  });
+
+  function showToast(message){
+    const toast=$("toast");
+    toast.textContent=message;
+    toast.classList.add("show");
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer=setTimeout(()=>toast.classList.remove("show"),2500);
+  }
+
+  /* Modal general */
+  let selectedNotification=null;
+
+  function openModal(title,subtitle,bodyHtml,showDuplicate=false){
+    $("detailModalTitle").textContent=title;
+    $("detailModalSubtitle").textContent=subtitle||"";
+    $("detailModalBody").innerHTML=bodyHtml;
+    $("duplicateNotificationBtn").style.display=showDuplicate?"inline-flex":"none";
+    $("detailModal").classList.add("open");
+  }
+
+  function closeModal(){
+    $("detailModal").classList.remove("open");
+    clearInterval(window.__credentialQrTimer);
+  }
+
+  $("closeDetailModal").addEventListener("click",closeModal);
+  $("closeDetailModalFooter").addEventListener("click",closeModal);
+  $("detailModal").addEventListener("click",event=>{
+    if(event.target===$("detailModal"))closeModal();
+  });
+
+  document.addEventListener("keydown",event=>{
+    if(event.key==="Escape")closeModal();
+  });
+
+  /* Tarjetas digitales */
+  const cardModules={
+    contadores:{
+      title:"Tarjeta Digital para Contadores",
+      badge:"PERSONA NATURAL",
+      description:"Gestión de solicitudes y credenciales digitales de contadores públicos registrados.",
+      icon:"🪪",
+      bannerClass:"",
+      newText:"Nueva tarjeta de contador",
+      summary:{
+        total:"1.248",
+        totalLabel:"Contadores registrados",
+        active:"986",
+        pending:"47",
+        suspended:"32"
+      },
+      searchLabel:"Documento o tarjeta profesional",
+      searchPlaceholder:"CC, nombre o tarjeta profesional",
+      tableTitle:"Solicitudes de tarjetas para contadores",
+      tableSubtitle:"Resultados del módulo de persona natural.",
+      columns:[
+        ["numero","No"],
+        ["expediente","Expediente"],
+        ["tipo","Tipo"],
+        ["solicitante","Contador"],
+        ["documento","Documento"],
+        ["matricula","Tarjeta profesional"],
+        ["correo","Correo"],
+        ["tarjeta","Tarjeta"],
+        ["fecha","Fecha emisión"],
+        ["acciones","Acciones"]
+      ],
+      rows:[
+        {id:618,numero:1,codigo:"TJM-20260709162254-441227",expediente:427524,tipo:"Primera vez",solicitante:"Sebastian Cuencar Cardona",documento:"CC 1035441227",matricula:"TP 441227-T",correo:"scuencar@nexura.com",tarjeta:"Activa",fecha:"2026-07-09 16:22:54"},
+        {id:616,numero:2,codigo:"TJM-20260708094946-441229",expediente:427525,tipo:"Duplicado",solicitante:"Laura Martínez Gómez",documento:"CC 1035441229",matricula:"TP 441229-T",correo:"scuencar@nexura.com",tarjeta:"Activa",fecha:"2026-07-08 09:49:46"},
+        {id:617,numero:3,codigo:"TJM-20260708103347-441228",expediente:427526,tipo:"Sustitución",solicitante:"Andrés Felipe Ruiz",documento:"CC 1035441228",matricula:"TP 441228-T",correo:"scuencar@nexura.com",tarjeta:"Activa",fecha:"2026-07-08 10:33:47"},
+        {id:1,numero:4,codigo:"TARJETAS-20260617-00001",expediente:427527,tipo:"Primera vez",solicitante:"Carolina Osorio Betancur",documento:"CC 1035160165",matricula:"TP 160165-T",correo:"carga3_96024@example.test",tarjeta:"Emitida",fecha:"2026-06-17 09:18:32"},
+        {id:2,numero:5,codigo:"TARJETAS-20260617-00002",expediente:427528,tipo:"Duplicado",solicitante:"Héctor Fabio Zapata Arango",documento:"CC 1022515871",matricula:"TP 515871-T",correo:"carga2_47604@example.test",tarjeta:"Emitida",fecha:"2026-06-17 10:45:16"},
+        {id:3,numero:6,codigo:"TARJETAS-20260617-00003",expediente:427529,tipo:"Sustitución",solicitante:"Manuela Rincón Valencia",documento:"CC 1074212267",matricula:"TP 421267-T",correo:"carga7_11950@example.test",tarjeta:"Cancelada",fecha:"2026-06-17 14:27:08"}
+      ]
+    },
+    sociedades:{
+      title:"Tarjeta Digital para Sociedades",
+      badge:"PERSONA JURÍDICA",
+      description:"Gestión de solicitudes y credenciales de sociedades de contadores y firmas registradas.",
+      icon:"🏢",
+      bannerClass:"sociedades",
+      newText:"Nueva tarjeta de sociedad",
+      summary:{
+        total:"324",
+        totalLabel:"Sociedades registradas",
+        active:"267",
+        pending:"18",
+        suspended:"11"
+      },
+      searchLabel:"NIT, razón social o número de registro",
+      searchPlaceholder:"NIT, razón social o registro",
+      tableTitle:"Solicitudes de tarjetas para sociedades",
+      tableSubtitle:"Resultados del módulo de persona jurídica.",
+      columns:[
+        ["numero","No"],
+        ["expediente","Expediente"],
+        ["tipo","Tipo"],
+        ["razonSocial","Razón social"],
+        ["nit","NIT"],
+        ["registro","N.° registro"],
+        ["resolucion","Resolución"],
+        ["tarjeta","Tarjeta"],
+        ["fecha","Fecha emisión"],
+        ["acciones","Acciones"]
+      ],
+      rows:[
+        {id:701,numero:1,codigo:"TJS-202607120001",expediente:427530,tipo:"Primera vez",razonSocial:"Cuencar Consultores S.A.S.",nit:"901.456.789-1",registro:"SC-001458",resolucion:100,tarjeta:"Activa",fecha:"2026-07-12 08:35:19"},
+        {id:702,numero:2,codigo:"TJS-202607110002",expediente:427531,tipo:"Duplicado",razonSocial:"Auditores del Valle Ltda.",nit:"900.325.741-8",registro:"SC-001459",resolucion:101,tarjeta:"Emitida",fecha:"2026-07-11 11:20:43"},
+        {id:703,numero:3,codigo:"TJS-202607100003",expediente:427532,tipo:"Modificación",razonSocial:"Contabilidad Integral Colombia S.A.S.",nit:"901.884.210-5",registro:"SC-001460",resolucion:102,tarjeta:"Emitida",fecha:"2026-07-10 15:06:27"},
+        {id:704,numero:4,codigo:"TJS-202607080004",expediente:427533,tipo:"Primera vez",razonSocial:"Gestión Contable Nacional S.A.S.",nit:"900.771.624-2",registro:"SC-001442",resolucion:103,tarjeta:"Cancelada",fecha:"2026-07-08 17:42:51"}
+      ]
+    }
+  };
+
+  let activeCardModule="contadores";
+  let cardsPage=1;
+
+  function escapeHtml(value){
+    return String(value??"")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function cardStatusBadge(status){
+    const map={
+      "Activa":"success",
+      "Cancelada":"danger",
+      "Fallecido":"dark",
+      "Emitida":"warning"
+    };
+    return `<span class="badge ${map[status]||"neutral"}">${escapeHtml(status)}</span>`;
+  }
+
+  function getFilteredCardRows(){
+    const module=cardModules[activeCardModule];
+    const query=$("cardsLocalSearch").value.trim().toLowerCase();
+    const column=$("cardsFilterColumn").value;
+    const filterControl=$("cardsFilterValue");
+    const filterValue=filterControl&&!filterControl.disabled?filterControl.value.trim().toLowerCase():"";
+
+    return module.rows.filter(row=>{
+      const matchQuery=!query||Object.values(row).some(value=>String(value).toLowerCase().includes(query));
+      let matchColumn=true;
+      if(column&&filterValue){
+        const rowValue=String(row[column]??"").toLowerCase();
+        matchColumn=column==="fecha"
+          ?rowValue.startsWith(filterValue)
+          :column==="tarjeta"||column==="expediente"
+            ?rowValue===filterValue
+            :rowValue.includes(filterValue);
+      }
+      return matchQuery&&matchColumn;
+    });
+  }
+
+  function updateCardsFilterValue(){
+    const module=cardModules[activeCardModule];
+    const column=$("cardsFilterColumn").value;
+    const columnLabel=module.columns.find(([key])=>key===column)?.[1]||"Valor";
+    $("cardsFilterValueLabel").textContent=columnLabel;
+
+    if(!column){
+      $("cardsFilterValueHost").innerHTML='<input class="control" id="cardsFilterValue" disabled placeholder="Seleccione una columna">';
+      return;
+    }
+
+    if(column==="tarjeta"){
+      $("cardsFilterValueHost").innerHTML=`
+        <select class="control" id="cardsFilterValue">
+          <option value="">Seleccione un estado</option>
+          <option>Activa</option>
+          <option>Cancelada</option>
+          <option>Fallecido</option>
+          <option>Emitida</option>
+        </select>`;
+      return;
+    }
+
+    if(column==="fecha"){
+      $("cardsFilterValueHost").innerHTML='<input class="control" type="date" id="cardsFilterValue">';
+      return;
+    }
+
+    if(column==="tipo"){
+      const options=activeCardModule==="sociedades"
+        ?["Primera vez","Duplicado","Modificación"]
+        :["Primera vez","Duplicado","Sustitución"];
+      $("cardsFilterValueHost").innerHTML=`
+        <select class="control" id="cardsFilterValue">
+          <option value="">Seleccione un tipo</option>
+          ${options.map(option=>`<option value="${option}">${option}</option>`).join("")}
+        </select>`;
+      return;
+    }
+
+    if(column==="expediente"){
+      $("cardsFilterValueHost").innerHTML='<input class="control" type="number" id="cardsFilterValue" min="0" step="1" placeholder="Ingrese el número de expediente">';
+      return;
+    }
+
+    $("cardsFilterValueHost").innerHTML=`<input class="control" id="cardsFilterValue" placeholder="Ingrese ${escapeHtml(columnLabel.toLowerCase())}">`;
+  }
+
+  function populateCardsFilterColumns(){
+    const module=cardModules[activeCardModule];
+    $("cardsFilterColumn").innerHTML=`
+      <option value="">Seleccione una columna</option>
+      ${module.columns
+        .filter(([key])=>key!=="acciones")
+        .map(([key,label])=>`<option value="${escapeHtml(key)}">${escapeHtml(label)}</option>`)
+        .join("")}`;
+    updateCardsFilterValue();
+  }
+
+  function renderCardsTable(){
+    const module=cardModules[activeCardModule];
+    const rows=getFilteredCardRows();
+    const pageSize=Number($("cardsPageSize").value);
+    const totalPages=Math.max(1,Math.ceil(rows.length/pageSize));
+
+    if(cardsPage>totalPages)cardsPage=totalPages;
+
+    const start=(cardsPage-1)*pageSize;
+    const visible=rows.slice(start,start+pageSize);
+
+    $("cardsTableHead").innerHTML=module.columns.map(([,label])=>`<th>${escapeHtml(label)}</th>`).join("");
+
+    if(!visible.length){
+      $("cardsTableBody").innerHTML=`
+        <tr>
+          <td colspan="${module.columns.length}">
+            <div class="empty-state">No se encontraron solicitudes con los filtros seleccionados.</div>
+          </td>
+        </tr>`;
+    }else{
+      $("cardsTableBody").innerHTML=visible.map(row=>{
+        const cells=module.columns.map(([key])=>{
+          if(key==="acciones"){
+            return `<td>
+              <div class="row-actions">
+                <button class="btn btn-outline-primary btn-sm btn-icon card-detail-btn" data-id="${row.id}" title="Ver detalle">👁</button>
+                <div class="card-actions-host">
+                  <button class="btn btn-outline-secondary btn-sm btn-icon card-actions-toggle" data-id="${row.id}" title="Más acciones" aria-haspopup="true" aria-expanded="false">⋮</button>
+                  <div class="card-actions-menu">
+                    <button type="button" class="view-card-btn" data-id="${row.id}">▣ Ver tarjeta</button>
+                    <button type="button" class="view-card-history-btn" data-id="${row.id}">◷ Historial</button>
+                  </div>
+                </div>
+              </div>
+            </td>`;
+          }
+
+          if(key==="codigo")return `<td><code>${escapeHtml(row[key])}</code></td>`;
+          if(key==="tarjeta")return `<td>${cardStatusBadge(row[key])}</td>`;
+          return `<td>${escapeHtml(row[key])}</td>`;
+        }).join("");
+
+        return `<tr>${cells}</tr>`;
+      }).join("");
+    }
+
+    $("cardsRecordInfo").textContent=rows.length
+      ?`Mostrando ${start+1} a ${Math.min(start+pageSize,rows.length)} de ${rows.length} registros`
+      :"Sin resultados";
+
+    const pagination=$("cardsPagination");
+    pagination.innerHTML="";
+
+    const prev=document.createElement("button");
+    prev.className="page-btn";
+    prev.textContent="‹";
+    prev.disabled=cardsPage===1;
+    prev.onclick=()=>{cardsPage--;renderCardsTable()};
+    pagination.appendChild(prev);
+
+    for(let i=1;i<=totalPages;i++){
+      const button=document.createElement("button");
+      button.className="page-btn"+(i===cardsPage?" active":"");
+      button.textContent=i;
+      button.onclick=()=>{cardsPage=i;renderCardsTable()};
+      pagination.appendChild(button);
+    }
+
+    const next=document.createElement("button");
+    next.className="page-btn";
+    next.textContent="›";
+    next.disabled=cardsPage===totalPages;
+    next.onclick=()=>{cardsPage++;renderCardsTable()};
+    pagination.appendChild(next);
+
+    document.querySelectorAll(".card-detail-btn").forEach(button=>{
+      button.addEventListener("click",()=>openCardDetail(Number(button.dataset.id)));
+    });
+
+    document.querySelectorAll(".card-actions-toggle").forEach(button=>{
+      button.addEventListener("click",event=>{
+        event.stopPropagation();
+        const menu=button.nextElementSibling;
+        const opening=!menu.classList.contains("open");
+        document.querySelectorAll(".card-actions-menu.open").forEach(item=>item.classList.remove("open"));
+        document.querySelectorAll(".card-actions-toggle").forEach(item=>item.setAttribute("aria-expanded","false"));
+        if(opening){
+          menu.classList.add("open");
+          button.setAttribute("aria-expanded","true");
+        }
+      });
+    });
+
+    document.querySelectorAll(".view-card-btn").forEach(button=>{
+      button.addEventListener("click",()=>openCardPreview(Number(button.dataset.id)));
+    });
+
+    document.querySelectorAll(".view-card-history-btn").forEach(button=>{
+      button.addEventListener("click",()=>openCardHistory(Number(button.dataset.id)));
+    });
+
+    document.querySelectorAll("#cardsView [data-action-demo]").forEach(button=>{
+      button.addEventListener("click",()=>showToast(`Acción "${button.dataset.actionDemo}" disponible para conectar con el backend.`));
+    });
+  }
+
+  function openCardDetail(id){
+    const module=cardModules[activeCardModule];
+    const row=module.rows.find(item=>item.id===id);
+    if(!row)return;
+
+    const detailLabels={
+      matricula:"Tarjeta profesional",
+      resolucion:"Resolución"
+    };
+    const rowEntries=Object.entries(row).filter(([key])=>!["id","numero","codigo"].includes(key));
+    const entries=activeCardModule==="sociedades"
+      ?rowEntries
+      :[["Universidad","Universidad Nacional de Colombia"],...rowEntries];
+    const body=`
+      <div class="detail-grid">
+        <div class="detail-item detail-photo-item">
+          <label>Fotografía</label>
+          <div class="detail-photo-box" role="img" aria-label="Fotografía genérica del titular">👤</div>
+        </div>
+        ${entries.map(([key,value])=>`
+          <div class="detail-item">
+            <label>${escapeHtml(detailLabels[key]||key.replace(/([A-Z])/g," $1"))}</label>
+            <strong>${escapeHtml(value)}</strong>
+          </div>`).join("")}
+      </div>`;
+
+    openModal("Detalle",`Expediente ${row.expediente}`,body,false);
+  }
+
+  function openCardHistory(id){
+    const module=cardModules[activeCardModule];
+    const row=module.rows.find(item=>item.id===id);
+    if(!row)return;
+    const isCompany=activeCardModule==="sociedades";
+    const holder=isCompany?row.razonSocial:row.solicitante;
+    const identification=isCompany?row.nit:row.documento;
+    const registration=isCompany?row.registro:row.matricula;
+    const issuedDate=new Date(row.fecha.replace(" ","T"));
+    const activeDate=new Date(issuedDate);
+    activeDate.setDate(activeDate.getDate()+1);
+    const formatDate=date=>new Intl.DateTimeFormat("es-CO",{day:"2-digit",month:"long",year:"numeric"}).format(date);
+
+    $("cardHistoryAvatar").textContent=isCompany?"🏢":"👤";
+    $("cardHistoryHolder").textContent=holder;
+    $("cardHistorySubtitle").textContent=`Historial de la credencial ${row.codigo}.`;
+    $("cardHistoryIdentification").textContent=`${isCompany?"NIT":"Identificación"}: ${identification}`;
+    $("cardHistoryRegistration").textContent=`${isCompany?"Registro":"Matrícula"}: ${registration}`;
+    $("cardHistoryExpedient").textContent=`Expediente: ${row.expediente}`;
+    $("cardHistoryCode").textContent=`Código: ${row.codigo}`;
+    $("cardHistoryEmail").textContent=`Correo: ${row.correo||"No registrado"}`;
+    $("cardHistoryDate").textContent=`Fecha emisión: ${row.fecha}`;
+    $("cardHistoryPersonDetail").textContent=isCompany
+      ?`Resolución: ${row.resolucion}`
+      :"Universidad: Universidad Nacional de Colombia";
+    $("cardHistoryStatus").innerHTML=`Estado: ${cardStatusBadge(row.tarjeta)}`;
+    $("cardStatusHistory").innerHTML=`
+      <li><strong>Emitida</strong>${formatDate(issuedDate)} 09:18:32 a. m. · Credencial generada correctamente.</li>
+      <li><strong>Activa</strong>${formatDate(activeDate)} 02:47:15 p. m. · Activada por el titular.</li>`;
+    $("cardQrReadingHistory").innerHTML=`
+      <li><strong>Verificación pública exitosa</strong>21/07/2026 10:42:16 a. m. · Dispositivo móvil</li>
+      <li><strong>Verificación pública exitosa</strong>20/07/2026 04:18:43 p. m. · Navegador web</li>
+      <li><strong>Verificación pública exitosa</strong>18/07/2026 09:06:08 a. m. · Dispositivo móvil</li>`;
+    document.querySelectorAll(".card-actions-menu.open").forEach(item=>item.classList.remove("open"));
+    showView("cardHistory");
+  }
+
+  $("cardHistoryBack").addEventListener("click",()=>showView("cards"));
+
+  function openCardPreview(id){
+    const module=cardModules[activeCardModule];
+    const row=module.rows.find(item=>item.id===id);
+    if(!row)return;
+    const isCompany=activeCardModule==="sociedades";
+    const holder=isCompany?row.razonSocial:row.solicitante;
+    const identification=isCompany?row.nit:row.documento;
+    const registration=isCompany?row.registro:row.matricula;
+    const brandingPrimary=$("brandingPrimary").value;
+    const brandingSecondary=$("brandingSecondary").value;
+    const brandingLogo=$("brandingPreviewLogo").src||"logo (1).png";
+    const body=`
+      <div class="credential-preview" style="border-color:${brandingSecondary}">
+        <div class="credential-preview-head" style="background:${brandingPrimary};border-bottom:4px solid ${brandingSecondary}">
+          <img class="credential-preview-brand-logo" src="${escapeHtml(brandingLogo)}" alt="Logo de la credencial">
+          <div class="credential-preview-brand-copy">
+            <strong>Junta Central de Contadores</strong>
+            <small>${isCompany?"Tarjeta digital para sociedades":"Tarjeta profesional digital"}</small>
+          </div>
+        </div>
+        <div class="credential-preview-body">
+          <div class="credential-preview-photo" style="border:2px solid ${brandingSecondary}">${isCompany?"🏢":"👤"}</div>
+          <div class="credential-preview-data">
+            <h4>${escapeHtml(holder)}</h4>
+            <p>${isCompany?"NIT":"Identificación"}: <strong>${escapeHtml(identification)}</strong></p>
+            <p>${isCompany?"Registro":"Matrícula"}: <strong>${escapeHtml(registration)}</strong></p>
+            <p>Estado: ${cardStatusBadge(row.tarjeta)}</p>
+            <p>${isCompany?"Resolución":"Universidad"}: <strong>${isCompany?escapeHtml(row.resolucion):"Universidad Nacional de Colombia"}</strong></p>
+          </div>
+        </div>
+        <div class="credential-qr-section">
+          <div class="credential-qr" id="credentialQr" role="img" aria-label="QR estático de verificación"></div>
+          <div class="credential-qr-copy">
+            <p>Escanee el código para consultar la vigencia y los datos públicos de esta tarjeta.</p>
+          </div>
+        </div>
+        <div class="credential-export-actions">
+          <button type="button" class="btn btn-primary" id="exportCredentialPdf">Exportar tarjeta</button>
+        </div>
+      </div>`;
+    document.querySelectorAll(".card-actions-menu.open").forEach(item=>item.classList.remove("open"));
+    openModal("Tarjeta digital",row.codigo,body,false);
+    $("exportCredentialPdf").addEventListener("click",()=>{
+      const previousTitle=document.title;
+      const safeCode=String(row.codigo).replace(/[^a-z0-9_-]/gi,"_");
+      document.title=`tarjeta_${activeCardModule}_${safeCode}`;
+      document.body.classList.add("credential-printing");
+      window.print();
+      document.body.classList.remove("credential-printing");
+      document.title=previousTitle;
+    });
+    const qrSeed=Number(row.id);
+    const renderQr=()=>{
+      const qr=$("credentialQr");
+      if(!qr)return;
+      qr.innerHTML=Array.from({length:121},(_,index)=>{
+        const x=index%11;
+        const y=Math.floor(index/11);
+        const finder=(x<3&&y<3)||(x>7&&y<3)||(x<3&&y>7);
+        const finderOn=finder&&(x%2===0||y%2===0||(x%3===1&&y%3===1));
+        const dataOn=((index*17+qrSeed*13+x*y*5)%11)<5;
+        return `<i class="${finder?finderOn?"on":"":dataOn?"on":""}"></i>`;
+      }).join("");
+    };
+    clearInterval(window.__credentialQrTimer);
+    renderQr();
+  }
+
+  document.addEventListener("click",event=>{
+    if(!event.target.closest(".card-actions-host")){
+      document.querySelectorAll(".card-actions-menu.open").forEach(item=>item.classList.remove("open"));
+      document.querySelectorAll(".card-actions-toggle").forEach(item=>item.setAttribute("aria-expanded","false"));
+    }
+  });
+
+  function activateCardModule(moduleName){
+    activeCardModule=moduleName;
+    cardsPage=1;
+    const module=cardModules[moduleName];
+
+    document.querySelectorAll(".module-button").forEach(button=>{
+      button.classList.toggle("active",button.dataset.module===moduleName);
+    });
+
+    $("moduleBanner").classList.toggle("sociedades",moduleName==="sociedades");
+    $("moduleIcon").textContent=module.icon;
+    $("moduleTitle").textContent=module.title;
+    $("moduleBadge").textContent=module.badge;
+    $("moduleDescription").textContent=module.description;
+    if($("moduleSummaryIcon")) $("moduleSummaryIcon").textContent=moduleName==="sociedades"?"🏢":"👥";
+    if($("summaryTotal")) $("summaryTotal").textContent=module.summary.total;
+    if($("summaryTotalLabel")) $("summaryTotalLabel").textContent=module.summary.totalLabel;
+    if($("summaryActive")) $("summaryActive").textContent=module.summary.active;
+    if($("summaryPending")) $("summaryPending").textContent=module.summary.pending;
+    if($("summarySuspended")) $("summarySuspended").textContent=module.summary.suspended;
+    $("cardsTableTitle").textContent=module.tableTitle;
+    $("cardsTableSubtitle").textContent=module.tableSubtitle;
+    $("cardsLocalSearch").value="";
+    populateCardsFilterColumns();
+    renderCardsTable();
+  }
+
+  document.querySelectorAll(".module-button").forEach(button=>{
+    button.addEventListener("click",()=>activateCardModule(button.dataset.module));
+  });
+
+  $("cardsFilterColumn").addEventListener("change",updateCardsFilterValue);
+
+  $("cardsFilterBtn").addEventListener("click",()=>{
+    cardsPage=1;
+    renderCardsTable();
+  });
+
+  $("cardsLocalSearch").addEventListener("input",()=>{
+    cardsPage=1;
+    renderCardsTable();
+  });
+
+  $("cardsPageSize").addEventListener("change",()=>{
+    cardsPage=1;
+    renderCardsTable();
+  });
+
+  $("exportCardsBtn").addEventListener("click",()=>{
+    const module=cardModules[activeCardModule];
+    const rows=getFilteredCardRows();
+    if(!rows.length){
+      showToast("No hay registros para exportar con los filtros seleccionados.");
+      return;
+    }
+    const csvValue=value=>`"${String(value??"").replaceAll('"','""')}"`;
+    let columns;
+    let exportRows;
+
+    if(activeCardModule==="contadores"){
+      columns=[
+        ["tarjetaProfesional","Tarjeta profesional"],
+        ["nombreCompleto","Nombre completo"],
+        ["expediente","Expediente"],
+        ["tipo","Tipo"],
+        ["fechaEmision","Fecha emisión"],
+        ["documento","Documento"],
+        ["correo","Correo"],
+        ["universidad","Universidad"],
+        ["estadoContador","Estado del contador"],
+        ["resolucion","Resolución"],
+        ["fechaEstado","Fecha del estado"],
+        ["fechaRegistro","Fecha de registro"],
+        ["fechaResolucion","Fecha de resolución"],
+        ["actaJcc","Acta JCC"],
+        ["fechaGrado","Fecha de grado"],
+        ["seccional","Seccional"],
+        ["numeroTarjeta","Número de tarjeta"]
+      ];
+
+      const universities=[
+        "UNIVERSITARIA AGUSTINIANA - UNIAGUSTINIANA",
+        "UNIVERSIDAD NACIONAL DE COLOMBIA",
+        "PONTIFICIA UNIVERSIDAD JAVERIANA",
+        "UNIVERSIDAD DE ANTIOQUIA",
+        "UNIVERSIDAD DEL VALLE",
+        "UNIVERSIDAD LIBRE"
+      ];
+      const graduationDates=[
+        "2023-11-16 00:00:00",
+        "2022-09-23 00:00:00",
+        "2021-06-18 00:00:00",
+        "2020-12-04 00:00:00",
+        "2019-08-30 00:00:00",
+        "2018-05-25 00:00:00"
+      ];
+      const regionalOffices=["BOGOTÁ, D.C.","BOGOTÁ, D.C.","BOGOTÁ, D.C.","MEDELLÍN","CALI","PEREIRA"];
+      const statusLabels={Activa:"ACTIVO",Emitida:"EMITIDO",Cancelada:"CANCELADO",Fallecido:"FALLECIDO"};
+
+      exportRows=rows.map(row=>{
+        const index=Math.max(0,Number(row.numero)-1);
+        const numeroTarjeta=(String(row.matricula).match(/\d+/)||[""])[0];
+        const emissionDate=row.fecha.slice(0,10);
+        return {
+          tarjetaProfesional:row.matricula,
+          nombreCompleto:row.solicitante,
+          expediente:row.expediente,
+          tipo:row.tipo,
+          fechaEmision:row.fecha,
+          documento:row.documento,
+          correo:row.correo,
+          universidad:universities[index]||"UNIVERSIDAD REGISTRADA ANTE LA JCC",
+          estadoContador:statusLabels[row.tarjeta]||String(row.tarjeta).toUpperCase(),
+          resolucion:String(index+1).padStart(4,"0"),
+          fechaEstado:`${emissionDate} 11:56:05`,
+          fechaRegistro:`${emissionDate} 17:08:27`,
+          fechaResolucion:`${emissionDate} 00:00:00`,
+          actaJcc:451+index,
+          fechaGrado:graduationDates[index]||"",
+          seccional:regionalOffices[index]||"BOGOTÁ, D.C.",
+          numeroTarjeta
+        };
+      });
+    }else{
+      columns=[
+        ["expediente","Expediente"],
+        ["razonSocial","Razón social"],
+        ["nit","NIT"],
+        ["tipo","Tipo"],
+        ["fechaEmision","Fecha emisión"],
+        ["tipoSociedad","Tipo de sociedad"],
+        ["inscripcion","Inscripción"],
+        ["fechaInscripcion","Fecha de inscripción"],
+        ["estadoSociedad","Estado de la sociedad"],
+        ["resolucion","Resolución"],
+        ["fechaResolucion","Fecha de resolución"],
+        ["actaJcc","Acta JCC"],
+        ["estadoSolicitud","Estado de la solicitud"],
+        ["tipoSolicitud","Tipo de solicitud"]
+      ];
+
+      const societyStatusLabels={Activa:"ACTIVO",Emitida:"ACTIVO",Cancelada:"INACTIVO",Fallecido:"INACTIVO"};
+      const requestTypeCodes={"Primera vez":5,"Duplicado":6,"Modificación":7};
+
+      exportRows=rows.map(row=>{
+        const index=Math.max(0,Number(row.numero)-1);
+        const inscripcion=Number((String(row.registro).match(/\d+/g)||[""]).join(""));
+        const emissionDate=row.fecha.slice(0,10);
+        return {
+          expediente:row.expediente,
+          razonSocial:row.razonSocial,
+          nit:row.nit,
+          tipo:row.tipo,
+          fechaEmision:row.fecha,
+          tipoSociedad:"S",
+          inscripcion,
+          fechaInscripcion:`${emissionDate} 19:38:39`,
+          estadoSociedad:societyStatusLabels[row.tarjeta]||String(row.tarjeta).toUpperCase(),
+          resolucion:row.resolucion,
+          fechaResolucion:`${emissionDate} 00:00:00`,
+          actaJcc:61+index,
+          estadoSolicitud:17+index,
+          tipoSolicitud:requestTypeCodes[row.tipo]||""
+        };
+      });
+    }
+
+    const csv=[
+      columns.map(([,label])=>csvValue(label)).join(";"),
+      ...exportRows.map(row=>columns.map(([key])=>csvValue(row[key])).join(";"))
+    ].join("\r\n");
+    const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+    const date=new Date().toISOString().slice(0,10);
+    link.href=url;
+    link.download=`tarjetas_${activeCardModule}_${date}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+    showToast(`${rows.length} registros exportados.`);
+  });
+
+  function filterCertificates(){
+    const query=$("certificatesSearch").value.toLowerCase().replace(/[^a-z0-9]/g,"");
+    const rows=[...document.querySelectorAll("#certificatesTableBody tr")];
+    let visible=0;
+    rows.forEach(row=>{
+      const searchable=(row.dataset.document+row.dataset.expedient).toLowerCase();
+      const match=!query||searchable.includes(query);
+      row.style.display=match?"":"none";
+      if(match)visible++;
+    });
+    $("certificatesRecordInfo").textContent=`${visible} certificado${visible===1?"":"s"} disponible${visible===1?"":"s"}`;
+  }
+
+  document.querySelectorAll("#certificatesTableBody a[href$='.pdf']").forEach(link=>{
+    link.target="_blank";
+    link.rel="noopener";
+    link.removeAttribute("download");
+  });
+
+  $("certificatesSearch").addEventListener("input",filterCertificates);
+  $("exportCertificatesBtn").addEventListener("click",()=>{
+    const rows=[...document.querySelectorAll("#certificatesTableBody tr")].filter(row=>row.style.display!=="none");
+    if(!rows.length){
+      showToast("No hay certificados para exportar con el filtro actual.");
+      return;
+    }
+    const headers=["No","Expediente","Contador/sociedad","Documento","Tarjeta profesional","Correo"];
+    const csvValue=value=>`"${String(value).replaceAll('"','""')}"`;
+    const csv=[
+      headers.map(csvValue).join(";"),
+      ...rows.map(row=>[...row.cells].slice(0,-1).map(cell=>csvValue(cell.textContent.trim())).join(";"))
+    ].join("\r\n");
+    const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+    link.href=url;
+    link.download=`certificados_${new Date().toISOString().slice(0,10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+    showToast(`${rows.length} certificados exportados.`);
+  });
+
+  function openIndividualIssue(){
+    const isCompany=activeCardModule==="sociedades";
+    $("individualIssueHeaderText").textContent=isCompany
+      ?"Emita una tarjeta profesional para una sociedad registrada."
+      :"Emita una tarjeta profesional para un contador registrado.";
+    $("individualIssueStepTitle").textContent=`1. Identificación ${isCompany?"de la sociedad":"del contador"}`;
+    $("individualIssueHelp").textContent=isCompany
+      ?"Ingrese el NIT. El sistema consulta el registro de la sociedad y muestra una vista previa antes de emitir."
+      :"Ingrese el número de identificación. El sistema consulta el registro de matrícula y muestra una vista previa antes de emitir.";
+    $("individualIssueIdentification").placeholder=isCompany?"NIT de la sociedad":"Número de identificación";
+    $("individualIssueSearch").textContent=isCompany?"⌕ Consultar sociedad":"⌕ Consultar matrícula";
+    $("individualIssueIdentification").value="";
+    $("individualIssuePreview").classList.remove("visible");
+    $("individualIssueResult").classList.remove("visible");
+    showView("individualIssue");
+    $("individualIssueIdentification").focus();
+  }
+
+  const toolbarNewCard=document.querySelector('.toolbar [data-action-demo="Nueva tarjeta"]');
+  if(toolbarNewCard) toolbarNewCard.addEventListener("click",openIndividualIssue);
+
+  ["individualIssueBack"].forEach(id=>{
+    $(id).addEventListener("click",event=>{
+      event.preventDefault();
+      showView("cards");
+    });
+  });
+
+  $("individualIssueSearch").addEventListener("click",()=>{
+    const identification=$("individualIssueIdentification").value.trim();
+    if(!identification){
+      showToast(activeCardModule==="sociedades"?"Ingrese el NIT de la sociedad.":"Ingrese el número de identificación.");
+      $("individualIssueIdentification").focus();
+      return;
+    }
+    const isCompany=activeCardModule==="sociedades";
+    const normalize=value=>String(value||"").replace(/\D/g,"");
+    const row=cardModules[activeCardModule].rows.find(item=>
+      normalize(isCompany?item.nit:item.documento)===normalize(identification)
+    );
+    $("individualIssueAvatar").textContent=isCompany?"🏢":"👤";
+    $("individualIssueName").textContent=row
+      ?(isCompany?row.razonSocial:row.solicitante)
+      :(isCompany?"Sociedad de Contadores Consultada":"Contador Público Consultado");
+    $("individualIssueDocument").textContent=row
+      ?(isCompany?row.nit:row.documento)
+      :identification;
+    $("individualIssueRegistration").textContent=row
+      ?(isCompany?row.registro:row.matricula)
+      :(isCompany?"SOC-":"TP ")+identification.slice(-6).padStart(6,"0");
+    $("individualIssueExtraLabel").textContent=isCompany?"Resolución":"Universidad";
+    $("individualIssueExtraValue").textContent=isCompany
+      ?String(row?.resolucion??104)
+      :"Universidad Nacional de Colombia";
+    $("individualIssueResult").classList.remove("visible");
+    $("individualIssuePreview").classList.add("visible");
+  });
+
+  $("individualIssueConfirm").addEventListener("click",()=>{
+    $("individualIssueResult").textContent="Emisión confirmada correctamente.";
+    $("individualIssueResult").classList.add("visible");
+  });
+
+  function openBulkIssue(){
+    const isCompany=activeCardModule==="sociedades";
+    $("bulkIssueHeaderText").textContent=isCompany
+      ?"Emita credenciales para varias sociedades mediante un archivo CSV."
+      :"Emita credenciales para varios contadores mediante un archivo CSV.";
+    $("bulkIssueTemplateHelp").innerHTML=isCompany
+      ?'Descargue la plantilla y complete <code>nit</code> por fila.'
+      :'Descargue la plantilla y complete <code>numero_identificacion</code> por fila.';
+    $("bulkIssueProcessHelp").textContent=isCompany
+      ?"Suba el archivo: el sistema consulta el registro de cada sociedad, emite cada credencial y envía la notificación. Los duplicados se omiten y los errores se listan."
+      :"Suba el archivo: el sistema consulta el registro de matrícula, emite cada credencial y notifica al titular. Los duplicados se omiten y los errores se listan.";
+    $("bulkIssueFile").value="";
+    $("bulkIssueResult").className="bulk-result";
+    $("bulkIssueResult").textContent="";
+    showView("bulkIssue");
+  }
+
+  const toolbarBulkIssue=document.querySelector('.toolbar [data-action-demo="Emisión masiva"]');
+  if(toolbarBulkIssue) toolbarBulkIssue.addEventListener("click",openBulkIssue);
+
+  ["bulkIssueBack"].forEach(id=>{
+    $(id).addEventListener("click",event=>{
+      event.preventDefault();
+      showView("cards");
+    });
+  });
+
+  $("bulkIssueDownload").addEventListener("click",()=>{
+    const isCompany=activeCardModule==="sociedades";
+    const header=isCompany?"nit\n":"numero_identificacion\n";
+    const example=isCompany?"900123456-7\n":"1023456789\n";
+    const blob=new Blob([header+example],{type:"text/csv;charset=utf-8"});
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+    link.href=url;
+    link.download=isCompany?"plantilla_emision_sociedades.csv":"plantilla_emision_contadores.csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  });
+
+  $("bulkIssueProcess").addEventListener("click",()=>{
+    const file=$("bulkIssueFile").files[0];
+    const result=$("bulkIssueResult");
+    if(!file){
+      result.textContent="Seleccione un archivo CSV o TXT antes de procesar.";
+      result.className="bulk-result visible error";
+      return;
+    }
+    if(!/\.(csv|txt)$/i.test(file.name)){
+      result.textContent="El archivo debe tener extensión .csv o .txt.";
+      result.className="bulk-result visible error";
+      return;
+    }
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const rows=String(reader.result).split(/\r?\n/).filter(row=>row.trim());
+      const records=Math.max(0,rows.length-1);
+      if(!records){
+        result.textContent="La plantilla no contiene registros para procesar.";
+        result.className="bulk-result visible error";
+        return;
+      }
+      const holder=activeCardModule==="sociedades"?"sociedades":"contadores";
+      result.textContent=`Archivo validado: ${records} ${holder} listos para emisión. La integración con el backend procesará duplicados, errores y notificaciones.`;
+      result.className="bulk-result visible";
+    };
+    reader.onerror=()=>{
+      result.textContent="No fue posible leer el archivo seleccionado.";
+      result.className="bulk-result visible error";
+    };
+    reader.readAsText(file);
+  });
+
+  function updateBrandingPreview(){
+    $("brandingPreviewHeader").style.backgroundColor=$("brandingPrimary").value;
+    $("brandingPreviewBadge").style.backgroundColor=$("brandingSecondary").value;
+  }
+
+  ["brandingPrimary","brandingSecondary"].forEach(id=>{
+    $(id).addEventListener("input",updateBrandingPreview);
+  });
+
+  let brandingLogoUrl="";
+  $("brandingLogo").addEventListener("change",()=>{
+    const file=$("brandingLogo").files[0];
+    if(!file) return;
+    if(file.size>300*1024){
+      $("brandingLogo").value="";
+      showToast("El logo no puede superar los 300 KB.");
+      return;
+    }
+    if(!["image/png","image/jpeg","image/svg+xml"].includes(file.type)){
+      $("brandingLogo").value="";
+      showToast("Seleccione un logo PNG, JPG o SVG.");
+      return;
+    }
+    if(brandingLogoUrl) URL.revokeObjectURL(brandingLogoUrl);
+    brandingLogoUrl=URL.createObjectURL(file);
+    $("brandingPreviewLogo").src=brandingLogoUrl;
+  });
+
+  $("brandingSave").addEventListener("click",()=>{
+    const nextVersion=Number($("brandingVersion").textContent)+1;
+    $("brandingVersion").textContent=nextVersion;
+    document.querySelectorAll("#brandingHistory .branding-published").forEach(badge=>badge.remove());
+    const now=new Date();
+    const stamp=now.toLocaleDateString("es-CO",{year:"numeric",month:"2-digit",day:"2-digit"})+" "+now.toLocaleTimeString("es-CO",{hour:"2-digit",minute:"2-digit"});
+    const item=document.createElement("li");
+    const label=document.createElement("span");
+    const badge=document.createElement("span");
+    label.textContent=`v${nextVersion} — ${stamp}`;
+    badge.className="branding-published";
+    badge.textContent="Publicada";
+    item.append(label,badge);
+    $("brandingHistory").prepend(item);
+    showToast(`Branding guardado como versión ${nextVersion}.`);
+  });
+
+  $("brandingBack").addEventListener("click",()=>showView("cards"));
+  updateBrandingPreview();
+
+  $("qrValidatorBack").addEventListener("click",()=>showView("cards"));
+  $("qrValidatorSave").addEventListener("click",()=>{
+    const selected=[...document.querySelectorAll('#qrValidatorForm input[type="checkbox"]:checked')];
+    if(!selected.length){
+      showToast("Seleccione al menos un campo para la verificación pública.");
+      return;
+    }
+    showToast(`${selected.length} campos del Validador QR guardados correctamente.`);
+  });
+
+  const storedQrExpiration=Number(localStorage.getItem("jccQrExpirationSeconds"));
+  if(storedQrExpiration>=5&&storedQrExpiration<=3600) $("qrExpirationSeconds").value=storedQrExpiration;
+  $("qrExpirationSave").addEventListener("click",()=>{
+    const seconds=Number($("qrExpirationSeconds").value);
+    if(!Number.isInteger(seconds)||seconds<5||seconds>3600){
+      showToast("Ingrese un tiempo entre 5 y 3600 segundos.");
+      $("qrExpirationSeconds").focus();
+      return;
+    }
+    localStorage.setItem("jccQrExpirationSeconds",String(seconds));
+    showToast(`Tiempo de expiración guardado: ${seconds} segundos.`);
+  });
+
+  const auditLogs=[
+    {id:21,date:"2026-07-08 10:07:47",endpoint:"verificarTarjeta",method:"GET",http:200,ip:"190.7.114.234",duration:"202 ms",url:"/api/DemoGeneral/verificarTarjeta/?token=***",request:'{"query":{"token":"***"},"post":[],"raw":""}',response:'{"ok":true,"resultado":"valida","mensaje":"Tarjeta válida y vigente.","estado":"activa"}'},
+    {id:15,date:"2026-06-17 09:36:31",endpoint:"myjcc",method:"GET",http:200,ip:"190.99.183.255",duration:"0 ms",url:"in-process:/api/DemoGeneral/myjcc",request:'{"query":{"identificacion":"16542987"},"post":[],"raw":""}',response:'{"ok":true,"matriculado":{"nombres":"GUSTAVO ADOLFO ARISTIZÁBAL HENAO","matricula":"165429-T","estado_matricula":"vigente","foto_base64":"[base64 truncado]"}}'},
+    {id:14,date:"2026-06-17 09:36:29",endpoint:"myjcc",method:"GET",http:200,ip:"190.99.183.255",duration:"0 ms",url:"in-process:/api/DemoGeneral/myjcc",request:'{"query":{"identificacion":"1077412589"},"post":[],"raw":""}',response:'{"ok":true,"matriculado":{"nombres":"MANUELA RINCÓN VALENCIA","matricula":"107741-T","estado_matricula":"vigente"}}'},
+    {id:13,date:"2026-06-17 09:36:27",endpoint:"myjcc",method:"GET",http:200,ip:"190.99.183.255",duration:"1 ms",url:"in-process:/api/DemoGeneral/myjcc",request:'{"query":{"identificacion":"73159486"},"post":[],"raw":""}',response:'{"ok":true,"matriculado":{"nombres":"HÉCTOR FABIO ZAPATA ARANGO","matricula":"731594-T"}}'},
+    {id:12,date:"2026-06-17 09:36:25",endpoint:"myjcc",method:"GET",http:200,ip:"190.99.183.255",duration:"0 ms",url:"in-process:/api/DemoGeneral/myjcc",request:'{"query":{"identificacion":"1063258974"},"post":[],"raw":""}',response:'{"ok":true,"matriculado":{"nombres":"CAROLINA OSORIO BETANCUR","matricula":"106325-T"}}'},
+    {id:8,date:"2026-06-12 14:18:03",endpoint:"verificarTarjeta",method:"GET",http:404,ip:"181.49.82.17",duration:"84 ms",url:"/api/DemoGeneral/verificarTarjeta/?token=***",request:'{"query":{"token":"***"}}',response:'{"ok":false,"mensaje":"Tarjeta no encontrada"}'}
+  ];
+  let auditPage=1;
+
+  function renderAudit(){
+    const textQuery=$("auditText").value.trim().toLowerCase();
+    const endpoint=$("auditEndpoint").value;
+    const from=$("auditFrom").value;
+    const to=$("auditTo").value;
+    const filtered=auditLogs.filter(log=>{
+      const haystack=`${log.endpoint} ${log.url} ${log.request} ${log.response}`.toLowerCase();
+      const localDate=log.date.replace(" ","T");
+      return (!textQuery||haystack.includes(textQuery))&&(!endpoint||log.endpoint===endpoint)&&(!from||localDate>=from)&&(!to||localDate<=to);
+    });
+    const pageSize=Number($("auditPageSize").value);
+    const totalPages=Math.max(1,Math.ceil(filtered.length/pageSize));
+    if(auditPage>totalPages) auditPage=totalPages;
+    const start=(auditPage-1)*pageSize;
+    const visible=filtered.slice(start,start+pageSize);
+    $("auditSummary").textContent=`Total ${filtered.length} registro(s) · página ${auditPage} de ${totalPages}. Use “Ver” para desplegar petición y respuesta.`;
+    $("auditTableBody").innerHTML=visible.map(log=>`
+      <tr><td>${escapeHtml(log.date)}</td><td><code>${escapeHtml(log.endpoint)}</code></td><td><span class="audit-method">${escapeHtml(log.method)}</span></td><td><span class="audit-http ${log.http<400?"success":"error"}">${log.http}</span></td><td>${escapeHtml(log.ip)}</td><td>${escapeHtml(log.duration)}</td><td><button type="button" class="btn btn-outline-primary btn-sm audit-view-btn" data-id="${log.id}">👁 Ver</button></td></tr>
+      <tr class="audit-detail-row" id="audit-detail-${log.id}"><td colspan="7" class="audit-detail-cell"><div class="audit-detail-grid"><div><strong>URL</strong><pre class="audit-code">${escapeHtml(log.url)}</pre><strong>Headers de la petición</strong><pre class="audit-code">{"X-Api-Key":"***","User-Agent":"Nexura Client"}</pre><strong>Parámetros / cuerpo</strong><pre class="audit-code">${escapeHtml(log.request)}</pre></div><div><strong>Headers de la respuesta</strong><pre class="audit-code">{"Content-Type":"application/json; charset=utf-8"}</pre><strong>Cuerpo de la respuesta</strong><pre class="audit-code">${escapeHtml(log.response)}</pre></div></div></td></tr>`).join("");
+    document.querySelectorAll(".audit-view-btn").forEach(button=>button.addEventListener("click",()=>{
+      $("audit-detail-"+button.dataset.id).classList.toggle("visible");
+    }));
+    const pagination=$("auditPagination");
+    pagination.innerHTML="";
+    for(let page=1;page<=totalPages;page++){
+      const button=document.createElement("button");
+      button.className="page-btn"+(page===auditPage?" active":"");
+      button.textContent=page;
+      button.addEventListener("click",()=>{auditPage=page;renderAudit()});
+      pagination.appendChild(button);
+    }
+  }
+
+  $("auditBack").addEventListener("click",()=>showView("cards"));
+  $("auditSearch").addEventListener("click",()=>{auditPage=1;renderAudit()});
+  $("auditPageSize").addEventListener("change",()=>{auditPage=1;renderAudit()});
+  $("auditText").addEventListener("keydown",event=>{if(event.key==="Enter"){auditPage=1;renderAudit()}});
+  renderAudit();
+
+  document.querySelectorAll('.toolbar [data-action-demo]:not([data-action-demo="Nueva tarjeta"]):not([data-action-demo="Emisión masiva"])').forEach(button=>{
+    button.addEventListener("click",()=>showToast(`Acción "${button.dataset.actionDemo}" lista para enlazarse con el backend.`));
+  });
+
+  /* Configuración de notificaciones */
+  function bindSwitch(toggleId,cardId){
+    const toggle=$(toggleId);
+    const card=$(cardId);
+    const sync=()=>card.classList.toggle("active",toggle.checked);
+    toggle.addEventListener("change",sync);
+    sync();
+  }
+
+  bindSwitch("pushToggle","pushCard");
+  bindSwitch("standardToggle","standardCard");
+  bindSwitch("internalToggle","internalCard");
+
+  function updateNotificationPreview(){
+    const title=$("notificationTitle").value.trim()||"Título de la alerta";
+    const message=$("notificationMessage").value.trim()||"Mensaje de la notificación";
+    $("previewTitle").textContent=title;
+    $("inAppPreviewTitle").textContent=title;
+    $("previewMessage").textContent=message;
+    $("inAppPreviewMessage").textContent=message;
+  }
+
+  $("notificationTitle").addEventListener("input",updateNotificationPreview);
+  $("notificationMessage").addEventListener("input",updateNotificationPreview);
+
+  const today=new Date();
+  $("sendDate").value=[
+    today.getFullYear(),
+    String(today.getMonth()+1).padStart(2,"0"),
+    String(today.getDate()).padStart(2,"0")
+  ].join("-");
+
+  document.querySelectorAll('input[name="sendMode"]').forEach(radio=>{
+    radio.addEventListener("change",()=>{
+      const scheduled=document.querySelector('input[name="sendMode"]:checked').value==="scheduled";
+      $("sendDate").disabled=!scheduled;
+      $("sendTime").disabled=!scheduled;
+      $("recurrence").disabled=!scheduled;
+    });
+  });
+
+  $("saveNotificationBtn").addEventListener("click",()=>{
+    const title=$("notificationTitle").value.trim();
+    const message=$("notificationMessage").value.trim();
+
+    if(!title||!message){
+      showToast("Complete el título y el mensaje.");
+      return;
+    }
+
+    const channels=[
+      $("pushToggle").checked?"Push":null,
+      $("standardToggle").checked?"Alerta estándar":null,
+      $("internalToggle").checked?"Notificación interna":null
+    ].filter(Boolean);
+
+    if(!channels.length){
+      showToast("Seleccione al menos un canal de envío.");
+      return;
+    }
+
+    const configuration={
+      horario:{inicio:$("startTime").value,fin:$("endTime").value},
+      maximoDiario:Number($("maxDaily").value),
+      canales:channels,
+      alerta:{
+        titulo:title,
+        mensaje:message,
+        tipo:$("notificationType").value,
+        audiencia:$("audience").value
+      },
+      programacion:{
+        modo:document.querySelector('input[name="sendMode"]:checked').value,
+        fecha:$("sendDate").value,
+        hora:$("sendTime").value,
+        recurrencia:$("recurrence").value,
+        respetarRango:$("respectRange").checked
+      }
+    };
+
+    localStorage.setItem("jccNotificationConfiguration",JSON.stringify(configuration));
+    showToast("Configuración guardada correctamente.");
+  });
+
+  $("clearNotificationBtn").addEventListener("click",()=>{
+    if(confirm("¿Desea limpiar el formulario?")){
+      $("notificationTitle").value="";
+      $("notificationMessage").value="";
+      $("notificationType").value="Informativa";
+      $("audience").value="Todos";
+      updateNotificationPreview();
+      showToast("Formulario limpiado.");
+    }
+  });
+
+  $("goHistoryBtn").addEventListener("click",()=>showView("history"));
+  $("newNotificationBtn").addEventListener("click",()=>showView("notifications"));
+
+  /* Historial */
+  const notifications=[
+    {code:"NOT-20260716-001",title:"Mantenimiento programado",channel:"Push",audience:"Todos",recipients:12458,date:"2026-07-16",time:"07:30 a. m.",status:"Entregada",createdBy:"María Gómez",priority:"Media",message:"El sistema estará en mantenimiento el domingo 19 de julio de 8:00 p. m. a 11:00 p. m."},
+    {code:"NOT-20260715-009",title:"Nueva versión de la aplicación",channel:"Alerta estándar",audience:"Contadores",recipients:9820,date:"2026-07-15",time:"04:15 p. m.",status:"Entregada",createdBy:"Sebastian Cuencar",priority:"Baja",message:"Ya se encuentra disponible una nueva versión de la aplicación Tarjeta Digital JCC."},
+    {code:"NOT-20260715-008",title:"Actualización de datos de sociedades",channel:"Notificación interna",audience:"Sociedades",recipients:640,date:"2026-07-15",time:"10:20 a. m.",status:"Entregada",createdBy:"Laura Martínez",priority:"Media",message:"Recuerde verificar y actualizar la información de su sociedad antes del próximo proceso de renovación."},
+    {code:"NOT-20260714-006",title:"Renovación próxima a vencer",channel:"Push",audience:"Contadores",recipients:310,date:"2026-07-14",time:"08:00 a. m.",status:"Programada",createdBy:"Sebastian Cuencar",priority:"Alta",message:"Su tarjeta digital está próxima a vencer. Inicie el proceso de renovación desde la aplicación."},
+    {code:"NOT-20260713-004",title:"Intermitencia del servicio",channel:"Alerta estándar",audience:"Todos",recipients:12458,date:"2026-07-13",time:"03:40 p. m.",status:"Fallida",createdBy:"Andrés Torres",priority:"Alta",message:"Se presenta intermitencia temporal en algunos servicios. Nuestro equipo técnico trabaja para restablecerlos."},
+    {code:"NOT-20260712-003",title:"Certificado disponible",channel:"Push",audience:"Contadores",recipients:875,date:"2026-07-12",time:"09:10 a. m.",status:"Entregada",createdBy:"Laura Martínez",priority:"Baja",message:"Su certificado de vigencia ya está disponible para consulta y descarga."},
+    {code:"NOT-20260711-002",title:"Validación de credencial",channel:"Notificación interna",audience:"Sociedades",recipients:521,date:"2026-07-11",time:"02:50 p. m.",status:"En proceso",createdBy:"María Gómez",priority:"Media",message:"Se está procesando una validación masiva de credenciales asociadas a sociedades."},
+    {code:"NOT-20260710-001",title:"Recomendación de seguridad",channel:"Push",audience:"Todos",recipients:12310,date:"2026-07-10",time:"11:00 a. m.",status:"Entregada",createdBy:"Sebastian Cuencar",priority:"Media",message:"No comparta su PIN ni el código QR de activación de su tarjeta digital."}
+  ];
+
+  let historyPage=1;
+  const historyPageSize=5;
+  let filteredNotifications=[...notifications];
+
+  function historyStatusBadge(status){
+    const map={
+      "Entregada":"success",
+      "Programada":"warning",
+      "Fallida":"danger",
+      "En proceso":"info"
+    };
+    return `<span class="badge ${map[status]||"neutral"}">● ${escapeHtml(status)}</span>`;
+  }
+
+  function channelIcon(channel){
+    if(channel==="Push")return "📲";
+    if(channel==="Alerta estándar")return "📣";
+    return "🔔";
+  }
+
+  function renderHistorySummary(){
+    $("historyTotal").textContent=notifications.length;
+    $("historyDelivered").textContent=notifications.filter(item=>item.status==="Entregada").length;
+    $("historyScheduled").textContent=notifications.filter(item=>item.status==="Programada").length;
+    $("historyFailed").textContent=notifications.filter(item=>item.status==="Fallida").length;
+  }
+
+  function applyHistoryFilters(){
+    const query=$("historySearch").value.trim().toLowerCase();
+    const channel=$("historyChannel").value;
+    const status=$("historyStatus").value;
+    const from=$("historyFrom").value;
+    const to=$("historyTo").value;
+
+    filteredNotifications=notifications.filter(item=>{
+      const matchQuery=!query||[item.code,item.title,item.audience,item.createdBy].join(" ").toLowerCase().includes(query);
+      const matchChannel=!channel||item.channel===channel;
+      const matchStatus=!status||item.status===status;
+      const matchFrom=!from||item.date>=from;
+      const matchTo=!to||item.date<=to;
+      return matchQuery&&matchChannel&&matchStatus&&matchFrom&&matchTo;
+    });
+
+    historyPage=1;
+    renderHistoryTable();
+  }
+
+  function renderHistoryTable(){
+    const totalPages=Math.max(1,Math.ceil(filteredNotifications.length/historyPageSize));
+    if(historyPage>totalPages)historyPage=totalPages;
+
+    const start=(historyPage-1)*historyPageSize;
+    const visible=filteredNotifications.slice(start,start+historyPageSize);
+
+    $("historyTableBody").innerHTML=visible.length
+      ?visible.map((item,index)=>`
+        <tr>
+          <td>${start+index+1}</td>
+          <td><strong>${escapeHtml(item.title)}</strong></td>
+          <td><span class="channel-label">${channelIcon(item.channel)} ${escapeHtml(item.channel)}</span></td>
+          <td>${escapeHtml(item.audience)}</td>
+          <td>${item.recipients.toLocaleString("es-CO")}</td>
+          <td>${escapeHtml(item.date)}<br><small style="color:var(--muted)">${escapeHtml(item.time)}</small></td>
+          <td>${historyStatusBadge(item.status)}</td>
+          <td>${escapeHtml(item.createdBy)}</td>
+          <td>
+            <button class="btn btn-outline-primary btn-sm btn-icon history-detail-btn" data-code="${escapeHtml(item.code)}" title="Ver detalle">👁</button>
+          </td>
+        </tr>`).join("")
+      :`<tr><td colspan="9"><div class="empty-state">No se encontraron notificaciones.</div></td></tr>`;
+
+    $("historyRecordInfo").textContent=filteredNotifications.length
+      ?`Mostrando ${start+1} a ${Math.min(start+historyPageSize,filteredNotifications.length)} de ${filteredNotifications.length} registros`
+      :"Sin resultados";
+
+    const pagination=$("historyPagination");
+    pagination.innerHTML="";
+
+    const prev=document.createElement("button");
+    prev.className="page-btn";
+    prev.textContent="‹";
+    prev.disabled=historyPage===1;
+    prev.onclick=()=>{historyPage--;renderHistoryTable()};
+    pagination.appendChild(prev);
+
+    for(let i=1;i<=totalPages;i++){
+      const button=document.createElement("button");
+      button.className="page-btn"+(i===historyPage?" active":"");
+      button.textContent=i;
+      button.onclick=()=>{historyPage=i;renderHistoryTable()};
+      pagination.appendChild(button);
+    }
+
+    const next=document.createElement("button");
+    next.className="page-btn";
+    next.textContent="›";
+    next.disabled=historyPage===totalPages;
+    next.onclick=()=>{historyPage++;renderHistoryTable()};
+    pagination.appendChild(next);
+
+    document.querySelectorAll(".history-detail-btn").forEach(button=>{
+      button.addEventListener("click",()=>openNotificationDetail(button.dataset.code));
+    });
+  }
+
+  function openNotificationDetail(code){
+    const item=notifications.find(notification=>notification.code===code);
+    if(!item)return;
+
+    selectedNotification=item;
+
+    const body=`
+      <div class="detail-grid">
+        <div class="detail-item"><label>Código</label><strong>${escapeHtml(item.code)}</strong></div>
+        <div class="detail-item"><label>Estado</label>${historyStatusBadge(item.status)}</div>
+        <div class="detail-item"><label>Canal</label><strong>${channelIcon(item.channel)} ${escapeHtml(item.channel)}</strong></div>
+        <div class="detail-item"><label>Audiencia</label><strong>${escapeHtml(item.audience)}</strong></div>
+        <div class="detail-item"><label>Destinatarios</label><strong>${item.recipients.toLocaleString("es-CO")}</strong></div>
+        <div class="detail-item"><label>Fecha y hora</label><strong>${escapeHtml(item.date)} ${escapeHtml(item.time)}</strong></div>
+        <div class="detail-item"><label>Prioridad</label><strong>${escapeHtml(item.priority)}</strong></div>
+        <div class="detail-item"><label>Creado por</label><strong>${escapeHtml(item.createdBy)}</strong></div>
+      </div>
+      <div class="detail-item" style="margin-bottom:12px">
+        <label>Título</label>
+        <strong>${escapeHtml(item.title)}</strong>
+      </div>
+      <label style="display:block;margin-bottom:6px;color:var(--muted);font-size:9px;font-weight:800;text-transform:uppercase">Mensaje enviado</label>
+      <div class="detail-message">${escapeHtml(item.message)}</div>`;
+
+    openModal("Detalle de la notificación",`${item.code} · ${item.date} ${item.time}`,body,true);
+  }
+
+  $("duplicateNotificationBtn").addEventListener("click",()=>{
+    if(!selectedNotification)return;
+    $("notificationTitle").value=selectedNotification.title;
+    $("notificationMessage").value=selectedNotification.message;
+    $("audience").value=selectedNotification.audience;
+    updateNotificationPreview();
+    closeModal();
+    showView("notifications");
+    showToast("La notificación fue copiada al formulario.");
+  });
+
+  ["historySearch","historyChannel","historyStatus","historyFrom","historyTo"].forEach(id=>{
+    $(id).addEventListener(id==="historySearch"?"input":"change",applyHistoryFilters);
+  });
+
+  $("clearHistoryFilters").addEventListener("click",()=>{
+    $("historySearch").value="";
+    $("historyChannel").value="";
+    $("historyStatus").value="";
+    $("historyFrom").value="";
+    $("historyTo").value="";
+    applyHistoryFilters();
+  });
+
+  $("exportHistoryBtn").addEventListener("click",()=>{
+    const headers=["No","Título","Canal","Audiencia","Destinatarios","Fecha","Hora","Estado","Creado por","Prioridad","Mensaje"];
+    const rows=filteredNotifications.map((item,index)=>[
+      index+1,item.title,item.channel,item.audience,item.recipients,item.date,item.time,item.status,item.createdBy,item.priority,item.message
+    ]);
+
+    const csv=[headers,...rows]
+      .map(row=>row.map(value=>`"${String(value).replaceAll('"','""')}"`).join(","))
+      .join("\n");
+
+    const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+    link.href=url;
+    link.download="historial_notificaciones_jcc.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+    showToast("Archivo CSV generado.");
+  });
+
+
+  /* Reportes */
+  const reportRows = [
+    ["Tarjetas digitales","Contadores",1248,986,262,0,"79,0 %","17/07/2026 04:35 p. m."],
+    ["Tarjetas digitales","Sociedades",324,267,57,0,"82,4 %","17/07/2026 04:31 p. m."],
+    ["Notificaciones","Todos",8,5,1,1,"62,5 %","17/07/2026 04:29 p. m."],
+    ["Certificados","Contadores",2186,2151,21,14,"98,4 %","17/07/2026 04:18 p. m."]
+  ];
+
+  function formatReportDate(dateValue){
+    if(!dateValue)return "";
+    const [year,month,day]=dateValue.split("-").map(Number);
+    return new Intl.DateTimeFormat("es-CO",{
+      day:"numeric",month:"long",year:"numeric"
+    }).format(new Date(year,month-1,day));
+  }
+
+  function updateReportStatusFilter(){
+    const type=$("reportType").value;
+    const field=$("reportStatusField");
+    const status=$("reportStatus");
+    const options={
+      cards:[
+        ["all","Todos"],
+        ["activa","Activa"],
+        ["cancelada","Cancelada"],
+        ["fallecido","Fallecido"],
+        ["emitida","Emitida"]
+      ],
+      notifications:[
+        ["all","Todos"],
+        ["entregada","Entregada"],
+        ["programada","Programada"],
+        ["fallida","Fallida"]
+      ]
+    };
+
+    field.hidden=type==="general";
+    status.innerHTML=(options[type]||[]).map(([value,label])=>
+      `<option value="${value}">${label}</option>`
+    ).join("");
+  }
+
+  function applyReportFilters(){
+    const type=$("reportType").value;
+    const segment=$("reportSegment").value;
+    const status=$("reportStatus").value;
+    const from=$("reportFrom").value;
+    const to=$("reportTo").value;
+
+    $("reportsPeriod").textContent=`Periodo consultado: ${formatReportDate(from)} al ${formatReportDate(to)}`;
+
+    let factor=1;
+    if(type==="cards")factor=.82;
+    if(type==="notifications")factor=.35;
+    if(segment==="accountants")factor*=.794;
+    if(segment==="companies")factor*=.206;
+    const statusFactors={
+      activa:.797,
+      cancelada:.027,
+      fallecido:.008,
+      emitida:.203,
+      entregada:.625,
+      programada:.125,
+      fallida:.125
+    };
+    if(statusFactors[status])factor*=statusFactors[status];
+
+    const total=Math.max(1,Math.round(1572*factor));
+    const active=Math.max(0,Math.round(total*.797));
+    const issued=total-active;
+    const activeRate=(active/total)*100;
+    const issuedRate=(issued/total)*100;
+    const registeredNotifications=Math.max(1,Math.round(8*Math.max(.25,factor)));
+    const delivered=Math.max(0,Math.round(registeredNotifications*.625));
+    const rate=registeredNotifications?((delivered/registeredNotifications)*100):0;
+
+    $("reportCardsTotal").textContent=total.toLocaleString("es-CO");
+    $("reportCardsActive").textContent=active.toLocaleString("es-CO");
+    $("reportPending").textContent=issued.toLocaleString("es-CO");
+    $("reportCardsActiveRate").textContent=activeRate.toLocaleString("es-CO",{minimumFractionDigits:1,maximumFractionDigits:1})+" %";
+    $("reportCardsIssuedRate").textContent=issuedRate.toLocaleString("es-CO",{minimumFractionDigits:1,maximumFractionDigits:1})+" %";
+    $("reportNotifications").textContent=registeredNotifications.toLocaleString("es-CO");
+    $("reportDeliveryRate").textContent=rate.toLocaleString("es-CO",{minimumFractionDigits:1,maximumFractionDigits:1})+" %";
+
+    const statusRows=$("cardsStatusChart").querySelectorAll(".horizontal-chart-row");
+    const chartValues=[active,0,0,issued];
+    statusRows.forEach((row,index)=>{
+      const value=chartValues[index];
+      row.querySelector(".chart-fill").style.width=((value/total)*100)+"%";
+      row.querySelector("strong").textContent=value.toLocaleString("es-CO");
+    });
+
+    const now=new Date();
+    $("reportsGeneratedAt").textContent=new Intl.DateTimeFormat("es-CO",{
+      dateStyle:"short",timeStyle:"short"
+    }).format(now);
+
+    showToast("Reporte actualizado correctamente.");
+  }
+
+  function filterReportsTable(){
+    const query=$("reportTableSearch").value.trim().toLowerCase();
+    const rows=Array.from($("reportsTableBody").querySelectorAll("tr"));
+    let visible=0;
+
+    rows.forEach(row=>{
+      const match=!query||row.textContent.toLowerCase().includes(query);
+      row.style.display=match?"":"none";
+      if(match)visible++;
+    });
+
+    $("reportsRecordInfo").textContent=`Mostrando ${visible} registro${visible===1?"":"s"}`;
+  }
+
+  function exportReportsCSV(){
+    const headers=["Módulo","Segmento","Total","Activos o entregados","Pendientes","Incidencias","Cumplimiento","Última actualización"];
+    const csv=[headers,...reportRows]
+      .map(row=>row.map(value=>`"${String(value).replaceAll('"','""')}"`).join(","))
+      .join("\n");
+
+    const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+    link.href=url;
+    link.download="reporte_general_jcc.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+    showToast("Reporte CSV generado.");
+  }
+
+  $("generateReportBtn").addEventListener("click",applyReportFilters);
+  $("refreshReportsBtn").addEventListener("click",applyReportFilters);
+  $("reportType").addEventListener("change",updateReportStatusFilter);
+  $("exportReportsBtn").addEventListener("click",exportReportsCSV);
+  $("printReportsBtn").addEventListener("click",()=>window.print());
+  $("reportTableSearch").addEventListener("input",filterReportsTable);
+
+
+  /* Inicialización */
+  const storedConfiguration=localStorage.getItem("jccNotificationConfiguration");
+  if(storedConfiguration){
+    try{
+      const data=JSON.parse(storedConfiguration);
+      $("startTime").value=data.horario?.inicio||"07:00";
+      $("endTime").value=data.horario?.fin||"17:00";
+      $("maxDaily").value=data.maximoDiario||2;
+      $("notificationTitle").value=data.alerta?.titulo||"";
+      $("notificationMessage").value=data.alerta?.mensaje||"";
+      $("notificationType").value=data.alerta?.tipo||"Informativa";
+      $("audience").value=data.alerta?.audiencia||"Todos";
+      $("pushToggle").checked=data.canales?.includes("Push");
+      $("standardToggle").checked=data.canales?.includes("Alerta estándar")||data.canales?.includes("In-App Notification");
+      $("internalToggle").checked=data.canales?.includes("Notificación interna");
+      $("sendDate").value=data.programacion?.fecha||$("sendDate").value;
+      $("sendTime").value=data.programacion?.hora||"09:00";
+      $("recurrence").value=data.programacion?.recurrencia||"No repetir";
+      $("respectRange").checked=data.programacion?.respetarRango??true;
+      const mode=data.programacion?.modo||"scheduled";
+      const modeInput=document.querySelector(`input[name="sendMode"][value="${mode}"]`);
+      if(modeInput)modeInput.checked=true;
+      ["pushToggle","standardToggle","internalToggle"].forEach(id=>$(id).dispatchEvent(new Event("change")));
+    }catch(error){}
+  }
+
+  const initialHash=location.hash.replace("#","");
+  updateReportStatusFilter();
+  activateCardModule(initialHash==="tarjetas-sociedades"?"sociedades":"contadores");
+  renderHistorySummary();
+  renderHistoryTable();
+  updateNotificationPreview();
+
+  if(initialHash==="notificaciones")showView("notifications");
+  else if(initialHash==="historial")showView("history");
+  else if(initialHash==="reportes")showView("reports");
+  else showView("cards");
+})();
+</script>
+
+<script>
+(function(){
+  "use strict";
+
+  const body = document.body;
+  const toggle = document.getElementById("nxSidebarToggle");
+
+  if(toggle){
+    toggle.addEventListener("click", function(){
+      if(window.innerWidth <= 960){
+        body.classList.toggle("nx-sidebar-open");
+      }else{
+        body.classList.toggle("nx-sidebar-collapsed");
+        localStorage.setItem(
+          "jccSidebarState",
+          body.classList.contains("nx-sidebar-collapsed") ? "collapsed" : "expanded"
+        );
+      }
+    });
+  }
+
+  if(window.innerWidth > 960 && localStorage.getItem("jccSidebarState") === "collapsed"){
+    body.classList.add("nx-sidebar-collapsed");
+  }
+
+  document.querySelectorAll(".nx-dropdown-trigger").forEach(function(trigger){
+    trigger.addEventListener("click", function(event){
+      event.preventDefault();
+      event.stopPropagation();
+
+      const menu = document.getElementById(trigger.dataset.dropdown);
+      const opening = menu && !menu.classList.contains("open");
+
+      document.querySelectorAll(".nx-dropdown").forEach(function(dropdown){
+        dropdown.classList.remove("open");
+      });
+
+      if(menu && opening) menu.classList.add("open");
+    });
+  });
+
+  document.querySelectorAll("[data-view-shortcut]").forEach(function(link){
+    link.addEventListener("click", function(event){
+      event.preventDefault();
+      const target = document.querySelector('[data-view="' + link.dataset.viewShortcut + '"]');
+      if(target) target.click();
+      document.querySelectorAll(".nx-dropdown").forEach(function(dropdown){
+        dropdown.classList.remove("open");
+      });
+    });
+  });
+
+  document.querySelectorAll("[data-top-placeholder]").forEach(function(element){
+    element.addEventListener("click", function(event){
+      event.preventDefault();
+      const toast = document.getElementById("toast");
+      if(toast){
+        toast.textContent = 'La opción "' + element.dataset.topPlaceholder + '" está lista para enlazarse con el backend.';
+        toast.classList.add("show");
+        clearTimeout(window.__nxTopToast);
+        window.__nxTopToast = setTimeout(function(){
+          toast.classList.remove("show");
+        }, 2400);
+      }
+      document.querySelectorAll(".nx-dropdown").forEach(function(dropdown){
+        dropdown.classList.remove("open");
+      });
+    });
+  });
+
+  document.addEventListener("click", function(event){
+    if(!event.target.closest(".nx-dropdown-host")){
+      document.querySelectorAll(".nx-dropdown").forEach(function(dropdown){
+        dropdown.classList.remove("open");
+      });
+    }
+
+    if(
+      window.innerWidth <= 960 &&
+      body.classList.contains("nx-sidebar-open") &&
+      !event.target.closest("#nxSidebar") &&
+      !event.target.closest("#nxSidebarToggle")
+    ){
+      body.classList.remove("nx-sidebar-open");
+    }
+  });
+
+  document.querySelectorAll("#nxSidebar [data-view]").forEach(function(link){
+    link.addEventListener("click", function(){
+      if(window.innerWidth <= 960){
+        body.classList.remove("nx-sidebar-open");
+      }
+    });
+  });
+
+  window.addEventListener("resize", function(){
+    if(window.innerWidth > 960){
+      body.classList.remove("nx-sidebar-open");
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
