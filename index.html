@@ -350,12 +350,48 @@ en <!DOCTYPE html>
       margin-bottom:16px;
     }
 
-    .filter-grid{
+    .cards-filters-list{display:grid;gap:10px}
+    .cards-filter-row{
       display:grid;
-      grid-template-columns:minmax(180px,.8fr) minmax(240px,1.4fr) auto;
+      grid-template-columns:minmax(200px,.8fr) minmax(280px,1.4fr) auto;
       gap:10px;
       align-items:end;
     }
+    .cards-filter-actions{display:flex;gap:8px;margin-top:12px;justify-content:flex-end;flex-wrap:wrap}
+    .cards-filter-remove{min-width:40px;padding-inline:10px}
+    .cards-date-range{display:grid;grid-template-columns:repeat(2,minmax(130px,1fr));gap:8px}
+    .cards-date-range label{display:block;margin:0 0 4px;color:var(--muted);font-size:10px}
+    .certificate-filters-card{padding:0!important;overflow:hidden}
+    .certificate-filters-header{
+      display:flex;gap:9px;align-items:center;padding:14px 16px;
+      border-bottom:1px solid var(--border);color:var(--text);
+    }
+    .certificate-filters-header span{color:var(--primary);font-size:17px}
+    .certificate-filters-header h3{margin:0;font-size:14px}
+    .certificate-filters-body{padding:15px 16px}
+    .certificate-filters-card .cards-filters-list{
+      grid-template-columns:1fr;gap:12px;
+    }
+    .certificate-filters-card .cards-filter-row{
+      grid-template-columns:minmax(145px,.75fr) minmax(190px,1.25fr) auto;
+      padding:11px;border:1px solid #e1e7ef;border-radius:8px;background:#fbfcfe;
+    }
+    .certificate-filters-card .cards-filter-actions{
+      padding-top:13px;border-top:1px solid #e5e9ef;
+    }
+    .certificate-active-filters{
+      display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+      min-height:48px;margin-top:14px;padding-top:13px;border-top:1px solid #e5e9ef;
+    }
+    .certificate-active-filters>strong{margin-right:4px;font-size:10px}
+    .certificate-filter-empty{color:var(--muted);font-size:10px}
+    .certificate-filter-chip{
+      min-height:30px;padding:5px 8px 5px 10px;border:0;border-radius:6px;
+      display:inline-flex;gap:7px;align-items:center;
+      background:#eaf2ff;color:#34495e;font-size:9px;cursor:pointer;
+    }
+    .certificate-filter-chip b{color:var(--primary)}
+    .certificate-filter-chip i{font-style:normal;color:#26384b;font-size:13px;line-height:1}
 
     .field label{
       display:block;
@@ -476,6 +512,29 @@ en <!DOCTYPE html>
       color:var(--text);background:transparent;font-size:10px;text-align:left;
     }
     .card-actions-menu button:hover{background:#f1f4f8}
+    #cardsView .cards-table-card{overflow:visible}
+    .columns-selector-host{position:relative;flex:0 0 auto}
+    .columns-selector-menu{
+      position:absolute;right:0;top:calc(100% + 5px);z-index:40;
+      width:min(300px,calc(100vw - 32px));
+      max-height:min(440px,calc(100vh - 110px));
+      padding:8px;display:none;overflow-x:hidden;overflow-y:auto;
+      overscroll-behavior:contain;scrollbar-gutter:stable;
+      border:1px solid var(--border);border-radius:8px;
+      background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.16);
+    }
+    .columns-selector-menu.open{display:block}
+    .columns-selector-menu strong{
+      position:sticky;top:-8px;z-index:1;
+      display:block;margin:-8px -8px 3px;padding:12px 14px 9px;
+      border-bottom:1px solid var(--border);background:#fff;font-size:11px;
+    }
+    .columns-selector-option{
+      padding:6px;border-radius:5px;display:flex;gap:8px;align-items:center;
+      color:var(--text);font-size:10px;cursor:pointer;
+    }
+    .columns-selector-option:hover{background:#f1f4f8}
+    .columns-selector-option input{margin:0}
     .credential-preview{max-width:620px;margin:auto;overflow:hidden;border:1px solid #d8dde3;border-radius:12px;background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.12)}
     .credential-preview-head{display:flex;gap:12px;align-items:center;padding:13px 16px;color:#fff;background:linear-gradient(135deg,#174a7e,#2378c7)}
     .credential-preview-brand-logo{width:92px;height:42px;padding:4px;border-radius:5px;background:#fff;object-fit:contain}
@@ -769,7 +828,7 @@ en <!DOCTYPE html>
 
     .history-filters{
       display:grid;
-      grid-template-columns:1.3fr repeat(4,1fr) auto;
+      grid-template-columns:repeat(4,1fr) auto;
       gap:10px;
       align-items:end;
       padding:16px;
@@ -929,7 +988,7 @@ en <!DOCTYPE html>
     .qr-validator-footer{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
     .qr-validator-note{color:var(--muted);font-size:10px}
     .audit-content{margin:18px 22px}
-    .audit-filters{display:grid;grid-template-columns:1.2fr 1.2fr 1.5fr 1fr auto;gap:10px;align-items:end}
+    .audit-filters{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr)) auto;gap:10px;align-items:end}
     .audit-summary{margin:12px 0;color:var(--muted);font-size:10px}
     .audit-method,.audit-http{display:inline-block;padding:3px 7px;border-radius:999px;font-size:9px;font-weight:800}
     .audit-method{background:#e9ecef;color:#495057}
@@ -963,11 +1022,12 @@ en <!DOCTYPE html>
 
     @media(max-width:1200px){
       .summary-grid,.history-summary{grid-template-columns:repeat(2,1fr)}
-      .filter-grid,.history-filters{grid-template-columns:repeat(2,1fr)}
+      .cards-filter-row,.history-filters{grid-template-columns:repeat(2,1fr)}
       .notification-layout{grid-template-columns:1fr}
       .branding-layout{grid-template-columns:1fr}
       .audit-filters{grid-template-columns:repeat(2,1fr)}
       .preview-card{position:static}
+      .certificate-filters-card .cards-filters-list{grid-template-columns:1fr}
     }
 
     @media(max-width:930px){
@@ -984,11 +1044,18 @@ en <!DOCTYPE html>
 
     @media(max-width:620px){
       .summary-grid,.history-summary,.notification-stats{grid-template-columns:1fr}
-      .filter-grid,.history-filters{grid-template-columns:1fr}
+      .cards-filter-row,.history-filters{grid-template-columns:1fr}
+      .cards-date-range{grid-template-columns:1fr}
+      .cards-filter-actions{justify-content:stretch}
+      .cards-filter-actions .btn{flex:1}
+      .certificate-filters-card .cards-filter-row{grid-template-columns:1fr}
+      .certificate-active-filters{align-items:flex-start;flex-direction:column}
       .banner-layout{align-items:flex-start;flex-wrap:wrap}
       .table-card-head{align-items:flex-start;flex-direction:column}
       .table-head-actions{width:100%;flex-direction:column}
       .table-head-actions .control{width:100%;min-width:0}
+      .columns-selector-host,.columns-selector-host>button{width:100%}
+      .columns-selector-menu{left:0;right:auto;width:100%;max-height:55vh}
       .detail-grid{grid-template-columns:1fr}
       .individual-issue-content{margin:13px}
       .individual-issue-search,.individual-email-row{display:flex;flex-direction:column;align-items:stretch}
@@ -1290,10 +1357,12 @@ en <!DOCTYPE html>
       bottom:0;
       left:0;
       inset:var(--nx-header-height) auto 0 0;
-      padding:0 0 118px;
+      padding:0;
       position:fixed;
       z-index:80;
-      overflow-y:auto;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
       background:#fff;
       color:var(--nx-text);
       border-right:1px solid var(--nx-border);
@@ -1313,7 +1382,19 @@ en <!DOCTYPE html>
     .brand-copy strong{color:#3c4043;font-size:12px}
     .brand-copy small{color:#80868b;font-size:10px}
 
-    .menu{margin:0;padding:7px 0}
+    .menu{
+      min-height:0;
+      margin:0;
+      padding:7px 0 12px;
+      flex:1 1 auto;
+      overflow-x:hidden;
+      overflow-y:auto;
+      overscroll-behavior:contain;
+      scrollbar-width:thin;
+      scrollbar-color:#c4c9d0 transparent;
+    }
+    .menu::-webkit-scrollbar{width:6px}
+    .menu::-webkit-scrollbar-thumb{border-radius:999px;background:#c4c9d0}
     .menu-label{
       margin:13px 16px 5px;
       color:#8a9097;
@@ -1355,11 +1436,54 @@ en <!DOCTYPE html>
       font-size:15px;
     }
     .menu a.active .menu-icon{color:var(--nx-blue)}
+    .report-menu-group{width:100%}
+    .report-menu-toggle{
+      width:100%;
+      min-height:42px;
+      margin:0;
+      padding:10px 16px;
+      border:0;
+      display:flex;
+      align-items:center;
+      gap:11px;
+      background:transparent;
+      color:#3c4043;
+      font:inherit;
+      font-size:12px;
+      text-align:left;
+      cursor:pointer;
+    }
+    .report-menu-toggle:hover,
+    .report-menu-toggle.active{background:var(--nx-soft);color:#202124;font-weight:700}
+    .report-menu-chevron{margin-left:auto;color:#777;transition:transform .2s ease}
+    .report-menu-group.open .report-menu-chevron{transform:rotate(180deg)}
+    .report-menu-submenu{display:none;padding:2px 0 6px 31px}
+    .report-menu-group.open .report-menu-submenu{display:block}
+    .report-menu-submenu a{
+      min-height:35px;
+      padding:7px 12px;
+      border-left:1px solid #dfe3e8;
+      font-size:11px;
+    }
+    .report-menu-submenu a.active:before{height:35px}
+    body.nx-sidebar-collapsed .report-menu-toggle{justify-content:center;padding:10px 0}
+    body.nx-sidebar-collapsed .report-menu-chevron,
+    body.nx-sidebar-collapsed .report-menu-submenu{display:none}
+    body.report-replica-mode #cardsPrimaryToolbar{display:none}
+    body:not(.report-replica-mode) #cardsView > .filters-card,
+    body:not(.report-replica-mode) #exportCardsBtn{display:none}
+    .notification-report-filters{display:none}
+    body[data-report-route="notifications"] #notificationReportFilters{display:block}
+    body[data-report-route="notifications"] #historyView .history-filters,
+    body[data-report-route="notifications"] #newNotificationBtn{display:none}
+    .notification-report-table-actions{display:flex}
+    body:not([data-report-route="notifications"]) #historyView .history-summary{display:none}
     .menu-divider{height:1px;margin:8px 0;background:#e6e8eb}
 
     .profile{
-      margin:15px 0 0;
+      margin:0;
       padding:13px 16px;
+      flex:0 0 auto;
       border-top:1px solid #e7e9ec;
       border-bottom:1px solid #e7e9ec;
       background:#fafafa;
@@ -1372,10 +1496,10 @@ en <!DOCTYPE html>
     .profile-copy small{color:#777;font-size:9px}
 
     .nx-sidebar-footer{
-      position:absolute;
-      inset:auto 0 0 0;
+      position:static;
       min-height:57px;
       padding:8px 14px;
+      flex:0 0 auto;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -1586,12 +1710,20 @@ en <!DOCTYPE html>
       body.nx-sidebar-collapsed .nx-sidebar-footer{display:block}
       body.nx-sidebar-collapsed .sidebar .brand{justify-content:flex-start;padding:12px 16px}
       body.nx-sidebar-collapsed .menu a{justify-content:flex-start;padding:10px 16px}
+      body.nx-sidebar-collapsed .report-menu-toggle{justify-content:flex-start;padding:10px 16px}
+      body.nx-sidebar-collapsed .report-menu-chevron{display:block}
+      body.nx-sidebar-collapsed .report-menu-group.open .report-menu-submenu{display:block}
       body.nx-sidebar-collapsed .profile{justify-content:flex-start;padding:13px 16px}
+      body.nx-sidebar-collapsed .nx-sidebar-footer{display:flex}
       .page-header{padding:9px 13px}
       .view > section:not(.page-header),
       .view > .notification-layout,
       .view > .summary-grid{margin-left:13px;margin-right:13px}
       .module-banner,.module-banner.sociedades{margin-left:13px!important;margin-right:13px!important}
+    }
+
+    @media(max-width:900px){
+      .report-menu-group{grid-column:1/-1}
     }
 
     @media(max-width:620px){
@@ -1629,6 +1761,20 @@ en <!DOCTYPE html>
       gap:10px;
       margin-bottom:14px!important;
     }
+    .report-scope-hidden{display:none!important}
+    #reportsView.report-type-cards .reports-kpi-grid{grid-template-columns:repeat(3,1fr)}
+    #reportsView.report-type-notifications .reports-kpi-grid{grid-template-columns:repeat(2,1fr)}
+    #reportsView.report-type-certificates .reports-kpi-grid{grid-template-columns:1fr}
+    #reportsView.report-type-notifications .reports-dashboard-grid{grid-template-columns:1fr}
+    #reportsView.report-type-certificates .reports-dashboard-grid{grid-template-columns:1fr}
+    #reportsView.report-type-general .reports-table th:nth-child(4),
+    #reportsView.report-type-general .reports-table th:nth-child(5),
+    #reportsView.report-type-general .reports-table td:nth-child(4),
+    #reportsView.report-type-general .reports-table td:nth-child(5),
+    #reportsView.report-type-certificates .reports-table th:nth-child(4),
+    #reportsView.report-type-certificates .reports-table th:nth-child(5),
+    #reportsView.report-type-certificates .reports-table td:nth-child(4),
+    #reportsView.report-type-certificates .reports-table td:nth-child(5){display:none}
 
     .report-kpi{
       min-height:82px;
@@ -1835,6 +1981,8 @@ en <!DOCTYPE html>
     .vertical-fill.push{background:#0d6efd}
     .vertical-fill.standard{background:#f0ad4e}
     .vertical-fill.internal{background:#7647c8}
+    .vertical-fill.certificate-accountants{background:#0d6efd}
+    .vertical-fill.certificate-companies{background:#34a853}
 
     .vertical-column > span{
       min-height:27px;
@@ -1981,6 +2129,14 @@ en <!DOCTYPE html>
     }
 
     @media print{
+      html,
+      body,
+      #reportsView,
+      #reportsView *{
+        -webkit-print-color-adjust:exact!important;
+        print-color-adjust:exact!important;
+      }
+
       .nx-topbar,
       .sidebar,
       .nx-environment-label,
@@ -1994,7 +2150,30 @@ en <!DOCTYPE html>
       #reportsView{display:block!important;padding:0}
       .page-header{margin:0 0 14px;padding:0 0 10px}
       .reports-dashboard-grid{grid-template-columns:repeat(2,1fr)}
+      #reportsView.report-type-notifications .reports-dashboard-grid{grid-template-columns:1fr}
+      #reportsView.report-type-certificates .reports-dashboard-grid{grid-template-columns:1fr}
       .report-chart-card,.card{break-inside:avoid}
+
+      .chart-track{background:#edf0f2!important}
+      .chart-fill.active,.legend.active{background:#198754!important}
+      .chart-fill.cancelled,.legend.cancelled{background:#dc3545!important}
+      .chart-fill.deceased,.legend.deceased{background:#5f6368!important}
+      .chart-fill.issued,.legend.issued{background:#0d6efd!important}
+      .vertical-track{background:#f0f2f4!important}
+      .vertical-fill.push{background:#0d6efd!important}
+      .vertical-fill.standard{background:#f0ad4e!important}
+      .vertical-fill.internal{background:#7647c8!important}
+      .vertical-fill.certificate-accountants{background:#0d6efd!important}
+      .vertical-fill.certificate-companies{background:#34a853!important}
+      .report-donut{background:conic-gradient(#0d6efd 0 79.4%,#34a853 79.4% 100%)!important}
+      .report-donut:after{background:#fff!important}
+      .donut-legend .legend.accountants{background:#0d6efd!important}
+      .donut-legend .legend.companies{background:#34a853!important}
+      .report-kpi-icon.blue{background:#e6efff!important;color:#0d6efd!important}
+      .report-kpi-icon.green{background:#e7f7ef!important;color:#198754!important}
+      .report-kpi-icon.yellow{background:#fff4d8!important;color:#a76a00!important}
+      .report-kpi-icon.purple{background:#f0e8ff!important;color:#7647c8!important}
+      .report-kpi-icon.cyan{background:#e6f8fc!important;color:#087b96!important}
     }
 
   
@@ -2235,10 +2414,30 @@ en <!DOCTYPE html>
       <div class="menu-divider"></div>
       <div class="menu-label">Administración</div>
 
-      <a href="#reportes" data-view="reports">
-        <span class="menu-icon">▥</span>
-        <span class="menu-text">Reportes</span>
-      </a>
+      <div class="report-menu-group open" id="reportsMenuGroup">
+        <button type="button" class="report-menu-toggle" id="reportsMenuToggle" aria-expanded="true" aria-controls="reportsSubmenu">
+          <span class="menu-icon">▥</span>
+          <span class="menu-text">Reportes</span>
+          <span class="report-menu-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="report-menu-submenu" id="reportsSubmenu">
+          <a href="#reporte-dashboard" data-view="reports" data-report-route="dashboard">
+            <span class="menu-text">Reporte dashboard</span>
+          </a>
+          <a href="#reporte-contadores" data-view="cards" data-card-module="contadores" data-report-route="accountants">
+            <span class="menu-text">Reportes contadores</span>
+          </a>
+          <a href="#reporte-sociedades" data-view="cards" data-card-module="sociedades" data-report-route="companies">
+            <span class="menu-text">Reporte sociedades</span>
+          </a>
+          <a href="#reporte-notificaciones" data-view="history" data-report-route="notifications">
+            <span class="menu-text">Reporte notificaciones</span>
+          </a>
+          <a href="#reporte-certificados" data-view="certificates" data-report-route="certificates">
+            <span class="menu-text">Reportes certificados</span>
+          </a>
+        </div>
+      </div>
 
       <a href="#certificados" data-view="certificates">
         <span class="menu-icon">▤</span>
@@ -2260,10 +2459,6 @@ en <!DOCTYPE html>
         <span class="menu-text">Auditoría API</span>
       </a>
 
-      <a href="#" data-placeholder="Usuarios">
-        <span class="menu-icon">♙</span>
-        <span class="menu-text">Usuarios</span>
-      </a>
     </nav>
 
     <div class="profile">
@@ -2298,32 +2493,21 @@ en <!DOCTYPE html>
         </div>
       </section>
 
-      <section class="card toolbar">
+      <section class="card toolbar" id="cardsPrimaryToolbar">
         <button class="btn btn-primary btn-sm" data-action-demo="Nueva tarjeta">💳 Nueva tarjeta</button>
         <button class="btn btn-outline-primary btn-sm" data-action-demo="Emisión masiva">⬆ Emisión masiva</button>
       </section>
 
       <section class="card filters-card">
-        <div class="filter-grid">
-          <div class="field">
-            <label for="cardsFilterColumn">Columna</label>
-            <select class="control" id="cardsFilterColumn">
-              <option value="">Seleccione una columna</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="cardsFilterValue" id="cardsFilterValueLabel">Valor</label>
-            <div id="cardsFilterValueHost">
-              <input class="control" id="cardsFilterValue" disabled placeholder="Seleccione una columna">
-            </div>
-          </div>
-
-          <button class="btn btn-primary" id="cardsFilterBtn">Filtrar</button>
+        <div class="cards-filters-list" id="cardsFiltersList"></div>
+        <div class="cards-filter-actions">
+          <button type="button" class="btn btn-primary" id="cardsFilterBtn">Filtrar</button>
+          <button type="button" class="btn btn-light" id="clearCardsFiltersBtn">↶ Limpiar</button>
         </div>
+        <div class="certificate-active-filters" id="cardsActiveFilters" aria-live="polite"></div>
       </section>
 
-      <section class="card table-card">
+      <section class="card table-card cards-table-card">
         <div class="table-card-head">
           <div>
             <h3 id="cardsTableTitle">Solicitudes de tarjetas para contadores</h3>
@@ -2331,6 +2515,10 @@ en <!DOCTYPE html>
           </div>
 
           <div class="table-head-actions">
+            <div class="columns-selector-host">
+              <button type="button" class="btn btn-outline-secondary" id="cardsColumnsToggle" aria-haspopup="true" aria-expanded="false">☷ Columnas</button>
+              <div class="columns-selector-menu" id="cardsColumnsMenu"></div>
+            </div>
             <button type="button" class="btn btn-outline-primary" id="exportCardsBtn">⬇ Exportar CSV</button>
             <input class="control" id="cardsLocalSearch" placeholder="Buscar en la tabla...">
             <select class="control" id="cardsPageSize" style="min-width:130px">
@@ -2623,7 +2811,9 @@ en <!DOCTYPE html>
               <div class="field"><label for="auditFrom">Desde (fecha y hora)</label><input type="datetime-local" class="control" id="auditFrom"></div>
               <div class="field"><label for="auditTo">Hasta (fecha y hora)</label><input type="datetime-local" class="control" id="auditTo"></div>
               <div class="field"><label for="auditText">Texto (petición o respuesta)</label><input type="text" class="control" id="auditText" placeholder="Buscar similitud..."></div>
-              <div class="field"><label for="auditEndpoint">Endpoint</label><select class="control" id="auditEndpoint"><option value="">Todos</option><option value="myjcc">myjcc</option><option value="verificarTarjeta">verificarTarjeta</option></select></div>
+              <div class="field"><label for="auditEndpoint">Endpoint</label><select class="control" id="auditEndpoint"><option value="">Todos</option><option value="/contadores/">/contadores/</option><option value="/sociedades/">/sociedades/</option></select></div>
+              <div class="field"><label for="auditType">Tipo</label><select class="control" id="auditType"><option value="">Todos</option></select></div>
+              <div class="field"><label for="auditChangeState">Cambiar estado</label><select class="control" id="auditChangeState"><option value="">Todos</option><option value="true">True</option><option value="false">False</option></select></div>
               <button type="button" class="btn btn-primary btn-sm" id="auditSearch">⌕ Buscar</button>
             </div>
             <div class="field" style="max-width:130px;margin-top:10px"><label for="auditPageSize">Por página</label><select class="control" id="auditPageSize"><option>10</option><option>20</option><option>50</option><option>100</option></select></div>
@@ -2634,11 +2824,11 @@ en <!DOCTYPE html>
         <section class="card table-card">
           <div class="table-wrap">
             <table class="data-table">
-              <thead><tr><th>Fecha y hora</th><th>Endpoint</th><th>Método</th><th>HTTP</th><th>IP</th><th>Duración</th><th></th></tr></thead>
+              <thead><tr><th>Fecha y hora</th><th>Endpoint</th><th>Método</th><th>Tipo</th><th>Cambiar estado</th><th>HTTP</th><th>Duración</th><th></th></tr></thead>
               <tbody id="auditTableBody"></tbody>
             </table>
           </div>
-          <div class="table-footer"><span>La API key se muestra enmascarada y los blobs Base64 se truncan.</span><div class="pagination" id="auditPagination"></div></div>
+          <div class="table-footer"><span>La credencial de autorización se muestra enmascarada.</span><div class="pagination" id="auditPagination"></div></div>
         </section>
       </div>
     </section>
@@ -2647,10 +2837,25 @@ en <!DOCTYPE html>
     <section id="certificatesView" class="view">
       <header class="page-header">
         <div>
-          <h1>Certificados</h1>
-          <p>Consulte y descargue los certificados disponibles para contadores y sociedades.</p>
+          <h1 id="certificatesViewTitle">Certificados</h1>
+          <p id="certificatesViewDescription">Consulte y descargue los certificados disponibles para contadores y sociedades.</p>
         </div>
       </header>
+
+      <section class="card filters-card certificate-filters-card">
+        <div class="certificate-filters-header">
+          <span aria-hidden="true">☷</span>
+          <h3>Filtros</h3>
+        </div>
+        <div class="certificate-filters-body">
+          <div class="cards-filters-list" id="certificateFiltersList"></div>
+          <div class="cards-filter-actions">
+            <button type="button" class="btn btn-primary" id="certificateFilterBtn">▼ Filtrar</button>
+            <button type="button" class="btn btn-light" id="clearCertificateFiltersBtn">↶ Limpiar</button>
+          </div>
+          <div class="certificate-active-filters" id="certificateActiveFilters" aria-live="polite"></div>
+        </div>
+      </section>
 
       <section class="card table-card" style="margin-top:18px">
         <div class="table-card-head">
@@ -2660,28 +2865,28 @@ en <!DOCTYPE html>
           </div>
           <div class="table-head-actions">
             <button type="button" class="btn btn-outline-primary btn-sm" id="exportCertificatesBtn">⬇ Exportar CSV</button>
-            <input class="control" id="certificatesSearch" placeholder="Buscar documento o expediente...">
+            <input class="control" id="certificatesSearch" placeholder="Buscar en la tabla...">
           </div>
         </div>
         <div class="table-wrap">
           <table class="data-table">
             <thead>
-              <tr><th>No</th><th>Expediente</th><th>Contador/sociedad</th><th>Documento</th><th>Tarjeta profesional</th><th>Correo</th><th>Acciones</th></tr>
+              <tr><th>Expediente</th><th>Contador/sociedad</th><th>Documento</th><th>Tarjeta profesional</th><th>Correo</th><th>Fecha generación</th><th>Acciones</th></tr>
             </thead>
             <tbody id="certificatesTableBody">
               <tr data-document="1035441227" data-expedient="427524">
-                <td>1</td>
                 <td>427524</td>
                 <td>Sebastian Cuencar Cardona</td>
                 <td>CC 1035441227</td>
                 <td>TP 441227-T</td>
                 <td>scuencar@nexura.com</td>
+                <td>2026-07-09 16:30:12</td>
                 <td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td>
               </tr>
-              <tr data-document="1035441229" data-expedient="427525"><td>2</td><td>427525</td><td>Laura Martínez Gómez</td><td>CC 1035441229</td><td>TP 441229-T</td><td>laura.martinez@example.com</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
-              <tr data-document="1035441228" data-expedient="427526"><td>3</td><td>427526</td><td>Andrés Felipe Ruiz</td><td>CC 1035441228</td><td>TP 441228-T</td><td>andres.ruiz@example.com</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
-              <tr data-document="9014567891" data-expedient="427530"><td>4</td><td>427530</td><td>Cuencar Consultores S.A.S.</td><td>NIT 901.456.789-1</td><td>SC-001458</td><td>contacto@cuencarconsultores.com</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
-              <tr data-document="9003257418" data-expedient="427531"><td>5</td><td>427531</td><td>Auditores del Valle Ltda.</td><td>NIT 900.325.741-8</td><td>SC-001459</td><td>contacto@auditoresdelvalle.com</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
+              <tr data-document="1035441229" data-expedient="427525"><td>427525</td><td>Laura Martínez Gómez</td><td>CC 1035441229</td><td>TP 441229-T</td><td>laura.martinez@example.com</td><td>2026-07-08 10:15:43</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
+              <tr data-document="1035441228" data-expedient="427526"><td>427526</td><td>Andrés Felipe Ruiz</td><td>CC 1035441228</td><td>TP 441228-T</td><td>andres.ruiz@example.com</td><td>2026-07-08 11:42:18</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
+              <tr data-document="9014567891" data-expedient="427530"><td>427530</td><td>Cuencar Consultores S.A.S.</td><td>NIT 901.456.789-1</td><td>SC-001458</td><td>contacto@cuencarconsultores.com</td><td>2026-07-12 08:51:06</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
+              <tr data-document="9003257418" data-expedient="427531"><td>427531</td><td>Auditores del Valle Ltda.</td><td>NIT 900.325.741-8</td><td>SC-001459</td><td>contacto@auditoresdelvalle.com</td><td>2026-07-11 14:27:35</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
             </tbody>
           </table>
         </div>
@@ -2883,12 +3088,11 @@ en <!DOCTYPE html>
     <section id="historyView" class="view">
       <header class="page-header">
         <div>
-          <h1>Historial de notificaciones enviadas</h1>
-          <p>Consulte las alertas enviadas a contadores, sociedades y usuarios del sistema.</p>
+          <h1 id="historyViewTitle">Historial de notificaciones enviadas</h1>
+          <p id="historyViewDescription">Consulte las alertas enviadas a contadores, sociedades y usuarios del sistema.</p>
         </div>
 
         <div class="header-actions">
-          <button class="btn btn-outline-primary" id="exportHistoryBtn">⬇ Exportar CSV</button>
           <button class="btn btn-primary" id="newNotificationBtn">＋ Nueva notificación</button>
         </div>
       </header>
@@ -2927,20 +3131,39 @@ en <!DOCTYPE html>
         </article>
       </section>
 
+      <section class="card filters-card certificate-filters-card notification-report-filters" id="notificationReportFilters">
+        <div class="certificate-filters-header">
+          <span aria-hidden="true">☷</span>
+          <h3>Filtros</h3>
+        </div>
+        <div class="certificate-filters-body">
+          <div class="cards-filters-list" id="notificationReportFiltersList"></div>
+          <div class="cards-filter-actions">
+            <button type="button" class="btn btn-primary" id="notificationReportFilterBtn">Filtrar</button>
+            <button type="button" class="btn btn-light" id="clearNotificationReportFiltersBtn">↶ Limpiar</button>
+          </div>
+          <div class="certificate-active-filters" id="notificationReportActiveFilters" aria-live="polite"></div>
+        </div>
+      </section>
+
       <section class="card table-card">
         <div class="table-card-head">
           <div>
             <h3>Registro de envíos</h3>
             <p>Seleccione el botón de acción para consultar el detalle completo.</p>
           </div>
+          <div class="table-head-actions notification-report-table-actions">
+            <button type="button" class="btn btn-outline-primary btn-sm" id="exportHistoryBtn">⬇ Exportar CSV</button>
+            <input class="control" id="notificationReportLocalSearch" placeholder="Buscar en la tabla...">
+            <select class="control" id="notificationReportPageSize" aria-label="Registros por página" style="min-width:130px">
+              <option value="5" selected>5 registros</option>
+              <option value="10">10 registros</option>
+              <option value="25">25 registros</option>
+            </select>
+          </div>
         </div>
 
         <div class="history-filters">
-          <div class="field">
-            <label for="historySearch">Buscar</label>
-            <input class="control" id="historySearch" placeholder="Título, código o audiencia">
-          </div>
-
           <div class="field">
             <label for="historyChannel">Canal</label>
             <select class="control" id="historyChannel">
@@ -3005,8 +3228,8 @@ en <!DOCTYPE html>
     <section id="reportsView" class="view">
       <header class="page-header">
         <div>
-          <h1>Reportes e indicadores</h1>
-          <p>Consulte información consolidada de tarjetas digitales y notificaciones.</p>
+          <h1>Reporte dashboard</h1>
+          <p>Consulte información consolidada de tarjetas digitales, notificaciones y certificados.</p>
         </div>
 
         <div class="header-actions">
@@ -3024,6 +3247,7 @@ en <!DOCTYPE html>
               <option value="general">Reporte general</option>
               <option value="cards">Tarjetas digitales</option>
               <option value="notifications">Notificaciones</option>
+              <option value="certificates">Certificados</option>
             </select>
           </div>
 
@@ -3037,7 +3261,7 @@ en <!DOCTYPE html>
             <input class="control" type="date" id="reportTo" value="2026-07-31">
           </div>
 
-          <div class="field">
+          <div class="field" id="reportSegmentField">
             <label for="reportSegment">Segmento</label>
             <select class="control" id="reportSegment">
               <option value="all">Todos</option>
@@ -3060,7 +3284,7 @@ en <!DOCTYPE html>
       </section>
 
       <section class="reports-kpi-grid">
-        <article class="card report-kpi">
+        <article class="card report-kpi" data-report-scope="cards">
           <div class="report-kpi-icon blue">▣</div>
           <div>
             <span>Tarjetas registradas</span>
@@ -3069,7 +3293,7 @@ en <!DOCTYPE html>
           </div>
         </article>
 
-        <article class="card report-kpi">
+        <article class="card report-kpi" data-report-scope="cards">
           <div class="report-kpi-icon green">✓</div>
           <div>
             <span>Tarjetas activas</span>
@@ -3078,36 +3302,46 @@ en <!DOCTYPE html>
           </div>
         </article>
 
-        <article class="card report-kpi">
+        <article class="card report-kpi" data-report-scope="cards">
           <div class="report-kpi-icon yellow">◷</div>
           <div>
             <span>Tarjetas emitidas</span>
-            <strong id="reportPending">319</strong>
+            <strong id="reportCardsIssued">319</strong>
             <small><b class="warning-text" id="reportCardsIssuedRate">20,3 %</b> pendientes de activación</small>
           </div>
         </article>
 
-        <article class="card report-kpi">
+        <article class="card report-kpi" data-report-scope="notifications">
           <div class="report-kpi-icon purple">●</div>
           <div>
             <span>Notificaciones registradas</span>
             <strong id="reportNotifications">8</strong>
-            <small><b class="positive">5</b> entregadas correctamente</small>
+            <small><b class="positive" id="reportNotificationsDelivered">5</b> entregadas correctamente</small>
           </div>
         </article>
 
-        <article class="card report-kpi">
+        <article class="card report-kpi" data-report-scope="notifications">
           <div class="report-kpi-icon cyan">%</div>
           <div>
             <span>Tasa de entrega</span>
             <strong id="reportDeliveryRate">62,5 %</strong>
-            <small><b class="negative">1 envío fallido</b> en el periodo</small>
+            <small><b class="negative" id="reportNotificationsFailed">1 envío fallido</b> en el periodo</small>
           </div>
         </article>
+
+        <article class="card report-kpi" data-report-scope="certificates">
+          <div class="report-kpi-icon blue">▤</div>
+          <div>
+            <span>Certificados generados</span>
+            <strong id="reportCertificatesTotal">2.186</strong>
+            <small><b class="positive">+6,2 %</b> frente al periodo anterior</small>
+          </div>
+        </article>
+
       </section>
 
       <section class="reports-dashboard-grid">
-        <article class="card report-chart-card">
+        <article class="card report-chart-card" data-report-scope="cards">
           <div class="report-card-header">
             <div>
               <h3>Tarjetas por estado</h3>
@@ -3147,7 +3381,7 @@ en <!DOCTYPE html>
           </div>
         </article>
 
-        <article class="card report-chart-card">
+        <article class="card report-chart-card" data-report-scope="notifications">
           <div class="report-card-header">
             <div>
               <h3>Notificaciones por canal</h3>
@@ -3175,7 +3409,7 @@ en <!DOCTYPE html>
           </div>
         </article>
 
-        <article class="card report-chart-card">
+        <article class="card report-chart-card" data-report-scope="cards">
           <div class="report-card-header">
             <div>
               <h3>Distribución por usuario</h3>
@@ -3206,32 +3440,36 @@ en <!DOCTYPE html>
           </div>
         </article>
 
-        <article class="card report-chart-card">
+        <article class="card report-chart-card" data-report-scope="certificates">
           <div class="report-card-header">
             <div>
-              <h3>Cumplimiento operativo</h3>
-              <p>Indicadores principales del servicio.</p>
+              <h3>Certificados por tipo de titular</h3>
+              <p>Distribución de certificados generados para contadores y sociedades.</p>
             </div>
+            <span class="report-card-period" id="certificatesChartTotal">2.186 registros</span>
           </div>
 
-          <div class="compliance-list">
-            <div class="compliance-item">
-              <div><span>Activación de tarjetas</span><strong>79,7 %</strong></div>
-              <div class="compliance-track"><div style="width:79.7%"></div></div>
+          <div class="vertical-chart" id="certificatesHolderChart">
+            <div class="vertical-column">
+              <div class="vertical-value">1.768</div>
+              <div class="vertical-track"><div class="vertical-fill certificate-accountants" style="height:80.9%"></div></div>
+              <span>Contadores</span>
             </div>
-            <div class="compliance-item">
-              <div><span>Entrega de notificaciones</span><strong>62,5 %</strong></div>
-              <div class="compliance-track"><div style="width:62.5%"></div></div>
+            <div class="vertical-column">
+              <div class="vertical-value">418</div>
+              <div class="vertical-track"><div class="vertical-fill certificate-companies" style="height:19.1%"></div></div>
+              <span>Sociedades</span>
             </div>
           </div>
         </article>
+
       </section>
 
       <section class="card table-card reports-table-card">
         <div class="table-card-head">
           <div>
-            <h3>Consolidado por módulo</h3>
-            <p>Resumen de resultados para el periodo seleccionado.</p>
+            <h3 id="reportsTableTitle">Consolidado por módulo</h3>
+            <p id="reportsTableSubtitle">Resumen de resultados para el periodo seleccionado.</p>
           </div>
 
           <div class="table-head-actions">
@@ -3245,61 +3483,59 @@ en <!DOCTYPE html>
               <tr>
                 <th>Módulo</th>
                 <th>Segmento</th>
-                <th>Total</th>
-                <th>Activos / entregados</th>
-                <th>Pendientes</th>
-                <th>Incidencias</th>
-                <th>Cumplimiento</th>
+                <th id="reportsTableTotalHeader">Total</th>
+                <th id="reportsTableActiveHeader">Activos / entregados</th>
+                <th id="reportsTableMetricHeader">Tarjetas emitidas / no entregadas</th>
                 <th>Última actualización</th>
               </tr>
             </thead>
             <tbody id="reportsTableBody">
-              <tr>
+              <tr data-report-scope="cards">
                 <td><strong>Tarjetas digitales</strong></td>
                 <td>Contadores</td>
                 <td>1.248</td>
                 <td>986</td>
                 <td>262</td>
-                <td>0</td>
-                <td><span class="badge success">79,0 %</span></td>
                 <td>17/07/2026 04:35 p. m.</td>
               </tr>
-              <tr>
+              <tr data-report-scope="cards">
                 <td><strong>Tarjetas digitales</strong></td>
                 <td>Sociedades</td>
                 <td>324</td>
                 <td>267</td>
                 <td>57</td>
-                <td>0</td>
-                <td><span class="badge success">82,4 %</span></td>
                 <td>17/07/2026 04:31 p. m.</td>
               </tr>
-              <tr>
+              <tr data-report-scope="notifications">
                 <td><strong>Notificaciones</strong></td>
                 <td>Todos</td>
                 <td>8</td>
                 <td>5</td>
-                <td>1</td>
-                <td>1</td>
-                <td><span class="badge warning">62,5 %</span></td>
+                <td>3</td>
                 <td>17/07/2026 04:29 p. m.</td>
               </tr>
-              <tr>
+              <tr data-report-scope="certificates">
                 <td><strong>Certificados</strong></td>
                 <td>Contadores</td>
-                <td>2.186</td>
-                <td>2.151</td>
-                <td>21</td>
-                <td>14</td>
-                <td><span class="badge success">98,4 %</span></td>
+                <td>1.768</td>
+                <td>1.739</td>
+                <td>29</td>
                 <td>17/07/2026 04:18 p. m.</td>
+              </tr>
+              <tr data-report-scope="certificates">
+                <td><strong>Certificados</strong></td>
+                <td>Sociedades</td>
+                <td>418</td>
+                <td>412</td>
+                <td>6</td>
+                <td>17/07/2026 04:16 p. m.</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div class="table-footer">
-          <span id="reportsRecordInfo">Mostrando 5 registros</span>
+          <span id="reportsRecordInfo">Mostrando 4 registros</span>
           <div class="reports-generated-at">Generado: <strong id="reportsGeneratedAt">17/07/2026 05:00 p. m.</strong></div>
         </div>
       </section>
@@ -3337,6 +3573,54 @@ en <!DOCTYPE html>
   const $ = id => document.getElementById(id);
 
   /* Navegación */
+  let activeReportRoute="";
+  const reportRouteViews={
+    dashboard:"reports",
+    accountants:"cards",
+    companies:"cards",
+    notifications:"history",
+    certificates:"certificates"
+  };
+  const reportRouteHashes={
+    dashboard:"reporte-dashboard",
+    accountants:"reporte-contadores",
+    companies:"reporte-sociedades",
+    notifications:"reporte-notificaciones",
+    certificates:"reporte-certificados"
+  };
+
+  function setReportRoute(route){
+    const previousRoute=activeReportRoute;
+    activeReportRoute=route||"";
+    document.body.classList.toggle("report-replica-mode",["accountants","companies","notifications","certificates"].includes(activeReportRoute));
+    document.body.dataset.reportRoute=activeReportRoute;
+
+    const changedCardsContext=["accountants","companies"].includes(previousRoute)!==["accountants","companies"].includes(activeReportRoute);
+    const changedCertificatesContext=(previousRoute==="certificates")!==(activeReportRoute==="certificates");
+    const changedNotificationsContext=(previousRoute==="notifications")!==(activeReportRoute==="notifications");
+    if(changedCardsContext&&typeof resetCardsFilterBuilder==="function")resetCardsFilterBuilder();
+    if(changedCertificatesContext&&typeof resetCertificateFilterBuilder==="function")resetCertificateFilterBuilder();
+    if(changedNotificationsContext&&typeof resetNotificationReportFilterBuilder==="function"){
+      resetNotificationReportFilterBuilder();
+      if(activeReportRoute!=="notifications"&&typeof applyHistoryFilters==="function")applyHistoryFilters();
+    }
+    if(typeof updateCardModulePresentation==="function")updateCardModulePresentation();
+    if($("certificatesViewTitle")){
+      const isCertificatesReport=activeReportRoute==="certificates";
+      $("certificatesViewTitle").textContent=isCertificatesReport?"Reporte certificados":"Certificados";
+      $("certificatesViewDescription").textContent=isCertificatesReport
+        ?"Consulte, filtre y exporte la información de los certificados generados."
+        :"Consulte y descargue los certificados disponibles para contadores y sociedades.";
+    }
+    if($("historyViewTitle")){
+      const isNotificationReport=activeReportRoute==="notifications";
+      $("historyViewTitle").textContent=isNotificationReport?"Reporte notificaciones":"Historial de notificaciones enviadas";
+      $("historyViewDescription").textContent=isNotificationReport
+        ?"Consulte, filtre y exporte la información de las notificaciones enviadas."
+        :"Consulte las alertas enviadas a contadores, sociedades y usuarios del sistema.";
+    }
+  }
+
   const views = {
     cards: $("cardsView"),
     cardHistory: $("cardHistoryView"),
@@ -3352,6 +3636,8 @@ en <!DOCTYPE html>
   };
 
   function showView(viewName){
+    if(activeReportRoute&&reportRouteViews[activeReportRoute]!==viewName)setReportRoute("");
+
     Object.entries(views).forEach(([name,element])=>{
       element.classList.toggle("active",name===viewName);
     });
@@ -3359,8 +3645,12 @@ en <!DOCTYPE html>
     document.querySelectorAll("[data-view]").forEach(link=>{
       const isActiveView=link.dataset.view===viewName;
       const isActiveCardModule=!link.dataset.cardModule||link.dataset.cardModule===activeCardModule;
-      link.classList.toggle("active",isActiveView&&isActiveCardModule);
+      const isActiveRoute=activeReportRoute
+        ? link.dataset.reportRoute===activeReportRoute
+        : !link.dataset.reportRoute;
+      link.classList.toggle("active",isActiveView&&isActiveCardModule&&isActiveRoute);
     });
+    if($("reportsMenuToggle"))$("reportsMenuToggle").classList.toggle("active",Boolean(activeReportRoute));
 
     const hashMap = {
       cards:"tarjetas",
@@ -3376,7 +3666,9 @@ en <!DOCTYPE html>
       reports:"reportes"
     };
 
-    const viewHash=viewName==="cards"?`tarjetas-${activeCardModule}`:hashMap[viewName];
+    const viewHash=activeReportRoute
+      ? reportRouteHashes[activeReportRoute]
+      : viewName==="cards"?`tarjetas-${activeCardModule}`:hashMap[viewName];
     history.replaceState(null,"","#"+viewHash);
     window.scrollTo({top:0,behavior:"smooth"});
   }
@@ -3384,10 +3676,19 @@ en <!DOCTYPE html>
   document.querySelectorAll("[data-view]").forEach(link=>{
     link.addEventListener("click",event=>{
       event.preventDefault();
+      setReportRoute(link.dataset.reportRoute||"");
       if(link.dataset.cardModule)activateCardModule(link.dataset.cardModule);
       showView(link.dataset.view);
     });
   });
+
+  if($("reportsMenuToggle")){
+    $("reportsMenuToggle").addEventListener("click",()=>{
+      const group=$("reportsMenuGroup");
+      const isOpen=group.classList.toggle("open");
+      $("reportsMenuToggle").setAttribute("aria-expanded",String(isOpen));
+    });
+  }
 
   document.querySelectorAll("[data-placeholder]").forEach(link=>{
     link.addEventListener("click",event=>{
@@ -3450,18 +3751,6 @@ en <!DOCTYPE html>
       searchPlaceholder:"CC, nombre o tarjeta profesional",
       tableTitle:"Solicitudes de tarjetas para contadores",
       tableSubtitle:"Resultados del módulo de persona natural.",
-      columns:[
-        ["numero","No"],
-        ["expediente","Expediente"],
-        ["tipo","Tipo"],
-        ["solicitante","Contador"],
-        ["documento","Documento"],
-        ["matricula","Tarjeta profesional"],
-        ["correo","Correo"],
-        ["tarjeta","Tarjeta"],
-        ["fecha","Fecha emisión"],
-        ["acciones","Acciones"]
-      ],
       rows:[
         {id:618,numero:1,codigo:"TJM-20260709162254-441227",expediente:427524,tipo:"Primera vez",solicitante:"Sebastian Cuencar Cardona",documento:"CC 1035441227",matricula:"TP 441227-T",correo:"scuencar@nexura.com",tarjeta:"Activa",fecha:"2026-07-09 16:22:54"},
         {id:616,numero:2,codigo:"TJM-20260708094946-441229",expediente:427525,tipo:"Duplicado",solicitante:"Laura Martínez Gómez",documento:"CC 1035441229",matricula:"TP 441229-T",correo:"scuencar@nexura.com",tarjeta:"Activa",fecha:"2026-07-08 09:49:46"},
@@ -3489,18 +3778,6 @@ en <!DOCTYPE html>
       searchPlaceholder:"NIT, razón social o registro",
       tableTitle:"Solicitudes de tarjetas para sociedades",
       tableSubtitle:"Resultados del módulo de persona jurídica.",
-      columns:[
-        ["numero","No"],
-        ["expediente","Expediente"],
-        ["tipo","Tipo"],
-        ["razonSocial","Razón social"],
-        ["nit","NIT"],
-        ["registro","N.° registro"],
-        ["resolucion","Resolución"],
-        ["tarjeta","Tarjeta"],
-        ["fecha","Fecha emisión"],
-        ["acciones","Acciones"]
-      ],
       rows:[
         {id:701,numero:1,codigo:"TJS-202607120001",expediente:427530,tipo:"Primera vez",razonSocial:"Cuencar Consultores S.A.S.",nit:"901.456.789-1",registro:"SC-001458",resolucion:100,tarjeta:"Activa",fecha:"2026-07-12 08:35:19"},
         {id:702,numero:2,codigo:"TJS-202607110002",expediente:427531,tipo:"Duplicado",razonSocial:"Auditores del Valle Ltda.",nit:"900.325.741-8",registro:"SC-001459",resolucion:101,tarjeta:"Emitida",fecha:"2026-07-11 11:20:43"},
@@ -3510,8 +3787,133 @@ en <!DOCTYPE html>
     }
   };
 
+  const cardExcelColumns={
+    contadores:[
+      ["tarjetaProfesional","Tarjeta profesional"],
+      ["nombreCompleto","Nombre completo"],
+      ["expediente","Expediente"],
+      ["tipo","Tipo"],
+      ["fechaEmision","Fecha emisión"],
+      ["documento","Documento"],
+      ["correo","Correo"],
+      ["universidad","Universidad"],
+      ["estadoTarjeta","Estado tarjeta"],
+      ["estadoRegistro","Estado registro"],
+      ["resolucion","Resolución"],
+      ["fechaEstado","Fecha del estado"],
+      ["fechaRegistro","Fecha de registro"],
+      ["fechaResolucion","Fecha de resolución"],
+      ["actaJcc","Acta JCC"],
+      ["fechaGrado","Fecha de grado"],
+      ["seccional","Seccional"],
+      ["numeroTarjeta","Número de tarjeta"]
+    ],
+    sociedades:[
+      ["expediente","Expediente"],
+      ["razonSocial","Razón social"],
+      ["nit","NIT"],
+      ["tipo","Tipo"],
+      ["fechaEmision","Fecha emisión"],
+      ["tipoSociedad","Tipo de sociedad"],
+      ["inscripcion","Inscripción"],
+      ["fechaInscripcion","Fecha de inscripción"],
+      ["estadoTarjeta","Estado de la tarjeta"],
+      ["estadoSociedad","Estado de la sociedad"],
+      ["resolucion","Resolución"],
+      ["fechaResolucion","Fecha de resolución"],
+      ["actaJcc","Acta JCC"],
+      ["estadoSolicitud","Estado de la solicitud"],
+      ["tipoSolicitud","Tipo de solicitud"]
+    ]
+  };
+
+  const visibleCardColumns={
+    contadores:new Set(["tarjetaProfesional","nombreCompleto","expediente","tipo","fechaEmision","documento","correo","estadoTarjeta","estadoRegistro"]),
+    sociedades:new Set(["expediente","razonSocial","nit","tipo","fechaEmision","inscripcion","estadoTarjeta","estadoSociedad","resolucion"])
+  };
+
+  function formatRegistryStatus(value){
+    return String(value||"Activo")
+      .toLocaleLowerCase("es-CO")
+      .replace(/(^|\s)\S/g,letter=>letter.toLocaleUpperCase("es-CO"));
+  }
+
+  function getCardExcelRow(row,moduleName=activeCardModule){
+    const index=Math.max(0,Number(row.numero)-1);
+    const emissionDate=row.fecha.slice(0,10);
+
+    if(moduleName==="contadores"){
+      const universities=[
+        "UNIVERSITARIA AGUSTINIANA - UNIAGUSTINIANA",
+        "UNIVERSIDAD NACIONAL DE COLOMBIA",
+        "PONTIFICIA UNIVERSIDAD JAVERIANA",
+        "UNIVERSIDAD DE ANTIOQUIA",
+        "UNIVERSIDAD DEL VALLE",
+        "UNIVERSIDAD LIBRE"
+      ];
+      const graduationDates=[
+        "2023-11-16 00:00:00",
+        "2022-09-23 00:00:00",
+        "2021-06-18 00:00:00",
+        "2020-12-04 00:00:00",
+        "2019-08-30 00:00:00",
+        "2018-05-25 00:00:00"
+      ];
+      const regionalOffices=["BOGOTÁ, D.C.","BOGOTÁ, D.C.","BOGOTÁ, D.C.","MEDELLÍN","CALI","PEREIRA"];
+      const numeroTarjeta=(String(row.matricula).match(/\d+/)||[""])[0];
+
+      return {
+        tarjetaProfesional:row.matricula,
+        nombreCompleto:row.solicitante,
+        expediente:row.expediente,
+        tipo:row.tipo,
+        fechaEmision:row.fecha,
+        documento:row.documento,
+        correo:row.correo,
+        universidad:universities[index]||"UNIVERSIDAD REGISTRADA ANTE LA JCC",
+        estadoTarjeta:row.tarjeta,
+        estadoRegistro:formatRegistryStatus(row.estadoRegistro),
+        resolucion:String(index+1).padStart(4,"0"),
+        fechaEstado:`${emissionDate} 11:56:05`,
+        fechaRegistro:`${emissionDate} 17:08:27`,
+        fechaResolucion:`${emissionDate} 00:00:00`,
+        actaJcc:451+index,
+        fechaGrado:graduationDates[index]||"",
+        seccional:regionalOffices[index]||"BOGOTÁ, D.C.",
+        numeroTarjeta
+      };
+    }
+
+    const requestTypeCodes={"Primera vez":5,"Duplicado":6,"Modificación":7};
+    const inscripcion=Number((String(row.registro).match(/\d+/g)||[""]).join(""));
+    return {
+      expediente:row.expediente,
+      razonSocial:row.razonSocial,
+      nit:row.nit,
+      tipo:row.tipo,
+      fechaEmision:row.fecha,
+      tipoSociedad:"S",
+      inscripcion,
+      fechaInscripcion:`${emissionDate} 19:38:39`,
+      estadoTarjeta:row.tarjeta,
+      estadoSociedad:formatRegistryStatus(row.estadoSociedad),
+      resolucion:row.resolucion,
+      fechaResolucion:`${emissionDate} 00:00:00`,
+      actaJcc:61+index,
+      estadoSolicitud:17+index,
+      tipoSolicitud:requestTypeCodes[row.tipo]||""
+    };
+  }
+
   let activeCardModule="contadores";
   let cardsPage=1;
+  let appliedCardFilters=[];
+  let stagedCardFilters=[];
+  let cardFilterSequence=0;
+
+  function allowsRepeatedReportFilters(){
+    return ["accountants","companies","notifications","certificates"].includes(activeReportRoute);
+  }
 
   function escapeHtml(value){
     return String(value??"")
@@ -3532,89 +3934,263 @@ en <!DOCTYPE html>
     return `<span class="badge ${map[status]||"neutral"}">${escapeHtml(status)}</span>`;
   }
 
+  function registryStatusBadge(status){
+    const normalized=String(status).toUpperCase();
+    const badgeClass=normalized==="ACTIVO"?"success":normalized==="INACTIVO"?"danger":"neutral";
+    return `<span class="badge ${badgeClass}">${escapeHtml(status)}</span>`;
+  }
+
   function getFilteredCardRows(){
     const module=cardModules[activeCardModule];
     const query=$("cardsLocalSearch").value.trim().toLowerCase();
-    const column=$("cardsFilterColumn").value;
-    const filterControl=$("cardsFilterValue");
-    const filterValue=filterControl&&!filterControl.disabled?filterControl.value.trim().toLowerCase():"";
 
     return module.rows.filter(row=>{
-      const matchQuery=!query||Object.values(row).some(value=>String(value).toLowerCase().includes(query));
-      let matchColumn=true;
-      if(column&&filterValue){
-        const rowValue=String(row[column]??"").toLowerCase();
-        matchColumn=column==="fecha"
-          ?rowValue.startsWith(filterValue)
-          :column==="tarjeta"||column==="expediente"
-            ?rowValue===filterValue
-            :rowValue.includes(filterValue);
-      }
-      return matchQuery&&matchColumn;
+      const excelRow=getCardExcelRow(row);
+      const matchQuery=!query||[...Object.values(excelRow),row.tarjeta].some(value=>String(value).toLowerCase().includes(query));
+      const matchesFilter=filter=>{
+        if(filter.column.startsWith("fecha")){
+          const rowDate=String(excelRow[filter.column]??"").slice(0,10);
+          return (!filter.dateFrom||rowDate>=filter.dateFrom)&&(!filter.dateTo||rowDate<=filter.dateTo);
+        }
+
+        const isCardStatus=filter.column==="estadoTarjeta";
+        const isRegistryStatus=filter.column==="estadoRegistro"||filter.column==="estadoSociedad";
+        const rowValue=String(isCardStatus?row.tarjeta:excelRow[filter.column]??"").toLowerCase();
+        return isCardStatus||isRegistryStatus||filter.column==="expediente"
+          ?rowValue===filter.value
+          :rowValue.includes(filter.value);
+      };
+      const filterColumns=[...new Set(appliedCardFilters.map(filter=>filter.column))];
+      const matchFilters=filterColumns.every(column=>
+        appliedCardFilters.filter(filter=>filter.column===column).some(matchesFilter)
+      );
+      return matchQuery&&matchFilters;
     });
   }
 
-  function updateCardsFilterValue(){
-    const module=cardModules[activeCardModule];
-    const column=$("cardsFilterColumn").value;
-    const columnLabel=module.columns.find(([key])=>key===column)?.[1]||"Valor";
-    $("cardsFilterValueLabel").textContent=columnLabel;
+  function refreshCardsFilterOptions(){
+    const rows=[...$("cardsFiltersList").querySelectorAll(".cards-filter-row")];
+    const stagedColumns=stagedCardFilters.map(filter=>filter.column);
+    const restrictRepeatedColumns=!allowsRepeatedReportFilters();
+    rows.forEach(row=>{
+      const select=row.querySelector(".cards-filter-column");
+      [...select.options].forEach(option=>{
+        const alreadyAdded=Boolean(restrictRepeatedColumns&&option.value&&option.value!==select.value&&stagedColumns.includes(option.value));
+        option.disabled=alreadyAdded;
+        option.hidden=alreadyAdded;
+      });
+    });
+    const currentColumn=rows[0]?.querySelector(".cards-filter-column").value||"";
+    const reachedColumnLimit=restrictRepeatedColumns&&stagedColumns.length>=cardExcelColumns[activeCardModule].length;
+    $("addCardsFilterBtn").disabled=!currentColumn||reachedColumnLimit;
+    $("cardsFiltersList").hidden=reachedColumnLimit;
+  }
+
+  function renderCardsFilterValue(row,column){
+    const host=row.querySelector(".cards-filter-value-host");
+    const valueLabel=row.querySelector(".cards-filter-value-label");
+    const columnLabel=cardExcelColumns[activeCardModule].find(([key])=>key===column)?.[1]||"Valor";
+    valueLabel.textContent=columnLabel;
 
     if(!column){
-      $("cardsFilterValueHost").innerHTML='<input class="control" id="cardsFilterValue" disabled placeholder="Seleccione una columna">';
-      return;
-    }
-
-    if(column==="tarjeta"){
-      $("cardsFilterValueHost").innerHTML=`
-        <select class="control" id="cardsFilterValue">
+      host.innerHTML='<input class="control cards-filter-value" disabled placeholder="Seleccione una columna">';
+    }else if(column==="estadoTarjeta"){
+      host.innerHTML=`
+        <select class="control cards-filter-value">
           <option value="">Seleccione un estado</option>
           <option>Activa</option>
           <option>Cancelada</option>
           <option>Fallecido</option>
           <option>Emitida</option>
         </select>`;
-      return;
-    }
-
-    if(column==="fecha"){
-      $("cardsFilterValueHost").innerHTML='<input class="control" type="date" id="cardsFilterValue">';
-      return;
-    }
-
-    if(column==="tipo"){
+    }else if(column==="estadoRegistro"||column==="estadoSociedad"){
+      host.innerHTML=`
+        <select class="control cards-filter-value">
+          <option value="">Seleccione un estado</option>
+          <option value="Activo">Activo</option>
+          <option value="Inactivo">Inactivo</option>
+        </select>`;
+    }else if(column.startsWith("fecha")){
+      valueLabel.textContent=`Rango de ${columnLabel.toLowerCase()}`;
+      host.innerHTML=`
+        <div class="cards-date-range">
+          <div>
+            <label>Fecha inicio</label>
+            <input class="control cards-filter-date-from" type="date">
+          </div>
+          <div>
+            <label>Fecha fin</label>
+            <input class="control cards-filter-date-to" type="date">
+          </div>
+        </div>`;
+    }else if(column==="tipo"){
       const options=activeCardModule==="sociedades"
         ?["Primera vez","Duplicado","Modificación"]
         :["Primera vez","Duplicado","Sustitución"];
-      $("cardsFilterValueHost").innerHTML=`
-        <select class="control" id="cardsFilterValue">
+      host.innerHTML=`
+        <select class="control cards-filter-value">
           <option value="">Seleccione un tipo</option>
           ${options.map(option=>`<option value="${option}">${option}</option>`).join("")}
         </select>`;
-      return;
+    }else if(column==="expediente"){
+      host.innerHTML='<input class="control cards-filter-value" type="number" min="0" step="1" placeholder="Ingrese el número de expediente">';
+    }else{
+      host.innerHTML=`<input class="control cards-filter-value" placeholder="Ingrese ${escapeHtml(columnLabel.toLowerCase())}">`;
     }
-
-    if(column==="expediente"){
-      $("cardsFilterValueHost").innerHTML='<input class="control" type="number" id="cardsFilterValue" min="0" step="1" placeholder="Ingrese el número de expediente">';
-      return;
-    }
-
-    $("cardsFilterValueHost").innerHTML=`<input class="control" id="cardsFilterValue" placeholder="Ingrese ${escapeHtml(columnLabel.toLowerCase())}">`;
   }
 
-  function populateCardsFilterColumns(){
-    const module=cardModules[activeCardModule];
-    $("cardsFilterColumn").innerHTML=`
-      <option value="">Seleccione una columna</option>
-      ${module.columns
-        .filter(([key])=>key!=="acciones")
-        .map(([key,label])=>`<option value="${escapeHtml(key)}">${escapeHtml(label)}</option>`)
-        .join("")}`;
-    updateCardsFilterValue();
+  function addCardsFilterRow(){
+    $("cardsFiltersList").innerHTML="";
+    const row=document.createElement("div");
+    row.className="cards-filter-row";
+    row.innerHTML=`
+      <div class="field">
+        <label>Columna</label>
+        <select class="control cards-filter-column">
+          <option value="">Seleccione una columna</option>
+          ${cardExcelColumns[activeCardModule].map(([key,label])=>`<option value="${escapeHtml(key)}">${escapeHtml(label)}</option>`).join("")}
+        </select>
+      </div>
+      <div class="field">
+        <label class="cards-filter-value-label">Valor</label>
+        <div class="cards-filter-value-host"></div>
+      </div>
+      <button type="button" class="btn btn-outline-primary" id="addCardsFilterBtn">+ Añadir filtro</button>`;
+
+    $("cardsFiltersList").appendChild(row);
+    renderCardsFilterValue(row,"");
+    row.querySelector(".cards-filter-column").addEventListener("change",event=>{
+      renderCardsFilterValue(row,event.target.value);
+      refreshCardsFilterOptions();
+    });
+    row.querySelector("#addCardsFilterBtn").addEventListener("click",()=>{
+      if(stageCardFilter())showToast("Filtro añadido. Pulse Filtrar para aplicar la consulta.");
+    });
+    refreshCardsFilterOptions();
+  }
+
+  function getCardFilterFromEditor(){
+    const row=$("cardsFiltersList").querySelector(".cards-filter-row");
+    const column=row?.querySelector(".cards-filter-column").value||"";
+    if(!column){
+      showToast("Seleccione una columna para añadir el filtro.");
+      return null;
+    }
+    if(!allowsRepeatedReportFilters()&&stagedCardFilters.some(filter=>filter.column===column)){
+      showToast("Esta columna ya fue añadida como filtro.");
+      return null;
+    }
+
+    if(column.startsWith("fecha")){
+      const dateFrom=row.querySelector(".cards-filter-date-from").value;
+      const dateTo=row.querySelector(".cards-filter-date-to").value;
+      if(!dateFrom||!dateTo){
+        showToast("Complete la fecha de inicio y la fecha de fin.");
+        return null;
+      }
+      if(dateFrom>dateTo){
+        showToast("La fecha de inicio no puede ser posterior a la fecha de fin.");
+        return null;
+      }
+      return {column,dateFrom,dateTo};
+    }
+
+    const control=row.querySelector(".cards-filter-value");
+    const displayValue=control.value.trim();
+    if(!displayValue){
+      showToast("Complete el valor del filtro.");
+      return null;
+    }
+    return {column,value:displayValue.toLowerCase(),displayValue};
+  }
+
+  function stageCardFilter(){
+    const filter=getCardFilterFromEditor();
+    if(!filter)return false;
+    stagedCardFilters.push({...filter,filterId:++cardFilterSequence});
+    const row=$("cardsFiltersList").querySelector(".cards-filter-row");
+    row.querySelector(".cards-filter-column").value="";
+    renderCardsFilterValue(row,"");
+    refreshCardsFilterOptions();
+    renderActiveCardFilters();
+    return true;
+  }
+
+  function renderActiveCardFilters(){
+    const host=$("cardsActiveFilters");
+    if(!stagedCardFilters.length){
+      host.innerHTML='<strong>Filtros activos</strong><span class="certificate-filter-empty">No hay filtros aplicados.</span>';
+      return;
+    }
+
+    host.innerHTML=`
+      <strong>Filtros activos</strong>
+      ${stagedCardFilters.map(filter=>{
+        const label=cardExcelColumns[activeCardModule].find(([key])=>key===filter.column)?.[1]||filter.column;
+        const value=filter.column.startsWith("fecha")
+          ?`${filter.dateFrom} — ${filter.dateTo}`
+          :filter.displayValue||filter.value;
+        return `<button type="button" class="certificate-filter-chip" data-filter-id="${filter.filterId}" title="Quitar filtro">
+          <b>${escapeHtml(label)}:</b> ${escapeHtml(value)} <i aria-hidden="true">×</i>
+        </button>`;
+      }).join("")}`;
+
+    host.querySelectorAll(".certificate-filter-chip").forEach(chip=>{
+      chip.addEventListener("click",()=>{
+        const filterId=Number(chip.dataset.filterId);
+        stagedCardFilters=stagedCardFilters.filter(filter=>filter.filterId!==filterId);
+        appliedCardFilters=appliedCardFilters.filter(filter=>filter.filterId!==filterId);
+        refreshCardsFilterOptions();
+        cardsPage=1;
+        renderCardsTable();
+        renderActiveCardFilters();
+      });
+    });
+  }
+
+  function resetCardsFilterBuilder(){
+    appliedCardFilters=[];
+    stagedCardFilters=[];
+    addCardsFilterRow();
+    renderActiveCardFilters();
+  }
+
+  function getVisibleCardColumns(){
+    const selected=visibleCardColumns[activeCardModule];
+    return cardExcelColumns[activeCardModule].filter(([key])=>selected.has(key));
+  }
+
+  function renderCardsColumnSelector(){
+    const selected=visibleCardColumns[activeCardModule];
+    $("cardsColumnsMenu").innerHTML=`
+      <strong>Mostrar u ocultar columnas</strong>
+      ${cardExcelColumns[activeCardModule].map(([key,label])=>`
+        <label class="columns-selector-option">
+          <input type="checkbox" data-column-key="${escapeHtml(key)}" ${selected.has(key)?"checked":""}>
+          <span>${escapeHtml(label)}</span>
+        </label>`).join("")}`;
+
+    $("cardsColumnsMenu").querySelectorAll("[data-column-key]").forEach(input=>{
+      input.addEventListener("change",()=>{
+        const key=input.dataset.columnKey;
+        if(input.checked){
+          selected.add(key);
+        }else if(selected.size>1){
+          selected.delete(key);
+        }else{
+          input.checked=true;
+          showToast("Debe conservar al menos una columna visible.");
+          return;
+        }
+        cardsPage=1;
+        renderCardsTable();
+      });
+    });
   }
 
   function renderCardsTable(){
     const module=cardModules[activeCardModule];
+    const visibleColumns=getVisibleCardColumns();
     const rows=getFilteredCardRows();
     const pageSize=Number($("cardsPageSize").value);
     const totalPages=Math.max(1,Math.ceil(rows.length/pageSize));
@@ -3624,39 +4200,36 @@ en <!DOCTYPE html>
     const start=(cardsPage-1)*pageSize;
     const visible=rows.slice(start,start+pageSize);
 
-    $("cardsTableHead").innerHTML=module.columns.map(([,label])=>`<th>${escapeHtml(label)}</th>`).join("");
+    $("cardsTableHead").innerHTML=`${visibleColumns.map(([,label])=>`<th>${escapeHtml(label)}</th>`).join("")}<th>Acciones</th>`;
 
     if(!visible.length){
       $("cardsTableBody").innerHTML=`
         <tr>
-          <td colspan="${module.columns.length}">
+          <td colspan="${visibleColumns.length+1}">
             <div class="empty-state">No se encontraron solicitudes con los filtros seleccionados.</div>
           </td>
         </tr>`;
     }else{
       $("cardsTableBody").innerHTML=visible.map(row=>{
-        const cells=module.columns.map(([key])=>{
-          if(key==="acciones"){
-            return `<td>
-              <div class="row-actions">
-                <button class="btn btn-outline-primary btn-sm btn-icon card-detail-btn" data-id="${row.id}" title="Ver detalle">👁</button>
-                <div class="card-actions-host">
-                  <button class="btn btn-outline-secondary btn-sm btn-icon card-actions-toggle" data-id="${row.id}" title="Más acciones" aria-haspopup="true" aria-expanded="false">⋮</button>
-                  <div class="card-actions-menu">
-                    <button type="button" class="view-card-btn" data-id="${row.id}">▣ Ver tarjeta</button>
-                    <button type="button" class="view-card-history-btn" data-id="${row.id}">◷ Historial</button>
-                  </div>
-                </div>
-              </div>
-            </td>`;
-          }
-
-          if(key==="codigo")return `<td><code>${escapeHtml(row[key])}</code></td>`;
-          if(key==="tarjeta")return `<td>${cardStatusBadge(row[key])}</td>`;
-          return `<td>${escapeHtml(row[key])}</td>`;
+        const excelRow=getCardExcelRow(row);
+        const cells=visibleColumns.map(([key])=>{
+          if(key==="estadoTarjeta")return `<td>${cardStatusBadge(row.tarjeta)}</td>`;
+          if(key==="estadoRegistro"||key==="estadoSociedad")return `<td>${registryStatusBadge(excelRow[key])}</td>`;
+          return `<td>${escapeHtml(excelRow[key])}</td>`;
         }).join("");
 
-        return `<tr>${cells}</tr>`;
+        return `<tr>${cells}<td>
+          <div class="row-actions">
+            <button class="btn btn-outline-primary btn-sm btn-icon card-detail-btn" data-id="${row.id}" title="Ver detalle">👁</button>
+            <div class="card-actions-host">
+              <button class="btn btn-outline-secondary btn-sm btn-icon card-actions-toggle" data-id="${row.id}" title="Más acciones" aria-haspopup="true" aria-expanded="false">⋮</button>
+              <div class="card-actions-menu">
+                <button type="button" class="view-card-btn" data-id="${row.id}">▣ Ver tarjeta</button>
+                <button type="button" class="view-card-history-btn" data-id="${row.id}">◷ Historial</button>
+              </div>
+            </div>
+          </div>
+        </td></tr>`;
       }).join("");
     }
 
@@ -3861,7 +4434,66 @@ en <!DOCTYPE html>
       document.querySelectorAll(".card-actions-menu.open").forEach(item=>item.classList.remove("open"));
       document.querySelectorAll(".card-actions-toggle").forEach(item=>item.setAttribute("aria-expanded","false"));
     }
+    if(!event.target.closest(".columns-selector-host")){
+      $("cardsColumnsMenu").classList.remove("open");
+      $("cardsColumnsToggle").setAttribute("aria-expanded","false");
+    }
   });
+
+  $("cardsColumnsToggle").addEventListener("click",event=>{
+    event.stopPropagation();
+    const menu=$("cardsColumnsMenu");
+    const opening=!menu.classList.contains("open");
+    menu.classList.toggle("open",opening);
+    $("cardsColumnsToggle").setAttribute("aria-expanded",String(opening));
+    if(opening)positionCardsColumnsMenu();
+  });
+
+  function positionCardsColumnsMenu(){
+    const menu=$("cardsColumnsMenu");
+    if(!menu.classList.contains("open"))return;
+    const trigger=$("cardsColumnsToggle").getBoundingClientRect();
+    const margin=12;
+    const gap=6;
+    const viewportWidth=document.documentElement.clientWidth;
+    const viewportHeight=document.documentElement.clientHeight;
+    const width=viewportWidth<=620
+      ?viewportWidth-(margin*2)
+      :Math.min(300,viewportWidth-(margin*2));
+    const spaceBelow=viewportHeight-trigger.bottom-margin-gap;
+    const spaceAbove=trigger.top-margin-gap;
+    const openAbove=spaceBelow<240&&spaceAbove>spaceBelow;
+    const available=Math.max(140,Math.min(440,openAbove?spaceAbove:spaceBelow));
+    const left=viewportWidth<=620
+      ?margin
+      :Math.min(Math.max(margin,trigger.right-width),viewportWidth-width-margin);
+
+    menu.style.position="fixed";
+    menu.style.width=`${width}px`;
+    menu.style.maxHeight=`${available}px`;
+    menu.style.left=`${left}px`;
+    menu.style.right="auto";
+    menu.style.top=openAbove
+      ?`${Math.max(margin,trigger.top-gap-available)}px`
+      :`${trigger.bottom+gap}px`;
+  }
+
+  window.addEventListener("resize",positionCardsColumnsMenu);
+  window.addEventListener("scroll",positionCardsColumnsMenu,true);
+
+  function updateCardModulePresentation(){
+    const module=cardModules[activeCardModule];
+    if(!module)return;
+    const isCardsReport=["accountants","companies"].includes(activeReportRoute);
+    $("moduleTitle").textContent=isCardsReport
+      ?activeCardModule==="sociedades"?"Reporte sociedades":"Reporte contadores"
+      :module.title;
+    $("moduleDescription").textContent=isCardsReport
+      ?activeCardModule==="sociedades"
+        ?"Consulte, filtre y exporte la información de las tarjetas de sociedades."
+        :"Consulte, filtre y exporte la información de las tarjetas de contadores."
+      :module.description;
+  }
 
   function activateCardModule(moduleName){
     activeCardModule=moduleName;
@@ -3874,9 +4506,8 @@ en <!DOCTYPE html>
 
     $("moduleBanner").classList.toggle("sociedades",moduleName==="sociedades");
     $("moduleIcon").textContent=module.icon;
-    $("moduleTitle").textContent=module.title;
     $("moduleBadge").textContent=module.badge;
-    $("moduleDescription").textContent=module.description;
+    updateCardModulePresentation();
     if($("moduleSummaryIcon")) $("moduleSummaryIcon").textContent=moduleName==="sociedades"?"🏢":"👥";
     if($("summaryTotal")) $("summaryTotal").textContent=module.summary.total;
     if($("summaryTotalLabel")) $("summaryTotalLabel").textContent=module.summary.totalLabel;
@@ -3886,7 +4517,10 @@ en <!DOCTYPE html>
     $("cardsTableTitle").textContent=module.tableTitle;
     $("cardsTableSubtitle").textContent=module.tableSubtitle;
     $("cardsLocalSearch").value="";
-    populateCardsFilterColumns();
+    resetCardsFilterBuilder();
+    renderCardsColumnSelector();
+    $("cardsColumnsMenu").classList.remove("open");
+    $("cardsColumnsToggle").setAttribute("aria-expanded","false");
     renderCardsTable();
   }
 
@@ -3894,11 +4528,25 @@ en <!DOCTYPE html>
     button.addEventListener("click",()=>activateCardModule(button.dataset.module));
   });
 
-  $("cardsFilterColumn").addEventListener("change",updateCardsFilterValue);
-
   $("cardsFilterBtn").addEventListener("click",()=>{
+    const editorColumn=$("cardsFiltersList").querySelector(".cards-filter-column")?.value||"";
+    if(editorColumn&&!stageCardFilter()){
+      return;
+    }
+    appliedCardFilters=stagedCardFilters.map(filter=>({...filter}));
     cardsPage=1;
     renderCardsTable();
+    renderActiveCardFilters();
+    const count=appliedCardFilters.length;
+    showToast(count?`${count} filtro${count===1?"":"s"} aplicado${count===1?"":"s"}.`:"Filtros retirados.");
+  });
+
+  $("clearCardsFiltersBtn").addEventListener("click",()=>{
+    $("cardsLocalSearch").value="";
+    resetCardsFilterBuilder();
+    cardsPage=1;
+    renderCardsTable();
+    showToast("Filtros de tarjetas limpiados.");
   });
 
   $("cardsLocalSearch").addEventListener("input",()=>{
@@ -3912,123 +4560,14 @@ en <!DOCTYPE html>
   });
 
   $("exportCardsBtn").addEventListener("click",()=>{
-    const module=cardModules[activeCardModule];
     const rows=getFilteredCardRows();
     if(!rows.length){
       showToast("No hay registros para exportar con los filtros seleccionados.");
       return;
     }
     const csvValue=value=>`"${String(value??"").replaceAll('"','""')}"`;
-    let columns;
-    let exportRows;
-
-    if(activeCardModule==="contadores"){
-      columns=[
-        ["tarjetaProfesional","Tarjeta profesional"],
-        ["nombreCompleto","Nombre completo"],
-        ["expediente","Expediente"],
-        ["tipo","Tipo"],
-        ["fechaEmision","Fecha emisión"],
-        ["documento","Documento"],
-        ["correo","Correo"],
-        ["universidad","Universidad"],
-        ["estadoContador","Estado del contador"],
-        ["resolucion","Resolución"],
-        ["fechaEstado","Fecha del estado"],
-        ["fechaRegistro","Fecha de registro"],
-        ["fechaResolucion","Fecha de resolución"],
-        ["actaJcc","Acta JCC"],
-        ["fechaGrado","Fecha de grado"],
-        ["seccional","Seccional"],
-        ["numeroTarjeta","Número de tarjeta"]
-      ];
-
-      const universities=[
-        "UNIVERSITARIA AGUSTINIANA - UNIAGUSTINIANA",
-        "UNIVERSIDAD NACIONAL DE COLOMBIA",
-        "PONTIFICIA UNIVERSIDAD JAVERIANA",
-        "UNIVERSIDAD DE ANTIOQUIA",
-        "UNIVERSIDAD DEL VALLE",
-        "UNIVERSIDAD LIBRE"
-      ];
-      const graduationDates=[
-        "2023-11-16 00:00:00",
-        "2022-09-23 00:00:00",
-        "2021-06-18 00:00:00",
-        "2020-12-04 00:00:00",
-        "2019-08-30 00:00:00",
-        "2018-05-25 00:00:00"
-      ];
-      const regionalOffices=["BOGOTÁ, D.C.","BOGOTÁ, D.C.","BOGOTÁ, D.C.","MEDELLÍN","CALI","PEREIRA"];
-      const statusLabels={Activa:"ACTIVO",Emitida:"EMITIDO",Cancelada:"CANCELADO",Fallecido:"FALLECIDO"};
-
-      exportRows=rows.map(row=>{
-        const index=Math.max(0,Number(row.numero)-1);
-        const numeroTarjeta=(String(row.matricula).match(/\d+/)||[""])[0];
-        const emissionDate=row.fecha.slice(0,10);
-        return {
-          tarjetaProfesional:row.matricula,
-          nombreCompleto:row.solicitante,
-          expediente:row.expediente,
-          tipo:row.tipo,
-          fechaEmision:row.fecha,
-          documento:row.documento,
-          correo:row.correo,
-          universidad:universities[index]||"UNIVERSIDAD REGISTRADA ANTE LA JCC",
-          estadoContador:statusLabels[row.tarjeta]||String(row.tarjeta).toUpperCase(),
-          resolucion:String(index+1).padStart(4,"0"),
-          fechaEstado:`${emissionDate} 11:56:05`,
-          fechaRegistro:`${emissionDate} 17:08:27`,
-          fechaResolucion:`${emissionDate} 00:00:00`,
-          actaJcc:451+index,
-          fechaGrado:graduationDates[index]||"",
-          seccional:regionalOffices[index]||"BOGOTÁ, D.C.",
-          numeroTarjeta
-        };
-      });
-    }else{
-      columns=[
-        ["expediente","Expediente"],
-        ["razonSocial","Razón social"],
-        ["nit","NIT"],
-        ["tipo","Tipo"],
-        ["fechaEmision","Fecha emisión"],
-        ["tipoSociedad","Tipo de sociedad"],
-        ["inscripcion","Inscripción"],
-        ["fechaInscripcion","Fecha de inscripción"],
-        ["estadoSociedad","Estado de la sociedad"],
-        ["resolucion","Resolución"],
-        ["fechaResolucion","Fecha de resolución"],
-        ["actaJcc","Acta JCC"],
-        ["estadoSolicitud","Estado de la solicitud"],
-        ["tipoSolicitud","Tipo de solicitud"]
-      ];
-
-      const societyStatusLabels={Activa:"ACTIVO",Emitida:"ACTIVO",Cancelada:"INACTIVO",Fallecido:"INACTIVO"};
-      const requestTypeCodes={"Primera vez":5,"Duplicado":6,"Modificación":7};
-
-      exportRows=rows.map(row=>{
-        const index=Math.max(0,Number(row.numero)-1);
-        const inscripcion=Number((String(row.registro).match(/\d+/g)||[""]).join(""));
-        const emissionDate=row.fecha.slice(0,10);
-        return {
-          expediente:row.expediente,
-          razonSocial:row.razonSocial,
-          nit:row.nit,
-          tipo:row.tipo,
-          fechaEmision:row.fecha,
-          tipoSociedad:"S",
-          inscripcion,
-          fechaInscripcion:`${emissionDate} 19:38:39`,
-          estadoSociedad:societyStatusLabels[row.tarjeta]||String(row.tarjeta).toUpperCase(),
-          resolucion:row.resolucion,
-          fechaResolucion:`${emissionDate} 00:00:00`,
-          actaJcc:61+index,
-          estadoSolicitud:17+index,
-          tipoSolicitud:requestTypeCodes[row.tipo]||""
-        };
-      });
-    }
+    const columns=cardExcelColumns[activeCardModule];
+    const exportRows=rows.map(row=>getCardExcelRow(row));
 
     const csv=[
       columns.map(([,label])=>csvValue(label)).join(";"),
@@ -4047,17 +4586,205 @@ en <!DOCTYPE html>
     showToast(`${rows.length} registros exportados.`);
   });
 
+  const certificateColumns=[
+    ["expediente","Expediente"],
+    ["titular","Contador/sociedad"],
+    ["documento","Documento"],
+    ["tarjetaProfesional","Tarjeta profesional"],
+    ["correo","Correo"],
+    ["fechaGeneracion","Fecha generación"]
+  ];
+  let appliedCertificateFilters=[];
+  let stagedCertificateFilters=[];
+  let certificateFilterSequence=0;
+
+  function getCertificateRowData(row){
+    const values=[...row.cells].slice(0,-1).map(cell=>cell.textContent.trim());
+    return Object.fromEntries(certificateColumns.map(([key],index)=>[key,values[index]||""]));
+  }
+
   function filterCertificates(){
-    const query=$("certificatesSearch").value.toLowerCase().replace(/[^a-z0-9]/g,"");
+    const query=$("certificatesSearch").value.trim().toLowerCase();
     const rows=[...document.querySelectorAll("#certificatesTableBody tr")];
     let visible=0;
     rows.forEach(row=>{
-      const searchable=(row.dataset.document+row.dataset.expedient).toLowerCase();
-      const match=!query||searchable.includes(query);
+      const data=getCertificateRowData(row);
+      const matchQuery=!query||Object.values(data).some(value=>String(value).toLowerCase().includes(query));
+      const matchesFilter=filter=>{
+        const rowValue=String(data[filter.column]??"").toLowerCase();
+        if(filter.column==="fechaGeneracion"){
+          const rowDate=rowValue.slice(0,10);
+          return rowDate>=filter.dateFrom&&rowDate<=filter.dateTo;
+        }
+        return filter.column==="expediente"
+          ?rowValue===filter.value
+          :rowValue.includes(filter.value);
+      };
+      const filterColumns=[...new Set(appliedCertificateFilters.map(filter=>filter.column))];
+      const matchFilters=filterColumns.every(column=>
+        appliedCertificateFilters.filter(filter=>filter.column===column).some(matchesFilter)
+      );
+      const match=matchQuery&&matchFilters;
       row.style.display=match?"":"none";
       if(match)visible++;
     });
     $("certificatesRecordInfo").textContent=`${visible} certificado${visible===1?"":"s"} disponible${visible===1?"":"s"}`;
+  }
+
+  function refreshCertificateFilterOptions(){
+    const rows=[...$("certificateFiltersList").querySelectorAll(".cards-filter-row")];
+    const stagedColumns=stagedCertificateFilters.map(filter=>filter.column);
+    const restrictRepeatedColumns=!allowsRepeatedReportFilters();
+    rows.forEach(row=>{
+      const select=row.querySelector(".certificate-filter-column");
+      [...select.options].forEach(option=>{
+        const alreadyAdded=Boolean(restrictRepeatedColumns&&option.value&&option.value!==select.value&&stagedColumns.includes(option.value));
+        option.disabled=alreadyAdded;
+        option.hidden=alreadyAdded;
+      });
+    });
+    const currentColumn=rows[0]?.querySelector(".certificate-filter-column").value||"";
+    const reachedColumnLimit=restrictRepeatedColumns&&stagedColumns.length>=certificateColumns.length;
+    $("addCertificateFilterBtn").disabled=!currentColumn||reachedColumnLimit;
+    $("certificateFiltersList").hidden=reachedColumnLimit;
+  }
+
+  function renderCertificateFilterValue(row,column){
+    const host=row.querySelector(".certificate-filter-value-host");
+    const label=row.querySelector(".certificate-filter-value-label");
+    const columnLabel=certificateColumns.find(([key])=>key===column)?.[1]||"Valor";
+    label.textContent=columnLabel;
+
+    if(!column){
+      host.innerHTML='<input class="control certificate-filter-value" disabled placeholder="Seleccione una columna">';
+    }else if(column==="fechaGeneracion"){
+      label.textContent="Rango de fecha generación";
+      host.innerHTML=`
+        <div class="cards-date-range">
+          <div><label>Fecha inicio</label><input class="control certificate-filter-date-from" type="date"></div>
+          <div><label>Fecha fin</label><input class="control certificate-filter-date-to" type="date"></div>
+        </div>`;
+    }else if(column==="expediente"){
+      host.innerHTML=`<input class="control certificate-filter-value" type="number" min="0" step="1" placeholder="Ingrese ${escapeHtml(columnLabel.toLowerCase())}">`;
+    }else{
+      host.innerHTML=`<input class="control certificate-filter-value" placeholder="Ingrese ${escapeHtml(columnLabel.toLowerCase())}">`;
+    }
+  }
+
+  function addCertificateFilterRow(){
+    $("certificateFiltersList").innerHTML="";
+    const row=document.createElement("div");
+    row.className="cards-filter-row";
+    row.innerHTML=`
+      <div class="field">
+        <label>Columna</label>
+        <select class="control certificate-filter-column">
+          <option value="">Seleccione una columna</option>
+          ${certificateColumns.map(([key,label])=>`<option value="${escapeHtml(key)}">${escapeHtml(label)}</option>`).join("")}
+        </select>
+      </div>
+      <div class="field">
+        <label class="certificate-filter-value-label">Valor</label>
+        <div class="certificate-filter-value-host"></div>
+      </div>
+      <button type="button" class="btn btn-outline-primary" id="addCertificateFilterBtn">+ Añadir filtro</button>`;
+
+    $("certificateFiltersList").appendChild(row);
+    renderCertificateFilterValue(row,"");
+    row.querySelector(".certificate-filter-column").addEventListener("change",event=>{
+      renderCertificateFilterValue(row,event.target.value);
+      refreshCertificateFilterOptions();
+    });
+    row.querySelector("#addCertificateFilterBtn").addEventListener("click",()=>{
+      if(stageCertificateFilter())showToast("Filtro añadido. Pulse Filtrar para aplicar la consulta.");
+    });
+    refreshCertificateFilterOptions();
+  }
+
+  function getCertificateFilterFromEditor(){
+    const row=$("certificateFiltersList").querySelector(".cards-filter-row");
+    const column=row?.querySelector(".certificate-filter-column").value||"";
+    if(!column){
+      showToast("Seleccione una columna para añadir el filtro.");
+      return null;
+    }
+    if(!allowsRepeatedReportFilters()&&stagedCertificateFilters.some(filter=>filter.column===column)){
+      showToast("Esta columna ya fue añadida como filtro.");
+      return null;
+    }
+
+    if(column==="fechaGeneracion"){
+      const dateFrom=row.querySelector(".certificate-filter-date-from").value;
+      const dateTo=row.querySelector(".certificate-filter-date-to").value;
+      if(!dateFrom||!dateTo){
+        showToast("Complete la fecha de inicio y la fecha de fin.");
+        return null;
+      }
+      if(dateFrom>dateTo){
+        showToast("La fecha de inicio no puede ser posterior a la fecha de fin.");
+        return null;
+      }
+      return {column,dateFrom,dateTo};
+    }
+
+    const control=row.querySelector(".certificate-filter-value");
+    const displayValue=control.value.trim();
+    if(!displayValue){
+      showToast("Complete el valor del filtro.");
+      return null;
+    }
+    return {column,value:displayValue.toLowerCase(),displayValue};
+  }
+
+  function stageCertificateFilter(){
+    const filter=getCertificateFilterFromEditor();
+    if(!filter)return false;
+    stagedCertificateFilters.push({...filter,filterId:++certificateFilterSequence});
+    const row=$("certificateFiltersList").querySelector(".cards-filter-row");
+    row.querySelector(".certificate-filter-column").value="";
+    renderCertificateFilterValue(row,"");
+    refreshCertificateFilterOptions();
+    renderActiveCertificateFilters();
+    return true;
+  }
+
+  function resetCertificateFilterBuilder(){
+    appliedCertificateFilters=[];
+    stagedCertificateFilters=[];
+    addCertificateFilterRow();
+    filterCertificates();
+    renderActiveCertificateFilters();
+  }
+
+  function renderActiveCertificateFilters(){
+    const host=$("certificateActiveFilters");
+    if(!stagedCertificateFilters.length){
+      host.innerHTML='<strong>Filtros activos</strong><span class="certificate-filter-empty">No hay filtros aplicados.</span>';
+      return;
+    }
+
+    host.innerHTML=`
+      <strong>Filtros activos</strong>
+      ${stagedCertificateFilters.map(filter=>{
+        const label=certificateColumns.find(([key])=>key===filter.column)?.[1]||filter.column;
+        const value=filter.column==="fechaGeneracion"
+          ?`${filter.dateFrom} — ${filter.dateTo}`
+          :filter.displayValue||filter.value;
+        return `<button type="button" class="certificate-filter-chip" data-filter-id="${filter.filterId}" title="Quitar filtro">
+          <b>${escapeHtml(label)}:</b> ${escapeHtml(value)} <i aria-hidden="true">×</i>
+        </button>`;
+      }).join("")}`;
+
+    host.querySelectorAll(".certificate-filter-chip").forEach(chip=>{
+      chip.addEventListener("click",()=>{
+        const filterId=Number(chip.dataset.filterId);
+        stagedCertificateFilters=stagedCertificateFilters.filter(filter=>filter.filterId!==filterId);
+        appliedCertificateFilters=appliedCertificateFilters.filter(filter=>filter.filterId!==filterId);
+        refreshCertificateFilterOptions();
+        filterCertificates();
+        renderActiveCertificateFilters();
+      });
+    });
   }
 
   document.querySelectorAll("#certificatesTableBody a[href$='.pdf']").forEach(link=>{
@@ -4066,6 +4793,22 @@ en <!DOCTYPE html>
     link.removeAttribute("download");
   });
 
+  $("clearCertificateFiltersBtn").addEventListener("click",()=>{
+    $("certificatesSearch").value="";
+    resetCertificateFilterBuilder();
+    showToast("Filtros de certificados limpiados.");
+  });
+  $("certificateFilterBtn").addEventListener("click",()=>{
+    const editorColumn=$("certificateFiltersList").querySelector(".certificate-filter-column")?.value||"";
+    if(editorColumn&&!stageCertificateFilter()){
+      return;
+    }
+    appliedCertificateFilters=stagedCertificateFilters.map(filter=>({...filter}));
+    filterCertificates();
+    renderActiveCertificateFilters();
+    const count=appliedCertificateFilters.length;
+    showToast(count?`${count} filtro${count===1?"":"s"} aplicado${count===1?"":"s"}.`:"Filtros retirados.");
+  });
   $("certificatesSearch").addEventListener("input",filterCertificates);
   $("exportCertificatesBtn").addEventListener("click",()=>{
     const rows=[...document.querySelectorAll("#certificatesTableBody tr")].filter(row=>row.style.display!=="none");
@@ -4073,11 +4816,13 @@ en <!DOCTYPE html>
       showToast("No hay certificados para exportar con el filtro actual.");
       return;
     }
-    const headers=["No","Expediente","Contador/sociedad","Documento","Tarjeta profesional","Correo"];
     const csvValue=value=>`"${String(value).replaceAll('"','""')}"`;
     const csv=[
-      headers.map(csvValue).join(";"),
-      ...rows.map(row=>[...row.cells].slice(0,-1).map(cell=>csvValue(cell.textContent.trim())).join(";"))
+      certificateColumns.map(([,label])=>csvValue(label)).join(";"),
+      ...rows.map(row=>{
+        const data=getCertificateRowData(row);
+        return certificateColumns.map(([key])=>csvValue(data[key])).join(";");
+      })
     ].join("\r\n");
     const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
     const url=URL.createObjectURL(blob);
@@ -4090,6 +4835,7 @@ en <!DOCTYPE html>
     URL.revokeObjectURL(url);
     showToast(`${rows.length} certificados exportados.`);
   });
+  resetCertificateFilterBuilder();
 
   function openIndividualIssue(){
     const isCompany=activeCardModule==="sociedades";
@@ -4301,24 +5047,129 @@ en <!DOCTYPE html>
   });
 
   const auditLogs=[
-    {id:21,date:"2026-07-08 10:07:47",endpoint:"verificarTarjeta",method:"GET",http:200,ip:"190.7.114.234",duration:"202 ms",url:"/api/DemoGeneral/verificarTarjeta/?token=***",request:'{"query":{"token":"***"},"post":[],"raw":""}',response:'{"ok":true,"resultado":"valida","mensaje":"Tarjeta válida y vigente.","estado":"activa"}'},
-    {id:15,date:"2026-06-17 09:36:31",endpoint:"myjcc",method:"GET",http:200,ip:"190.99.183.255",duration:"0 ms",url:"in-process:/api/DemoGeneral/myjcc",request:'{"query":{"identificacion":"16542987"},"post":[],"raw":""}',response:'{"ok":true,"matriculado":{"nombres":"GUSTAVO ADOLFO ARISTIZÁBAL HENAO","matricula":"165429-T","estado_matricula":"vigente","foto_base64":"[base64 truncado]"}}'},
-    {id:14,date:"2026-06-17 09:36:29",endpoint:"myjcc",method:"GET",http:200,ip:"190.99.183.255",duration:"0 ms",url:"in-process:/api/DemoGeneral/myjcc",request:'{"query":{"identificacion":"1077412589"},"post":[],"raw":""}',response:'{"ok":true,"matriculado":{"nombres":"MANUELA RINCÓN VALENCIA","matricula":"107741-T","estado_matricula":"vigente"}}'},
-    {id:13,date:"2026-06-17 09:36:27",endpoint:"myjcc",method:"GET",http:200,ip:"190.99.183.255",duration:"1 ms",url:"in-process:/api/DemoGeneral/myjcc",request:'{"query":{"identificacion":"73159486"},"post":[],"raw":""}',response:'{"ok":true,"matriculado":{"nombres":"HÉCTOR FABIO ZAPATA ARANGO","matricula":"731594-T"}}'},
-    {id:12,date:"2026-06-17 09:36:25",endpoint:"myjcc",method:"GET",http:200,ip:"190.99.183.255",duration:"0 ms",url:"in-process:/api/DemoGeneral/myjcc",request:'{"query":{"identificacion":"1063258974"},"post":[],"raw":""}',response:'{"ok":true,"matriculado":{"nombres":"CAROLINA OSORIO BETANCUR","matricula":"106325-T"}}'},
-    {id:8,date:"2026-06-12 14:18:03",endpoint:"verificarTarjeta",method:"GET",http:404,ip:"181.49.82.17",duration:"84 ms",url:"/api/DemoGeneral/verificarTarjeta/?token=***",request:'{"query":{"token":"***"}}',response:'{"ok":false,"mensaje":"Tarjeta no encontrada"}'}
+    {
+      id:2,
+      date:"2026-08-18 10:07:47",
+      endpoint:"/contadores/",
+      method:"POST",
+      type:"primeraVez",
+      typeLabel:"Primera vez",
+      changeState:false,
+      http:200,
+      duration:"202 ms",
+      url:"https://apitarjetas.jcc.gov.co/contadores/",
+      request:JSON.stringify({tipo:"primeraVez",documento:"",cambiarEstado:false},null,2),
+      response:JSON.stringify({disponibles:[
+        {
+          NO_TARJETA:"320784-T",NOMBRES:"IVON LILIANA",PRIMER_APELLIDO:"BELTRAN",SEGUNDO_APELLIDO:"BALLEN",
+          NO_EXPD:377496,TIPO_DOCUMENTO:"CC",NO_DOCUMENTO:52846235,
+          UNIVERSIDAD:"UNIVERSIDAD COOPERATIVA DE COLOMBIA",ESTADO_CONTADOR:"ACTIVO",RESOLUCION:"0001",
+          FECHA_ESTADO:"2024-01-17 11:56:05",FECHA_RADICACION:"2023-11-27 21:56:30",
+          FECH_RESOLU:"2024-01-17 00:00:00",ACTA_JCC:451,FECHA_GRADO:"2022-11-04 00:00:00",SECCIONAL:"BOGOTA, D.C."
+        },
+        {
+          NO_TARJETA:"320705-T",NOMBRES:"CINDY PATRICIA",PRIMER_APELLIDO:"DIAZ",SEGUNDO_APELLIDO:"VELASQUEZ",
+          NO_EXPD:373874,TIPO_DOCUMENTO:"CC",NO_DOCUMENTO:1030603126,
+          UNIVERSIDAD:"UNIVERSIDAD MILITAR NUEVA GRANADA",ESTADO_CONTADOR:"ACTIVO",RESOLUCION:"0001",
+          FECHA_ESTADO:"2024-01-17 11:56:02",FECHA_RADICACION:"2023-10-05 16:00:12",
+          FECH_RESOLU:"2024-01-17 00:00:00",ACTA_JCC:451,FECHA_GRADO:"2023-08-30 00:00:00",SECCIONAL:"BOGOTA, D.C."
+        },
+        {
+          NO_TARJETA:"320750-T",NOMBRES:"SANDRA MILENA",PRIMER_APELLIDO:"PORTILLO",SEGUNDO_APELLIDO:"ERASO",
+          NO_EXPD:376576,TIPO_DOCUMENTO:"CC",NO_DOCUMENTO:1082747510,
+          UNIVERSIDAD:"CORPORACION UNIVERSITARIA AUTONOMA DE NARIÑO -AUNAR",ESTADO_CONTADOR:"ACTIVO",RESOLUCION:"0001",
+          FECHA_ESTADO:"2024-01-17 11:56:03",FECHA_RADICACION:"2023-11-15 16:52:40",
+          FECH_RESOLU:"2024-01-17 00:00:00",ACTA_JCC:451,FECHA_GRADO:"2018-06-01 00:00:00",SECCIONAL:"PASTO"
+        }
+      ]},null,2)
+    },
+    {
+      id:1,
+      date:"2026-08-18 09:54:12",
+      endpoint:"/sociedades/",
+      method:"POST",
+      type:"modificacion",
+      typeLabel:"Modificación",
+      changeState:false,
+      http:200,
+      duration:"184 ms",
+      url:"https://apitarjetas.jcc.gov.co/sociedades/",
+      request:JSON.stringify({tipo:"modificacion",documento:"901091727",cambiarEstado:false},null,2),
+      response:JSON.stringify({disponibles:[{
+        NO_EXPD:201698,RAZON_SOCIAL:"FERNANDO GUARNIZO SAS O INFORMATION ASSURANCE SAS",NIT:"900414950-4",
+        TIPO_SOCIEDAD:"S",INSCRIPCION:1871,FECHA_INSCRIPCION:"2014-06-26 15:17:00",ESTADO_SOCIEDAD:"ACTIVO",
+        RESOLUCION:"1304",FECH_RESOLU:"2014-08-27 00:00:00",ACTA_JCC:"21",ESTADO_SOLICITUD:17,TIPO_SOLICITUD:8
+      }]},null,2)
+    }
   ];
+  auditLogs.push(
+    {
+      ...auditLogs[0],id:6,date:"2026-08-18 11:42:16",type:"duplicado",typeLabel:"Duplicado",changeState:true,duration:"219 ms",
+      request:JSON.stringify({tipo:"duplicado",documento:"52846235",cambiarEstado:true},null,2)
+    },
+    {
+      ...auditLogs[0],id:5,date:"2026-08-18 11:18:04",type:"sustitucion",typeLabel:"Sustitución",changeState:false,duration:"196 ms",
+      request:JSON.stringify({tipo:"sustitucion",documento:"1030603126",cambiarEstado:false},null,2)
+    },
+    {
+      ...auditLogs[1],id:4,date:"2026-08-18 10:51:39",type:"primeraVez",typeLabel:"Primera vez",changeState:true,duration:"207 ms",
+      request:JSON.stringify({tipo:"primeraVez",documento:"900414950",cambiarEstado:true},null,2)
+    },
+    {
+      ...auditLogs[1],id:3,date:"2026-08-18 10:26:28",type:"duplicado",typeLabel:"Duplicado",changeState:false,duration:"191 ms",
+      request:JSON.stringify({tipo:"duplicado",documento:"900414950",cambiarEstado:false},null,2)
+    }
+  );
+  auditLogs.sort((a,b)=>b.date.localeCompare(a.date));
   let auditPage=1;
+
+  const auditTypesByEndpoint={
+    "/contadores/":[
+      ["primeraVez","Primera vez"],
+      ["duplicado","Duplicado"],
+      ["sustitucion","Sustitución"]
+    ],
+    "/sociedades/":[
+      ["primeraVez","Primera vez"],
+      ["duplicado","Duplicado"],
+      ["modificacion","Modificación"]
+    ]
+  };
+
+  function updateAuditTypeOptions(){
+    const endpoint=$("auditEndpoint").value;
+    const select=$("auditType");
+    if(endpoint){
+      select.innerHTML=`<option value="">Todos</option>${auditTypesByEndpoint[endpoint]
+        .map(([value,label])=>`<option value="${value}">${label}</option>`).join("")}`;
+      return;
+    }
+    select.innerHTML=`
+      <option value="">Todos</option>
+      <optgroup label="Contadores">
+        ${auditTypesByEndpoint["/contadores/"].map(([value,label])=>`<option value="${value}">${label}</option>`).join("")}
+      </optgroup>
+      <optgroup label="Sociedades">
+        ${auditTypesByEndpoint["/sociedades/"].map(([value,label])=>`<option value="${value}">${label}</option>`).join("")}
+      </optgroup>`;
+  }
 
   function renderAudit(){
     const textQuery=$("auditText").value.trim().toLowerCase();
     const endpoint=$("auditEndpoint").value;
+    const type=$("auditType").value;
+    const changeState=$("auditChangeState").value;
     const from=$("auditFrom").value;
     const to=$("auditTo").value;
     const filtered=auditLogs.filter(log=>{
-      const haystack=`${log.endpoint} ${log.url} ${log.request} ${log.response}`.toLowerCase();
+      const haystack=`${log.endpoint} ${log.typeLabel} ${log.changeState} ${log.url} ${log.request} ${log.response}`.toLowerCase();
       const localDate=log.date.replace(" ","T");
-      return (!textQuery||haystack.includes(textQuery))&&(!endpoint||log.endpoint===endpoint)&&(!from||localDate>=from)&&(!to||localDate<=to);
+      return (!textQuery||haystack.includes(textQuery))
+        &&(!endpoint||log.endpoint===endpoint)
+        &&(!type||log.type===type)
+        &&(!changeState||String(log.changeState)===changeState)
+        &&(!from||localDate>=from)
+        &&(!to||localDate<=to);
     });
     const pageSize=Number($("auditPageSize").value);
     const totalPages=Math.max(1,Math.ceil(filtered.length/pageSize));
@@ -4327,8 +5178,8 @@ en <!DOCTYPE html>
     const visible=filtered.slice(start,start+pageSize);
     $("auditSummary").textContent=`Total ${filtered.length} registro(s) · página ${auditPage} de ${totalPages}. Use “Ver” para desplegar petición y respuesta.`;
     $("auditTableBody").innerHTML=visible.map(log=>`
-      <tr><td>${escapeHtml(log.date)}</td><td><code>${escapeHtml(log.endpoint)}</code></td><td><span class="audit-method">${escapeHtml(log.method)}</span></td><td><span class="audit-http ${log.http<400?"success":"error"}">${log.http}</span></td><td>${escapeHtml(log.ip)}</td><td>${escapeHtml(log.duration)}</td><td><button type="button" class="btn btn-outline-primary btn-sm audit-view-btn" data-id="${log.id}">👁 Ver</button></td></tr>
-      <tr class="audit-detail-row" id="audit-detail-${log.id}"><td colspan="7" class="audit-detail-cell"><div class="audit-detail-grid"><div><strong>URL</strong><pre class="audit-code">${escapeHtml(log.url)}</pre><strong>Headers de la petición</strong><pre class="audit-code">{"X-Api-Key":"***","User-Agent":"Nexura Client"}</pre><strong>Parámetros / cuerpo</strong><pre class="audit-code">${escapeHtml(log.request)}</pre></div><div><strong>Headers de la respuesta</strong><pre class="audit-code">{"Content-Type":"application/json; charset=utf-8"}</pre><strong>Cuerpo de la respuesta</strong><pre class="audit-code">${escapeHtml(log.response)}</pre></div></div></td></tr>`).join("");
+      <tr><td>${escapeHtml(log.date)}</td><td><code>${escapeHtml(log.endpoint)}</code></td><td><span class="audit-method">${escapeHtml(log.method)}</span></td><td>${escapeHtml(log.typeLabel)}</td><td><span class="badge ${log.changeState?"warning":"neutral"}">${log.changeState?"True":"False"}</span></td><td><span class="audit-http ${log.http<400?"success":"error"}">${log.http}</span></td><td>${escapeHtml(log.duration)}</td><td><button type="button" class="btn btn-outline-primary btn-sm audit-view-btn" data-id="${log.id}">👁 Ver</button></td></tr>
+      <tr class="audit-detail-row" id="audit-detail-${log.id}"><td colspan="8" class="audit-detail-cell"><div class="audit-detail-grid"><div><strong>URL</strong><pre class="audit-code">${escapeHtml(log.url)}</pre><strong>Headers de la petición</strong><pre class="audit-code">{"Authorization":"***","Content-Type":"application/json"}</pre><strong>Parámetros / cuerpo</strong><pre class="audit-code">${escapeHtml(log.request)}</pre></div><div><strong>Headers de la respuesta</strong><pre class="audit-code">{"Content-Type":"application/json; charset=utf-8"}</pre><strong>Cuerpo de la respuesta</strong><pre class="audit-code">${escapeHtml(log.response)}</pre></div></div></td></tr>`).join("");
     document.querySelectorAll(".audit-view-btn").forEach(button=>button.addEventListener("click",()=>{
       $("audit-detail-"+button.dataset.id).classList.toggle("visible");
     }));
@@ -4346,7 +5197,16 @@ en <!DOCTYPE html>
   $("auditBack").addEventListener("click",()=>showView("cards"));
   $("auditSearch").addEventListener("click",()=>{auditPage=1;renderAudit()});
   $("auditPageSize").addEventListener("change",()=>{auditPage=1;renderAudit()});
+  $("auditEndpoint").addEventListener("change",()=>{
+    updateAuditTypeOptions();
+    auditPage=1;
+    renderAudit();
+  });
+  ["auditType","auditChangeState"].forEach(id=>{
+    $(id).addEventListener("change",()=>{auditPage=1;renderAudit()});
+  });
   $("auditText").addEventListener("keydown",event=>{if(event.key==="Enter"){auditPage=1;renderAudit()}});
+  updateAuditTypeOptions();
   renderAudit();
 
   document.querySelectorAll('.toolbar [data-action-demo]:not([data-action-demo="Nueva tarjeta"]):not([data-action-demo="Emisión masiva"])').forEach(button=>{
@@ -4464,8 +5324,207 @@ en <!DOCTYPE html>
   ];
 
   let historyPage=1;
-  const historyPageSize=5;
+  const historyDefaultPageSize=5;
   let filteredNotifications=[...notifications];
+  const notificationReportColumns=[
+    ["code","Código"],
+    ["title","Título"],
+    ["channel","Canal"],
+    ["audience","Audiencia"],
+    ["recipients","Destinatarios"],
+    ["date","Fecha de envío"],
+    ["status","Estado"],
+    ["createdBy","Creado por"]
+  ];
+  let appliedNotificationReportFilters=[];
+  let stagedNotificationReportFilters=[];
+  let notificationReportFilterSequence=0;
+
+  function renderNotificationReportFilterValue(row,column){
+    const host=row.querySelector(".notification-report-filter-value-host");
+    const label=row.querySelector(".notification-report-filter-value-label");
+    const columnLabel=notificationReportColumns.find(([key])=>key===column)?.[1]||"Valor";
+    label.textContent=columnLabel;
+
+    if(!column){
+      host.innerHTML='<input class="control notification-report-filter-value" disabled placeholder="Seleccione una columna">';
+    }else if(column==="date"){
+      label.textContent="Rango de fecha de envío";
+      host.innerHTML=`
+        <div class="cards-date-range">
+          <div><label>Fecha inicio</label><input class="control notification-report-date-from" type="date"></div>
+          <div><label>Fecha fin</label><input class="control notification-report-date-to" type="date"></div>
+        </div>`;
+    }else if(column==="channel"){
+      host.innerHTML=`<select class="control notification-report-filter-value">
+        <option value="">Seleccione un canal</option>
+        <option>Push</option><option>Alerta estándar</option><option>Notificación interna</option>
+      </select>`;
+    }else if(column==="audience"){
+      host.innerHTML=`<select class="control notification-report-filter-value">
+        <option value="">Seleccione una audiencia</option>
+        <option>Todos</option><option>Contadores</option><option>Sociedades</option>
+      </select>`;
+    }else if(column==="status"){
+      host.innerHTML=`<select class="control notification-report-filter-value">
+        <option value="">Seleccione un estado</option>
+        <option>Entregada</option><option>Programada</option><option>Fallida</option><option>En proceso</option>
+      </select>`;
+    }else if(column==="recipients"){
+      host.innerHTML='<input class="control notification-report-filter-value" type="number" min="0" step="1" placeholder="Ingrese la cantidad de destinatarios">';
+    }else{
+      host.innerHTML=`<input class="control notification-report-filter-value" placeholder="Ingrese ${escapeHtml(columnLabel.toLowerCase())}">`;
+    }
+  }
+
+  function addNotificationReportFilterRow(){
+    const list=$("notificationReportFiltersList");
+    list.innerHTML="";
+    const row=document.createElement("div");
+    row.className="cards-filter-row";
+    row.innerHTML=`
+      <div class="field">
+        <label>Columna</label>
+        <select class="control notification-report-filter-column">
+          <option value="">Seleccione una columna</option>
+          ${notificationReportColumns.map(([key,label])=>`<option value="${escapeHtml(key)}">${escapeHtml(label)}</option>`).join("")}
+        </select>
+      </div>
+      <div class="field">
+        <label class="notification-report-filter-value-label">Valor</label>
+        <div class="notification-report-filter-value-host"></div>
+      </div>
+      <button type="button" class="btn btn-outline-primary" id="addNotificationReportFilterBtn">+ Añadir filtro</button>`;
+    list.appendChild(row);
+    renderNotificationReportFilterValue(row,"");
+    row.querySelector(".notification-report-filter-column").addEventListener("change",event=>{
+      renderNotificationReportFilterValue(row,event.target.value);
+      $("addNotificationReportFilterBtn").disabled=!event.target.value;
+    });
+    row.querySelector("#addNotificationReportFilterBtn").addEventListener("click",()=>{
+      if(stageNotificationReportFilter())showToast("Filtro añadido. Pulse Filtrar para aplicar la consulta.");
+    });
+    $("addNotificationReportFilterBtn").disabled=true;
+  }
+
+  function getNotificationReportFilterFromEditor(){
+    const row=$("notificationReportFiltersList").querySelector(".cards-filter-row");
+    const column=row?.querySelector(".notification-report-filter-column").value||"";
+    if(!column){
+      showToast("Seleccione una columna para añadir el filtro.");
+      return null;
+    }
+    if(column==="date"){
+      const dateFrom=row.querySelector(".notification-report-date-from").value;
+      const dateTo=row.querySelector(".notification-report-date-to").value;
+      if(!dateFrom||!dateTo){
+        showToast("Complete la fecha de inicio y la fecha de fin.");
+        return null;
+      }
+      if(dateFrom>dateTo){
+        showToast("La fecha de inicio no puede ser posterior a la fecha de fin.");
+        return null;
+      }
+      return {column,dateFrom,dateTo};
+    }
+
+    const control=row.querySelector(".notification-report-filter-value");
+    const displayValue=control.value.trim();
+    if(!displayValue){
+      showToast("Complete el valor del filtro.");
+      return null;
+    }
+    return {column,value:displayValue.toLowerCase(),displayValue};
+  }
+
+  function stageNotificationReportFilter(){
+    const filter=getNotificationReportFilterFromEditor();
+    if(!filter)return false;
+    stagedNotificationReportFilters.push({...filter,filterId:++notificationReportFilterSequence});
+    const row=$("notificationReportFiltersList").querySelector(".cards-filter-row");
+    row.querySelector(".notification-report-filter-column").value="";
+    renderNotificationReportFilterValue(row,"");
+    $("addNotificationReportFilterBtn").disabled=true;
+    renderActiveNotificationReportFilters();
+    return true;
+  }
+
+  function renderActiveNotificationReportFilters(){
+    const host=$("notificationReportActiveFilters");
+    if(!stagedNotificationReportFilters.length){
+      host.innerHTML='<strong>Filtros activos</strong><span class="certificate-filter-empty">No hay filtros aplicados.</span>';
+      return;
+    }
+    host.innerHTML=`
+      <strong>Filtros activos</strong>
+      ${stagedNotificationReportFilters.map(filter=>{
+        const label=notificationReportColumns.find(([key])=>key===filter.column)?.[1]||filter.column;
+        const value=filter.column==="date"?`${filter.dateFrom} — ${filter.dateTo}`:filter.displayValue||filter.value;
+        return `<button type="button" class="certificate-filter-chip" data-filter-id="${filter.filterId}" title="Quitar filtro">
+          <b>${escapeHtml(label)}:</b> ${escapeHtml(value)} <i aria-hidden="true">×</i>
+        </button>`;
+      }).join("")}`;
+    host.querySelectorAll(".certificate-filter-chip").forEach(chip=>{
+      chip.addEventListener("click",()=>{
+        const filterId=Number(chip.dataset.filterId);
+        stagedNotificationReportFilters=stagedNotificationReportFilters.filter(filter=>filter.filterId!==filterId);
+        appliedNotificationReportFilters=appliedNotificationReportFilters.filter(filter=>filter.filterId!==filterId);
+        applyNotificationReportFilters();
+        renderActiveNotificationReportFilters();
+      });
+    });
+  }
+
+  function applyNotificationReportFilters(){
+    const query=$("notificationReportLocalSearch").value.trim().toLowerCase();
+    const matchesFilter=(item,filter)=>{
+      if(filter.column==="date")return item.date>=filter.dateFrom&&item.date<=filter.dateTo;
+      const rowValue=String(item[filter.column]??"").toLowerCase();
+      return ["channel","audience","recipients","status"].includes(filter.column)
+        ?rowValue===filter.value
+        :rowValue.includes(filter.value);
+    };
+    const columns=[...new Set(appliedNotificationReportFilters.map(filter=>filter.column))];
+    filteredNotifications=notifications.filter(item=>{
+      const matchesQuery=!query||[
+        item.code,item.title,item.channel,item.audience,item.recipients,item.date,item.time,item.status,item.createdBy
+      ].some(value=>String(value).toLowerCase().includes(query));
+      const matchesColumns=columns.every(column=>
+        appliedNotificationReportFilters.filter(filter=>filter.column===column).some(filter=>matchesFilter(item,filter))
+      );
+      return matchesQuery&&matchesColumns;
+    });
+    historyPage=1;
+    renderHistoryTable();
+  }
+
+  function resetNotificationReportFilterBuilder(){
+    appliedNotificationReportFilters=[];
+    stagedNotificationReportFilters=[];
+    $("notificationReportLocalSearch").value="";
+    addNotificationReportFilterRow();
+    renderActiveNotificationReportFilters();
+    filteredNotifications=[...notifications];
+    historyPage=1;
+    renderHistoryTable();
+  }
+
+  $("notificationReportFilterBtn").addEventListener("click",()=>{
+    const editorColumn=$("notificationReportFiltersList").querySelector(".notification-report-filter-column")?.value||"";
+    if(editorColumn&&!stageNotificationReportFilter())return;
+    appliedNotificationReportFilters=stagedNotificationReportFilters.map(filter=>({...filter}));
+    applyNotificationReportFilters();
+    const count=appliedNotificationReportFilters.length;
+    showToast(count?`${count} filtro${count===1?"":"s"} aplicado${count===1?"":"s"}.`:"Filtros retirados.");
+  });
+
+  $("clearNotificationReportFiltersBtn").addEventListener("click",()=>{
+    resetNotificationReportFilterBuilder();
+    showToast("Filtros del reporte de notificaciones limpiados.");
+  });
+
+  addNotificationReportFilterRow();
+  renderActiveNotificationReportFilters();
 
   function historyStatusBadge(status){
     const map={
@@ -4491,7 +5550,7 @@ en <!DOCTYPE html>
   }
 
   function applyHistoryFilters(){
-    const query=$("historySearch").value.trim().toLowerCase();
+    const query=$("notificationReportLocalSearch").value.trim().toLowerCase();
     const channel=$("historyChannel").value;
     const status=$("historyStatus").value;
     const from=$("historyFrom").value;
@@ -4511,6 +5570,7 @@ en <!DOCTYPE html>
   }
 
   function renderHistoryTable(){
+    const historyPageSize=Number($("notificationReportPageSize").value)||historyDefaultPageSize;
     const totalPages=Math.max(1,Math.ceil(filteredNotifications.length/historyPageSize));
     if(historyPage>totalPages)historyPage=totalPages;
 
@@ -4606,12 +5666,22 @@ en <!DOCTYPE html>
     showToast("La notificación fue copiada al formulario.");
   });
 
-  ["historySearch","historyChannel","historyStatus","historyFrom","historyTo"].forEach(id=>{
-    $(id).addEventListener(id==="historySearch"?"input":"change",applyHistoryFilters);
+  ["historyChannel","historyStatus","historyFrom","historyTo"].forEach(id=>{
+    $(id).addEventListener("change",applyHistoryFilters);
+  });
+
+  $("notificationReportPageSize").addEventListener("change",()=>{
+    historyPage=1;
+    renderHistoryTable();
+  });
+
+  $("notificationReportLocalSearch").addEventListener("input",()=>{
+    if(activeReportRoute==="notifications")applyNotificationReportFilters();
+    else applyHistoryFilters();
   });
 
   $("clearHistoryFilters").addEventListener("click",()=>{
-    $("historySearch").value="";
+    $("notificationReportLocalSearch").value="";
     $("historyChannel").value="";
     $("historyStatus").value="";
     $("historyFrom").value="";
@@ -4642,10 +5712,11 @@ en <!DOCTYPE html>
 
   /* Reportes */
   const reportRows = [
-    ["Tarjetas digitales","Contadores",1248,986,262,0,"79,0 %","17/07/2026 04:35 p. m."],
-    ["Tarjetas digitales","Sociedades",324,267,57,0,"82,4 %","17/07/2026 04:31 p. m."],
-    ["Notificaciones","Todos",8,5,1,1,"62,5 %","17/07/2026 04:29 p. m."],
-    ["Certificados","Contadores",2186,2151,21,14,"98,4 %","17/07/2026 04:18 p. m."]
+    {scope:"cards",values:["Tarjetas digitales","Contadores",1248,986,262,"17/07/2026 04:35 p. m."]},
+    {scope:"cards",values:["Tarjetas digitales","Sociedades",324,267,57,"17/07/2026 04:31 p. m."]},
+    {scope:"notifications",values:["Notificaciones","Todos",8,5,3,"17/07/2026 04:29 p. m."]},
+    {scope:"certificates",values:["Certificados","Contadores",1768,1739,29,"17/07/2026 04:18 p. m."]},
+    {scope:"certificates",values:["Certificados","Sociedades",418,412,6,"17/07/2026 04:16 p. m."]}
   ];
 
   function formatReportDate(dateValue){
@@ -4676,10 +5747,33 @@ en <!DOCTYPE html>
       ]
     };
 
-    field.hidden=type==="general";
+    field.hidden=type==="general"||type==="certificates";
+    $("reportSegmentField").hidden=type==="notifications";
     status.innerHTML=(options[type]||[]).map(([value,label])=>
       `<option value="${value}">${label}</option>`
     ).join("");
+    updateReportVisibility(type);
+  }
+
+  function updateReportVisibility(type){
+    $("reportsView").classList.remove("report-type-general","report-type-cards","report-type-notifications","report-type-certificates");
+    $("reportsView").classList.add(`report-type-${type}`);
+    document.querySelectorAll("#reportsView [data-report-scope]:not(#reportsTableBody tr)").forEach(element=>{
+      element.classList.toggle("report-scope-hidden",type!=="general"&&element.dataset.reportScope!==type);
+    });
+
+    const tableCopy={
+      general:["Consolidado por módulo","Resumen de resultados para el periodo seleccionado.","Total","Activos / entregados","Tarjetas emitidas / no entregadas"],
+      cards:["Consolidado de tarjetas digitales","Resultados de tarjetas para el periodo seleccionado.","Total","Tarjetas activas","Tarjetas emitidas"],
+      notifications:["Consolidado de notificaciones","Resultados de notificaciones para el periodo seleccionado.","Total","Entregadas","No entregadas"],
+      certificates:["Consolidado de certificados","Resultados de certificados para el periodo seleccionado.","Certificados generados","Certificados descargados","Pendientes de descarga"]
+    }[type];
+    $("reportsTableTitle").textContent=tableCopy[0];
+    $("reportsTableSubtitle").textContent=tableCopy[1];
+    $("reportsTableTotalHeader").textContent=tableCopy[2];
+    $("reportsTableActiveHeader").textContent=tableCopy[3];
+    $("reportsTableMetricHeader").textContent=tableCopy[4];
+    filterReportsTable();
   }
 
   function applyReportFilters(){
@@ -4691,62 +5785,101 @@ en <!DOCTYPE html>
 
     $("reportsPeriod").textContent=`Periodo consultado: ${formatReportDate(from)} al ${formatReportDate(to)}`;
 
-    let factor=1;
-    if(type==="cards")factor=.82;
-    if(type==="notifications")factor=.35;
-    if(segment==="accountants")factor*=.794;
-    if(segment==="companies")factor*=.206;
-    const statusFactors={
-      activa:.797,
-      cancelada:.027,
-      fallecido:.008,
-      emitida:.203,
-      entregada:.625,
-      programada:.125,
-      fallida:.125
+    const cardTotals={
+      all:{total:1572,active:1253,issued:319},
+      accountants:{total:1248,active:986,issued:262},
+      companies:{total:324,active:267,issued:57}
     };
-    if(statusFactors[status])factor*=statusFactors[status];
+    const selectedCards={...cardTotals[segment]};
+    if(type==="cards"&&status==="activa"){
+      selectedCards.total=selectedCards.active;
+      selectedCards.issued=0;
+    }else if(type==="cards"&&status==="emitida"){
+      selectedCards.total=selectedCards.issued;
+      selectedCards.active=0;
+    }else if(type==="cards"&&(status==="cancelada"||status==="fallecido")){
+      selectedCards.total=0;
+      selectedCards.active=0;
+      selectedCards.issued=0;
+    }
 
-    const total=Math.max(1,Math.round(1572*factor));
-    const active=Math.max(0,Math.round(total*.797));
-    const issued=total-active;
-    const activeRate=(active/total)*100;
-    const issuedRate=(issued/total)*100;
-    const registeredNotifications=Math.max(1,Math.round(8*Math.max(.25,factor)));
-    const delivered=Math.max(0,Math.round(registeredNotifications*.625));
+    const {total,active,issued}=selectedCards;
+    const activeRate=total?(active/total)*100:0;
+    const issuedRate=total?(issued/total)*100:0;
+    const notificationTotals={
+      all:{total:8,delivered:5,failed:1},
+      entregada:{total:5,delivered:5,failed:0},
+      programada:{total:1,delivered:0,failed:0},
+      fallida:{total:1,delivered:0,failed:1}
+    };
+    const selectedNotifications=type==="notifications"
+      ?(notificationTotals[status]||notificationTotals.all)
+      :notificationTotals.all;
+    const registeredNotifications=selectedNotifications.total;
+    const delivered=selectedNotifications.delivered;
     const rate=registeredNotifications?((delivered/registeredNotifications)*100):0;
-
+    const certificateTotals={
+      all:{total:2186,downloaded:2151,pending:35},
+      accountants:{total:1768,downloaded:1739,pending:29},
+      companies:{total:418,downloaded:412,pending:6}
+    };
+    const selectedCertificates={...certificateTotals[segment]};
     $("reportCardsTotal").textContent=total.toLocaleString("es-CO");
     $("reportCardsActive").textContent=active.toLocaleString("es-CO");
-    $("reportPending").textContent=issued.toLocaleString("es-CO");
+    $("reportCardsIssued").textContent=issued.toLocaleString("es-CO");
     $("reportCardsActiveRate").textContent=activeRate.toLocaleString("es-CO",{minimumFractionDigits:1,maximumFractionDigits:1})+" %";
     $("reportCardsIssuedRate").textContent=issuedRate.toLocaleString("es-CO",{minimumFractionDigits:1,maximumFractionDigits:1})+" %";
     $("reportNotifications").textContent=registeredNotifications.toLocaleString("es-CO");
+    $("reportNotificationsDelivered").textContent=delivered.toLocaleString("es-CO");
+    $("reportNotificationsFailed").textContent=`${selectedNotifications.failed.toLocaleString("es-CO")} envío${selectedNotifications.failed===1?"":"s"} fallido${selectedNotifications.failed===1?"":"s"}`;
     $("reportDeliveryRate").textContent=rate.toLocaleString("es-CO",{minimumFractionDigits:1,maximumFractionDigits:1})+" %";
+    $("reportCertificatesTotal").textContent=selectedCertificates.total.toLocaleString("es-CO");
 
     const statusRows=$("cardsStatusChart").querySelectorAll(".horizontal-chart-row");
     const chartValues=[active,0,0,issued];
     statusRows.forEach((row,index)=>{
       const value=chartValues[index];
-      row.querySelector(".chart-fill").style.width=((value/total)*100)+"%";
+      row.querySelector(".chart-fill").style.width=(total?(value/total)*100:0)+"%";
       row.querySelector("strong").textContent=value.toLocaleString("es-CO");
     });
+
+    const certificateBase={accountants:1768,companies:418};
+    const certificateChartValues=segment==="accountants"
+      ?[certificateBase.accountants,0]
+      :segment==="companies"
+        ?[0,certificateBase.companies]
+        :[certificateBase.accountants,certificateBase.companies];
+    const certificateChartTotal=certificateChartValues.reduce((sum,value)=>sum+value,0);
+    $("certificatesHolderChart").querySelectorAll(".vertical-column").forEach((column,index)=>{
+      const value=certificateChartValues[index];
+      column.querySelector(".vertical-value").textContent=value.toLocaleString("es-CO");
+      column.querySelector(".vertical-fill").style.height=(certificateChartTotal?(value/certificateChartTotal)*100:0)+"%";
+    });
+    $("certificatesChartTotal").textContent=`${certificateChartTotal.toLocaleString("es-CO")} registros`;
 
     const now=new Date();
     $("reportsGeneratedAt").textContent=new Intl.DateTimeFormat("es-CO",{
       dateStyle:"short",timeStyle:"short"
     }).format(now);
 
+    updateReportVisibility(type);
     showToast("Reporte actualizado correctamente.");
   }
 
   function filterReportsTable(){
+    const type=$("reportType").value;
+    const segment=$("reportSegment").value;
     const query=$("reportTableSearch").value.trim().toLowerCase();
     const rows=Array.from($("reportsTableBody").querySelectorAll("tr"));
     let visible=0;
 
     rows.forEach(row=>{
-      const match=!query||row.textContent.toLowerCase().includes(query);
+      const matchScope=type==="general"||row.dataset.reportScope===type;
+      const rowSegment=row.cells[1]?.textContent.trim().toLowerCase();
+      const matchSegment=!(type==="cards"||type==="certificates")||segment==="all"||
+        (segment==="accountants"&&rowSegment==="contadores")||
+        (segment==="companies"&&rowSegment==="sociedades");
+      const match=matchScope&&matchSegment&&(!query||row.textContent.toLowerCase().includes(query));
       row.style.display=match?"":"none";
       if(match)visible++;
     });
@@ -4755,8 +5888,21 @@ en <!DOCTYPE html>
   }
 
   function exportReportsCSV(){
-    const headers=["Módulo","Segmento","Total","Activos o entregados","Pendientes","Incidencias","Cumplimiento","Última actualización"];
-    const csv=[headers,...reportRows]
+    const type=$("reportType").value;
+    const segment=$("reportSegment").value;
+    const headers=["Módulo","Segmento","Total","Activos o entregados","Tarjetas emitidas","Última actualización"];
+    const exportRows=reportRows.filter(row=>{
+      if(type!=="general"&&row.scope!==type)return false;
+      if(!(type==="cards"||type==="certificates")||segment==="all")return true;
+      return segment==="accountants"?row.values[1]==="Contadores":row.values[1]==="Sociedades";
+    }).map(row=>row.values);
+    const exportHeaders=[...headers];
+    exportHeaders[2]=type==="certificates"?"Certificados generados":"Total";
+    exportHeaders[3]=type==="notifications"?"Entregadas":type==="cards"?"Tarjetas activas":type==="certificates"?"Certificados descargados":"Activos / entregados";
+    exportHeaders[4]=type==="notifications"?"No entregadas":type==="cards"?"Tarjetas emitidas":type==="certificates"?"Pendientes de descarga":"Tarjetas emitidas / no entregadas";
+    const selectedIndexes=type==="general"||type==="certificates"?[0,1,2,5]:[0,1,2,3,4,5];
+    const csv=[exportHeaders,...exportRows]
+      .map(row=>selectedIndexes.map(index=>row[index]))
       .map(row=>row.map(value=>`"${String(value).replaceAll('"','""')}"`).join(","))
       .join("\n");
 
@@ -4764,7 +5910,7 @@ en <!DOCTYPE html>
     const url=URL.createObjectURL(blob);
     const link=document.createElement("a");
     link.href=url;
-    link.download="reporte_general_jcc.csv";
+    link.download=`reporte_${type}_jcc.csv`;
     link.click();
     URL.revokeObjectURL(url);
     showToast("Reporte CSV generado.");
@@ -4806,14 +5952,30 @@ en <!DOCTYPE html>
 
   const initialHash=location.hash.replace("#","");
   updateReportStatusFilter();
-  activateCardModule(initialHash==="tarjetas-sociedades"?"sociedades":"contadores");
+  const initialReportRoute={
+    "reportes":"dashboard",
+    "reporte-dashboard":"dashboard",
+    "reporte-contadores":"accountants",
+    "reporte-sociedades":"companies",
+    "reporte-notificaciones":"notifications",
+    "reporte-certificados":"certificates"
+  }[initialHash]||"";
+  setReportRoute(initialReportRoute);
+  activateCardModule(
+    initialHash==="tarjetas-sociedades"||initialReportRoute==="companies"
+      ?"sociedades"
+      :"contadores"
+  );
   renderHistorySummary();
   renderHistoryTable();
   updateNotificationPreview();
 
-  if(initialHash==="notificaciones")showView("notifications");
+  if(initialReportRoute==="dashboard")showView("reports");
+  else if(initialReportRoute==="accountants"||initialReportRoute==="companies")showView("cards");
+  else if(initialReportRoute==="notifications")showView("history");
+  else if(initialReportRoute==="certificates")showView("certificates");
+  else if(initialHash==="notificaciones")showView("notifications");
   else if(initialHash==="historial")showView("history");
-  else if(initialHash==="reportes")showView("reports");
   else showView("cards");
 })();
 </script>
