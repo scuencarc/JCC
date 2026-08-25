@@ -963,18 +963,33 @@ en <!DOCTYPE html>
     .bulk-result{display:none;margin-top:14px;padding:13px;border:1px solid #b6d4fe;border-radius:6px;background:#cfe2ff;color:#084298;font-size:11px;line-height:1.5}
     .bulk-result.visible{display:block}
     .bulk-result.error{border-color:#f5c2c7;background:#f8d7da;color:#842029}
-    .branding-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,1fr);gap:16px;margin:18px 22px}
+    .branding-layout{display:grid;grid-template-columns:minmax(280px,.72fr) minmax(430px,1.28fr);gap:16px;margin:18px 22px}
+    .branding-layout>*{min-width:0}
     .branding-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
     .branding-field.full{grid-column:1/-1}
     .branding-field label{display:block;margin-bottom:5px;color:#555;font-size:10px;font-weight:700}
     .branding-color{width:100%;height:36px;padding:3px;border:1px solid var(--border);border-radius:5px;background:#fff;cursor:pointer}
     .branding-actions{display:flex;gap:8px;margin-top:15px}
-    .branding-preview-card{overflow:hidden;border:1px solid var(--border);border-radius:6px;background:#fff}
-    .branding-preview-header{display:flex;gap:10px;align-items:center;padding:12px;color:#fff;background:#cbab52}
-    .branding-preview-logo{width:50px;height:36px;padding:4px;border-radius:4px;background:#fff;object-fit:contain}
-    .branding-preview-body{padding:26px;text-align:center}
-    .branding-preview-badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#1dd384;color:#fff;font-size:10px;font-weight:700}
-    .branding-preview-message{margin:10px 0 0;color:var(--muted);font-size:11px}
+    .branding-preview-card{--branding-card-background:#14275f;--branding-card-text:#fff;--branding-card-font:Arial,sans-serif;max-width:100%;padding:16px;overflow:hidden;border:1px solid var(--border);border-radius:8px;background:#f3f5f9;box-sizing:border-box}
+    .branding-preview-stack{display:grid;width:100%;max-width:400px;min-width:0;gap:14px;margin:0 auto}
+    .branding-id-card{position:relative;isolation:isolate;display:flex;width:100%;max-width:100%;min-width:0;aspect-ratio:1.598/1;flex-direction:column;overflow:hidden;padding:4.4%;border-radius:7.5%;background:var(--branding-card-background);box-shadow:0 10px 24px rgba(20,39,95,.18);box-sizing:border-box;color:var(--branding-card-text);font-family:var(--branding-card-font)}
+    .branding-id-card::before{position:absolute;z-index:-2;inset:-12%;background:repeating-radial-gradient(ellipse at 20% 45%,transparent 0 9px,rgba(255,255,255,.1) 10px 12px,transparent 13px 22px);background-size:92px 74px;content:"";opacity:.52;transform:rotate(-8deg) scale(1.15)}
+    .branding-id-card::after{position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 26% 82%,rgba(0,0,0,.77),transparent 52%),linear-gradient(115deg,rgba(0,0,0,.16),transparent 48%,rgba(41,77,193,.34));content:""}
+    .branding-card-head{display:flex;justify-content:space-between;gap:14px;align-items:center;min-height:12%}
+    .branding-card-head.back{justify-content:flex-end}
+    .branding-preview-logo{width:43%;max-width:190px;height:34px;padding:4px 7px;border-radius:6px;background:rgba(255,255,255,.94);object-fit:contain}
+    .branding-card-status{padding:6px 20px;border-radius:999px;background:#58e681;color:#176233;font-size:clamp(8px,1.25vw,13px);font-weight:800}
+    .branding-card-front-body{display:grid;grid-template-columns:28% 1fr;gap:7%;align-items:center;flex:1;padding:5% 0 3%}
+    .branding-card-photo{width:100%;aspect-ratio:1/1;border:3px solid rgba(255,255,255,.92);border-radius:20%;object-fit:cover;background:#fff}
+    .branding-card-number{text-align:right}
+    .branding-card-label{display:block;margin-bottom:5px;font-size:clamp(8px,1.25vw,13px);line-height:1.2;opacity:.88}
+    .branding-card-value{display:block;min-width:0;overflow-wrap:anywhere;font-size:clamp(12px,2.3vw,25px);font-weight:500;line-height:1.15;letter-spacing:.01em}
+    .branding-card-front-footer{display:grid;grid-template-columns:1fr 34%;gap:8%;align-items:end}
+    .branding-card-front-footer>div:last-child{text-align:right}
+    .branding-card-back-details{display:grid;grid-template-columns:1fr 36%;gap:9% 7%;align-items:end;margin-top:auto}
+    .branding-card-back-details>div:nth-child(even){text-align:right}
+    .branding-card-back-details .branding-card-value{font-size:clamp(10px,1.75vw,20px)}
+    .branding-preview-note{margin:12px 0 0;color:var(--muted);font-size:10px;line-height:1.45;text-align:center}
     .branding-history{margin:0;padding:0;list-style:none}
     .branding-history li{display:flex;justify-content:space-between;gap:12px;padding:11px 14px;border-top:1px solid var(--border);font-size:10px}
     .branding-history li:first-child{border-top:0}
@@ -1001,6 +1016,39 @@ en <!DOCTYPE html>
     .audit-detail-grid strong{display:block;margin:8px 0 5px;font-size:10px}
     .audit-detail-grid strong:first-child{margin-top:0}
     .audit-code{max-height:180px;margin:0;padding:10px;overflow:auto;border:1px solid var(--border);border-radius:5px;background:#fff;white-space:pre-wrap;word-break:break-all;font-size:9px;line-height:1.45}
+
+    /* Gestión de usuarios y permisos */
+    .permissions-content{margin:0 22px 28px}
+    .permissions-breadcrumb{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:0 0 14px;padding:0;list-style:none;color:#6c757d;font-size:10px}
+    .permissions-breadcrumb li+li:before{content:"/";margin-right:7px;color:#adb5bd}
+    .permissions-breadcrumb li:last-child{color:#343a40}
+    .permissions-page-title{margin:0 0 20px;color:#343a40;font-size:17px;font-weight:500}
+    .permissions-user-card{margin-bottom:22px;overflow:visible;border:0!important;box-shadow:none!important}
+    .permissions-user-header,.permissions-group-header{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff}
+    .permissions-user-header{padding:0 0 9px;border-bottom:1px solid #dee2e6}
+    .permissions-user-header h3,.permissions-group-header h3{margin:0;color:var(--text);font-size:13px}
+    .permissions-user-header p{margin:3px 0 0;color:var(--muted);font-size:10px}
+    .permissions-user-body{padding:15px 0 0}
+    .permissions-user-grid{display:grid;grid-template-columns:1fr;gap:10px}
+    .permissions-user-grid .field{display:grid;grid-template-columns:160px minmax(0,1fr);gap:12px;align-items:center}
+    .permissions-user-grid .field label{margin:0;text-align:right;font-weight:700}
+    .permissions-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:15px;padding:13px 0;border-top:1px solid #dee2e6;border-bottom:1px solid #dee2e6}
+    .permissions-summary{color:var(--muted);font-size:10px}
+    .permissions-summary strong{color:var(--primary);font-size:12px}
+    .permissions-global-actions,.permissions-group-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+    .permission-link{padding:3px 7px;border:0;background:transparent;color:var(--primary);font:inherit;font-size:10px;font-weight:700;cursor:pointer}
+    .permission-link:hover{text-decoration:underline}
+    .permissions-grid{display:block}
+    .permissions-group{min-width:0;margin:0 0 21px;padding:0 0 13px;overflow:visible;border:0!important;border-bottom:1px solid #dee2e6!important;border-radius:0!important;box-shadow:none!important}
+    .permissions-group-header{width:100%;max-width:100%;padding:8px 0 11px;box-sizing:border-box;float:none;border:0}
+    .permissions-group-header h3{font-weight:700}
+    .permissions-group-icon{display:none}
+    .permissions-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 18px;padding:4px 0}
+    .permission-option{min-height:30px;padding:5px 2px;display:flex;align-items:center;gap:9px;border:0;border-radius:0;background:transparent;color:var(--text);font-size:10px}
+    .permission-option:hover{background:transparent}
+    .permission-option input{width:16px;height:16px;flex:0 0 16px;accent-color:var(--primary)}
+    .permissions-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;padding:15px 0;border-top:1px solid var(--border)}
+    .permission-hidden{display:none!important}
 
     .toast{
       position:fixed;
@@ -1036,6 +1084,8 @@ en <!DOCTYPE html>
       .main{width:100%;margin-left:0;padding:18px}
       .menu{display:grid;grid-template-columns:repeat(2,1fr)}
       .menu-label,.menu-divider,.profile{display:none}
+      .permissions-content{margin:0 13px 24px}
+      .permissions-options{grid-template-columns:repeat(2,minmax(0,1fr))}
       .page-header{flex-direction:column}
       .module-selector{width:100%}
       .module-button{flex:1}
@@ -1061,11 +1111,25 @@ en <!DOCTYPE html>
       .individual-issue-search,.individual-email-row{display:flex;flex-direction:column;align-items:stretch}
       .bulk-issue-actions{align-items:stretch;flex-direction:column}
       .bulk-file-control{width:100%;min-width:0}
-      .branding-layout{margin:13px}
+      #brandingView{max-width:100vw;overflow-x:hidden}
+      #brandingView .page-header{max-width:100vw;box-sizing:border-box}
+      .branding-layout{display:flex;width:calc(100vw - 26px);max-width:calc(100vw - 26px);flex-direction:column;margin:13px;box-sizing:border-box}
+      .branding-layout>.individual-issue-card,.branding-layout>div{width:100%;max-width:100%;min-width:0;box-sizing:border-box}
       .branding-fields{grid-template-columns:1fr}
+      .branding-preview-card{padding:8px}
+      .branding-preview-stack,.branding-id-card{width:calc(100vw - 78px);max-width:calc(100vw - 78px)}
+      .branding-preview-stack{gap:10px}
+      .branding-preview-logo{height:25px;padding:3px 5px}
+      .branding-card-status{padding:4px 10px}
+      #brandingView .control,#brandingView .branding-color{width:100%;max-width:100%;box-sizing:border-box}
       .qr-validator-content{margin:13px}
       .audit-content{margin:13px}
       .audit-filters,.audit-detail-grid{grid-template-columns:1fr}
+      .permissions-options{grid-template-columns:1fr}
+      .permissions-user-grid .field{grid-template-columns:1fr;gap:5px}
+      .permissions-user-grid .field label{text-align:left}
+      .permissions-user-header,.permissions-toolbar,.permissions-footer{align-items:flex-start;flex-direction:column}
+      .permissions-footer .btn{width:100%}
       .credential-qr-section{align-items:flex-start;flex-direction:column}
       .credential-history-grid{grid-template-columns:1fr}
       .card-history-content{margin:13px}
@@ -2414,6 +2478,11 @@ en <!DOCTYPE html>
       <div class="menu-divider"></div>
       <div class="menu-label">Administración</div>
 
+      <a href="#usuarios" data-view="users">
+        <span class="menu-icon">♟</span>
+        <span class="menu-text">Usuarios</span>
+      </a>
+
       <div class="report-menu-group open" id="reportsMenuGroup">
         <button type="button" class="report-menu-toggle" id="reportsMenuToggle" aria-expanded="true" aria-controls="reportsSubmenu">
           <span class="menu-icon">▥</span>
@@ -2689,18 +2758,28 @@ en <!DOCTYPE html>
         <section class="card individual-issue-card">
           <div class="individual-issue-card-header">Configuración (versión actual: <span id="brandingVersion">8</span>)</div>
           <div class="individual-issue-card-body">
-            <div class="branding-fields">
-              <div class="branding-field">
-                <label for="brandingPrimary">Color primario</label>
-                <input type="color" id="brandingPrimary" class="branding-color" value="#cbab52">
-              </div>
-              <div class="branding-field">
-                <label for="brandingSecondary">Color secundario</label>
-                <input type="color" id="brandingSecondary" class="branding-color" value="#1dd384">
-              </div>
+            <div class="branding-fields" id="brandingEditFields">
               <div class="branding-field full">
                 <label for="brandingLogo">Logo (PNG/JPG/SVG, máximo 300 KB)</label>
                 <input type="file" id="brandingLogo" accept="image/png,image/jpeg,image/svg+xml" class="control">
+              </div>
+              <div class="branding-field">
+                <label for="brandingPrimary">Color de fondo</label>
+                <input type="color" id="brandingPrimary" class="branding-color" value="#14275f">
+              </div>
+              <div class="branding-field">
+                <label for="brandingSecondary">Color de letra</label>
+                <input type="color" id="brandingSecondary" class="branding-color" value="#ffffff">
+              </div>
+              <div class="branding-field full">
+                <label for="brandingFont">Fuente de la letra</label>
+                <select id="brandingFont" class="control">
+                  <option value="Arial, sans-serif" selected>Arial</option>
+                  <option value="Verdana, sans-serif">Verdana</option>
+                  <option value="Trebuchet MS, sans-serif">Trebuchet MS</option>
+                  <option value="Georgia, serif">Georgia</option>
+                  <option value="Courier New, monospace">Courier New</option>
+                </select>
               </div>
             </div>
             <div class="branding-actions">
@@ -2713,15 +2792,57 @@ en <!DOCTYPE html>
           <section class="card individual-issue-card">
             <div class="individual-issue-card-header">Vista previa</div>
             <div class="individual-issue-card-body">
-              <div class="branding-preview-card">
-                <div class="branding-preview-header" id="brandingPreviewHeader">
-                  <img src="logo (1).png" id="brandingPreviewLogo" class="branding-preview-logo" alt="Logo de la credencial">
-                  <strong id="brandingPreviewHeading">Junta Central De Contadores</strong>
+              <div class="branding-preview-card" id="brandingPreviewCard">
+                <div class="branding-preview-stack">
+                  <article class="branding-id-card" aria-label="Vista previa del frente de la tarjeta">
+                    <div class="branding-card-head">
+                      <img src="logo (1).png" id="brandingPreviewLogo" class="branding-preview-logo branding-card-logo" alt="Logo de la credencial">
+                      <span class="branding-card-status">Activa</span>
+                    </div>
+                    <div class="branding-card-front-body">
+                      <img class="branding-card-photo" src="data:image/jpeg;base64,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" alt="Fotografía genérica del contador">
+                      <div class="branding-card-number">
+                        <span class="branding-card-label">Tarjeta profesional</span>
+                        <strong class="branding-card-value">356042-T</strong>
+                      </div>
+                    </div>
+                    <div class="branding-card-front-footer">
+                      <div>
+                        <span class="branding-card-label">Fecha Res. Inscripción</span>
+                        <strong class="branding-card-value">06 - Feb - 2026</strong>
+                      </div>
+                      <div>
+                        <span class="branding-card-label">N. Expediente</span>
+                        <strong class="branding-card-value">426826</strong>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="branding-id-card" aria-label="Vista previa del reverso de la tarjeta">
+                    <div class="branding-card-head back">
+                      <img src="logo (1).png" class="branding-preview-logo branding-card-logo" alt="Logo de la credencial">
+                    </div>
+                    <div class="branding-card-back-details">
+                      <div>
+                        <span class="branding-card-label">Nombre y apellido</span>
+                        <strong class="branding-card-value">Sergio Andres Niño Ibañez</strong>
+                      </div>
+                      <div>
+                        <span class="branding-card-label">Cédula de ciudadanía</span>
+                        <strong class="branding-card-value">1.022.413.295</strong>
+                      </div>
+                      <div>
+                        <span class="branding-card-label">Institución de Educación Superior</span>
+                        <strong class="branding-card-value">Politécnico Grancolombiano</strong>
+                      </div>
+                      <div>
+                        <span class="branding-card-label">Res. Inscripción</span>
+                        <strong class="branding-card-value">378</strong>
+                      </div>
+                    </div>
+                  </article>
                 </div>
-                <div class="branding-preview-body">
-                  <span class="branding-preview-badge" id="brandingPreviewBadge">Tarjeta válida</span>
-                  <p class="branding-preview-message" id="brandingPreviewMessage">Tarjeta profesional</p>
-                </div>
+                <p class="branding-preview-note">Vista visual de referencia. Los cambios no se conectan con servicios externos.</p>
               </div>
             </div>
           </section>
@@ -2756,7 +2877,7 @@ en <!DOCTYPE html>
       </header>
 
       <div class="qr-validator-content">
-        <section class="card individual-issue-card">
+        <section class="card individual-issue-card" id="qrFieldsCard">
           <div class="individual-issue-card-header">Seleccione los campos visibles al verificar el QR de una tarjeta</div>
           <div class="individual-issue-card-body">
             <form id="qrValidatorForm">
@@ -2776,7 +2897,7 @@ en <!DOCTYPE html>
           </div>
         </section>
 
-        <section class="card individual-issue-card">
+        <section class="card individual-issue-card" id="qrExpirationCard">
           <div class="individual-issue-card-header">Tiempo de expiración del QR de la app</div>
           <div class="individual-issue-card-body">
             <p class="individual-issue-help">Defina cada cuántos segundos debe expirar y renovarse el código QR dinámico.</p>
@@ -2789,6 +2910,179 @@ en <!DOCTYPE html>
             </div>
           </div>
         </section>
+      </div>
+    </section>
+
+    <!-- VISTA USUARIOS Y PERMISOS -->
+    <section id="usersView" class="view">
+      <header class="page-header">
+        <div><h1>Usuarios Gestión de permisos y opciones</h1></div>
+      </header>
+
+      <div class="permissions-content">
+        <section class="card permissions-user-card">
+          <div class="permissions-user-body">
+            <div class="permissions-user-grid">
+              <div class="field"><label for="permissionsModule">Módulo</label><input class="control" id="permissionsModule" value="ADMINISTRACIÓN" readonly></div>
+              <div class="field">
+                <label for="permissionsUser">Usuario</label>
+                <select class="control" id="permissionsUser">
+                  <option value="scuencar">Sebastian Cuencar</option>
+                  <option value="lmartinez">Laura Martínez</option>
+                  <option value="atorres">Andrés Torres</option>
+                </select>
+              </div>
+              <div class="field"><label for="permissionsLogin">Login</label><input class="control" id="permissionsLogin" readonly></div>
+              <div class="field"><label for="permissionsName">Nombre</label><input class="control" id="permissionsName" readonly></div>
+              <div class="field"><label for="permissionsRole">Rol</label><input class="control" id="permissionsRole" readonly></div>
+            </div>
+            <div class="permissions-toolbar">
+              <div class="permissions-summary" id="permissionsSummary"></div>
+              <div class="permissions-global-actions">
+                <button type="button" class="btn btn-outline-primary btn-sm" id="permissionsSelectAll">Marcar todos</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="permissionsSelectNone">Desmarcar todos</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="permissions-grid" id="permissionsGrid">
+          <fieldset class="card permissions-group" data-permission-group="accountants">
+            <legend class="permissions-group-header">
+              <h3><span class="permissions-group-icon">♙</span>Contadores</h3>
+              <span class="permissions-group-actions"><button type="button" class="permission-link" data-permission-action="all">Todos</button><span>/</span><button type="button" class="permission-link" data-permission-action="none">Ninguno</button></span>
+            </legend>
+            <div class="permissions-options">
+              <label class="permission-option"><input type="checkbox" data-permission="accountants.view">Consultar tarjetas</label>
+              <label class="permission-option"><input type="checkbox" data-permission="accountants.create">Nueva tarjeta</label>
+              <label class="permission-option"><input type="checkbox" data-permission="accountants.bulk">Emisión masiva</label>
+              <label class="permission-option"><input type="checkbox" data-permission="accountants.detail">Ver detalle</label>
+              <label class="permission-option"><input type="checkbox" data-permission="accountants.card">Ver tarjeta</label>
+              <label class="permission-option"><input type="checkbox" data-permission="accountants.history">Consultar historial</label>
+              <label class="permission-option"><input type="checkbox" data-permission="accountants.columns">Mostrar u ocultar columnas</label>
+              <label class="permission-option"><input type="checkbox" data-permission="accountants.filter">Filtrar registros</label>
+              <label class="permission-option"><input type="checkbox" data-permission="accountants.export">Exportar CSV</label>
+            </div>
+          </fieldset>
+
+          <fieldset class="card permissions-group" data-permission-group="companies">
+            <legend class="permissions-group-header">
+              <h3><span class="permissions-group-icon">▦</span>Sociedades</h3>
+              <span class="permissions-group-actions"><button type="button" class="permission-link" data-permission-action="all">Todos</button><span>/</span><button type="button" class="permission-link" data-permission-action="none">Ninguno</button></span>
+            </legend>
+            <div class="permissions-options">
+              <label class="permission-option"><input type="checkbox" data-permission="companies.view">Consultar tarjetas</label>
+              <label class="permission-option"><input type="checkbox" data-permission="companies.create">Nueva tarjeta</label>
+              <label class="permission-option"><input type="checkbox" data-permission="companies.bulk">Emisión masiva</label>
+              <label class="permission-option"><input type="checkbox" data-permission="companies.detail">Ver detalle</label>
+              <label class="permission-option"><input type="checkbox" data-permission="companies.card">Ver tarjeta</label>
+              <label class="permission-option"><input type="checkbox" data-permission="companies.history">Consultar historial</label>
+              <label class="permission-option"><input type="checkbox" data-permission="companies.columns">Mostrar u ocultar columnas</label>
+              <label class="permission-option"><input type="checkbox" data-permission="companies.filter">Filtrar registros</label>
+              <label class="permission-option"><input type="checkbox" data-permission="companies.export">Exportar CSV</label>
+            </div>
+          </fieldset>
+
+          <fieldset class="card permissions-group" data-permission-group="certificates">
+            <legend class="permissions-group-header">
+              <h3><span class="permissions-group-icon">▤</span>Certificados</h3>
+              <span class="permissions-group-actions"><button type="button" class="permission-link" data-permission-action="all">Todos</button><span>/</span><button type="button" class="permission-link" data-permission-action="none">Ninguno</button></span>
+            </legend>
+            <div class="permissions-options">
+              <label class="permission-option"><input type="checkbox" data-permission="certificates.view">Consultar certificados</label>
+              <label class="permission-option"><input type="checkbox" data-permission="certificates.filter">Filtrar certificados</label>
+              <label class="permission-option"><input type="checkbox" data-permission="certificates.download">Descargar PDF</label>
+              <label class="permission-option"><input type="checkbox" data-permission="certificates.export">Exportar CSV</label>
+            </div>
+          </fieldset>
+
+          <fieldset class="card permissions-group" data-permission-group="notifications">
+            <legend class="permissions-group-header">
+              <h3><span class="permissions-group-icon">●</span>Notificaciones</h3>
+              <span class="permissions-group-actions"><button type="button" class="permission-link" data-permission-action="all">Todos</button><span>/</span><button type="button" class="permission-link" data-permission-action="none">Ninguno</button></span>
+            </legend>
+            <div class="permissions-options">
+              <label class="permission-option"><input type="checkbox" data-permission="notifications.create">Crear notificación</label>
+              <label class="permission-option"><input type="checkbox" data-permission="notifications.channels">Configurar canales</label>
+              <label class="permission-option"><input type="checkbox" data-permission="notifications.schedule">Programar envío</label>
+              <label class="permission-option"><input type="checkbox" data-permission="notifications.history">Ver historial</label>
+              <label class="permission-option"><input type="checkbox" data-permission="notifications.detail">Ver detalle</label>
+              <label class="permission-option"><input type="checkbox" data-permission="notifications.export">Exportar CSV</label>
+            </div>
+          </fieldset>
+
+          <fieldset class="card permissions-group" data-permission-group="reports">
+            <legend class="permissions-group-header">
+              <h3><span class="permissions-group-icon">▥</span>Reportes</h3>
+              <span class="permissions-group-actions"><button type="button" class="permission-link" data-permission-action="all">Todos</button><span>/</span><button type="button" class="permission-link" data-permission-action="none">Ninguno</button></span>
+            </legend>
+            <div class="permissions-options">
+              <label class="permission-option"><input type="checkbox" data-permission="reports.dashboard">Reporte dashboard</label>
+              <label class="permission-option"><input type="checkbox" data-permission="reports.accountants">Reporte contadores</label>
+              <label class="permission-option"><input type="checkbox" data-permission="reports.companies">Reporte sociedades</label>
+              <label class="permission-option"><input type="checkbox" data-permission="reports.notifications">Reporte notificaciones</label>
+              <label class="permission-option"><input type="checkbox" data-permission="reports.certificates">Reporte certificados</label>
+              <label class="permission-option"><input type="checkbox" data-permission="reports.filter">Aplicar filtros</label>
+              <label class="permission-option"><input type="checkbox" data-permission="reports.export">Exportar CSV</label>
+              <label class="permission-option"><input type="checkbox" data-permission="reports.print">Imprimir reportes</label>
+            </div>
+          </fieldset>
+
+          <fieldset class="card permissions-group" data-permission-group="branding">
+            <legend class="permissions-group-header">
+              <h3><span class="permissions-group-icon">✎</span>Branding</h3>
+              <span class="permissions-group-actions"><button type="button" class="permission-link" data-permission-action="all">Todos</button><span>/</span><button type="button" class="permission-link" data-permission-action="none">Ninguno</button></span>
+            </legend>
+            <div class="permissions-options">
+              <label class="permission-option"><input type="checkbox" data-permission="branding.view">Consultar configuración</label>
+              <label class="permission-option"><input type="checkbox" data-permission="branding.edit">Editar identidad visual</label>
+              <label class="permission-option"><input type="checkbox" data-permission="branding.publish">Guardar nueva versión</label>
+            </div>
+          </fieldset>
+
+          <fieldset class="card permissions-group" data-permission-group="qr">
+            <legend class="permissions-group-header">
+              <h3><span class="permissions-group-icon">◇</span>Validador QR</h3>
+              <span class="permissions-group-actions"><button type="button" class="permission-link" data-permission-action="all">Todos</button><span>/</span><button type="button" class="permission-link" data-permission-action="none">Ninguno</button></span>
+            </legend>
+            <div class="permissions-options">
+              <label class="permission-option"><input type="checkbox" data-permission="qr.view">Consultar configuración</label>
+              <label class="permission-option"><input type="checkbox" data-permission="qr.fields">Configurar campos visibles</label>
+              <label class="permission-option"><input type="checkbox" data-permission="qr.expiration">Configurar expiración</label>
+              <label class="permission-option"><input type="checkbox" data-permission="qr.save">Guardar configuración</label>
+            </div>
+          </fieldset>
+
+          <fieldset class="card permissions-group" data-permission-group="audit">
+            <legend class="permissions-group-header">
+              <h3><span class="permissions-group-icon">↻</span>Auditoría API</h3>
+              <span class="permissions-group-actions"><button type="button" class="permission-link" data-permission-action="all">Todos</button><span>/</span><button type="button" class="permission-link" data-permission-action="none">Ninguno</button></span>
+            </legend>
+            <div class="permissions-options">
+              <label class="permission-option"><input type="checkbox" data-permission="audit.view">Consultar auditoría</label>
+              <label class="permission-option"><input type="checkbox" data-permission="audit.filter">Filtrar llamados</label>
+              <label class="permission-option"><input type="checkbox" data-permission="audit.request">Ver petición</label>
+              <label class="permission-option"><input type="checkbox" data-permission="audit.response">Ver respuesta</label>
+            </div>
+          </fieldset>
+
+          <fieldset class="card permissions-group" data-permission-group="users">
+            <legend class="permissions-group-header">
+              <h3><span class="permissions-group-icon">♟</span>Administración de usuarios</h3>
+              <span class="permissions-group-actions"><button type="button" class="permission-link" data-permission-action="all">Todos</button><span>/</span><button type="button" class="permission-link" data-permission-action="none">Ninguno</button></span>
+            </legend>
+            <div class="permissions-options">
+              <label class="permission-option"><input type="checkbox" data-permission="users.view">Consultar usuarios</label>
+              <label class="permission-option"><input type="checkbox" data-permission="users.assign">Asignar permisos</label>
+              <label class="permission-option"><input type="checkbox" data-permission="users.save">Guardar cambios</label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="permissions-footer">
+          <button type="button" class="btn btn-outline-secondary" id="permissionsReset">Restablecer permisos</button>
+          <button type="button" class="btn btn-primary" id="permissionsSave">Guardar permisos</button>
+        </div>
       </div>
     </section>
 
@@ -2907,7 +3201,7 @@ en <!DOCTYPE html>
 
       <div class="notification-layout">
         <div>
-          <section class="card section-card">
+          <section class="card section-card" id="notificationRangeCard">
             <div class="section-title">🕒 1. Rango horario para envío</div>
             <div class="grid-3">
               <div class="field">
@@ -2925,7 +3219,7 @@ en <!DOCTYPE html>
             </div>
           </section>
 
-          <section class="card section-card">
+          <section class="card section-card" id="notificationChannelsCard">
             <div class="section-title">✈️ 2. Canales de envío</div>
             <div class="section-help">Seleccione los canales a través de los cuales se enviará la alerta.</div>
 
@@ -3004,7 +3298,7 @@ en <!DOCTYPE html>
             </div>
           </section>
 
-          <section class="card section-card">
+          <section class="card section-card" id="notificationScheduleCard">
             <div class="section-title">📅 4. Programación</div>
 
             <div class="radio-line">
@@ -3628,6 +3922,7 @@ en <!DOCTYPE html>
     bulkIssue: $("bulkIssueView"),
     branding: $("brandingView"),
     qrValidator: $("qrValidatorView"),
+    users: $("usersView"),
     audit: $("auditView"),
     certificates: $("certificatesView"),
     notifications: $("notificationsView"),
@@ -3636,6 +3931,11 @@ en <!DOCTYPE html>
   };
 
   function showView(viewName){
+    const requiredPermission=getViewRequiredPermission(viewName);
+    if(requiredPermission&&!hasCurrentPermission(requiredPermission)){
+      showToast("No tiene permiso para acceder a esta opción.");
+      return false;
+    }
     if(activeReportRoute&&reportRouteViews[activeReportRoute]!==viewName)setReportRoute("");
 
     Object.entries(views).forEach(([name,element])=>{
@@ -3659,6 +3959,7 @@ en <!DOCTYPE html>
       bulkIssue:"emision-masiva",
       branding:"branding",
       qrValidator:"validador-qr",
+      users:"usuarios",
       audit:"auditoria",
       certificates:"certificados",
       notifications:"notificaciones",
@@ -3671,11 +3972,16 @@ en <!DOCTYPE html>
       : viewName==="cards"?`tarjetas-${activeCardModule}`:hashMap[viewName];
     history.replaceState(null,"","#"+viewHash);
     window.scrollTo({top:0,behavior:"smooth"});
+    return true;
   }
 
   document.querySelectorAll("[data-view]").forEach(link=>{
     link.addEventListener("click",event=>{
       event.preventDefault();
+      if(link.dataset.requiredPermission&&!hasCurrentPermission(link.dataset.requiredPermission)){
+        showToast("No tiene permiso para acceder a esta opción.");
+        return;
+      }
       setReportRoute(link.dataset.reportRoute||"");
       if(link.dataset.cardModule)activateCardModule(link.dataset.cardModule);
       showView(link.dataset.view);
@@ -3704,6 +4010,233 @@ en <!DOCTYPE html>
     clearTimeout(window.__toastTimer);
     window.__toastTimer=setTimeout(()=>toast.classList.remove("show"),2500);
   }
+
+  /* Gestión de usuarios y permisos */
+  const permissionUsers={
+    scuencar:{login:"scuencar",name:"Sebastian Cuencar",role:"Administrador",profile:"all"},
+    lmartinez:{login:"lmartinez",name:"Laura Martínez",role:"Gestor de tarjetas",profile:"manager"},
+    atorres:{login:"atorres",name:"Andrés Torres",role:"Auditor",profile:"auditor"}
+  };
+
+  function getPermissionInputs(scope=document){
+    return [...scope.querySelectorAll('[data-permission]')];
+  }
+
+  function getDefaultPermissions(profile){
+    const allPermissions=getPermissionInputs().map(input=>input.dataset.permission);
+    if(profile==="all")return allPermissions;
+    if(profile==="manager"){
+      return allPermissions.filter(permission=>
+        !["users.assign","users.save","audit.request","audit.response","branding.publish"].includes(permission)
+      );
+    }
+    return allPermissions.filter(permission=>
+      permission.startsWith("reports.")||permission.startsWith("audit.")||
+      [
+        "accountants.view","companies.view",
+        "accountants.detail","accountants.card","accountants.history",
+        "companies.detail","companies.card","companies.history",
+        "certificates.view","certificates.download",
+        "notifications.history","notifications.detail","users.view"
+      ].includes(permission)
+    );
+  }
+
+  const currentUserKey="scuencar";
+  function getViewRequiredPermission(viewName){
+    const reportPermissions={
+      dashboard:"reports.dashboard",
+      accountants:"reports.accountants",
+      companies:"reports.companies",
+      notifications:"reports.notifications",
+      certificates:"reports.certificates"
+    };
+    if(activeReportRoute&&reportRouteViews[activeReportRoute]===viewName){
+      return reportPermissions[activeReportRoute]||"";
+    }
+    const cardPrefix=activeCardModule==="sociedades"?"companies":"accountants";
+    return {
+      cards:`${cardPrefix}.view`,
+      cardHistory:`${cardPrefix}.history`,
+      individualIssue:`${cardPrefix}.create`,
+      bulkIssue:`${cardPrefix}.bulk`,
+      branding:"branding.view",
+      qrValidator:"qr.view",
+      users:"users.view",
+      audit:"audit.view",
+      certificates:"certificates.view",
+      notifications:"notifications.create",
+      history:"notifications.history",
+      reports:"reports.dashboard"
+    }[viewName]||"";
+  }
+
+  const permissionVisibilityRules=[
+    ['#nxSidebar a[href="#tarjetas-contadores"]',"accountants.view"],
+    ['#nxSidebar a[href="#tarjetas-sociedades"]',"companies.view"],
+    ['#nxSidebar a[href="#notificaciones"]',"notifications.create"],
+    ['#nxSidebar a[href="#historial"]',"notifications.history"],
+    ['#nxSidebar a[href="#usuarios"]',"users.view"],
+    ['#nxSidebar a[href="#reporte-dashboard"]',"reports.dashboard"],
+    ['#nxSidebar a[href="#reporte-contadores"]',"reports.accountants"],
+    ['#nxSidebar a[href="#reporte-sociedades"]',"reports.companies"],
+    ['#nxSidebar a[href="#reporte-notificaciones"]',"reports.notifications"],
+    ['#nxSidebar a[href="#reporte-certificados"]',"reports.certificates"],
+    ['#nxSidebar a[href="#certificados"]',"certificates.view"],
+    ['#nxSidebar a[href="#branding"]',"branding.view"],
+    ['#nxSidebar a[href="#validador-qr"]',"qr.view"],
+    ['#nxSidebar a[href="#auditoria"]',"audit.view"],
+    ["#exportCertificatesBtn","certificates.export"],
+    ['#certificatesView > .certificate-filters-card',"certificates.filter"],
+    ['#certificatesTableBody a[href$=".pdf"]',"certificates.download"],
+    ["#saveNotificationBtn","notifications.create"],
+    ["#clearNotificationBtn","notifications.create"],
+    ["#newNotificationBtn","notifications.create"],
+    ["#goHistoryBtn","notifications.history"],
+    ["#notificationRangeCard","notifications.schedule"],
+    ["#notificationChannelsCard","notifications.channels"],
+    ["#notificationScheduleCard","notifications.schedule"],
+    ["#exportHistoryBtn","notifications.export"],
+    ["#reportsView .reports-filter-card","reports.filter"],
+    ["#exportReportsBtn","reports.export"],
+    ["#printReportsBtn","reports.print"],
+    ["#brandingEditFields","branding.edit"],
+    ["#brandingSave","branding.publish"],
+    ["#qrFieldsCard","qr.fields"],
+    ["#qrValidatorSave","qr.save"],
+    ["#qrExpirationCard","qr.expiration"],
+    ["#qrExpirationSave","qr.expiration"],
+    ["#auditView .audit-content > .individual-issue-card","audit.filter"],
+    [".audit-request-panel","audit.request"],
+    [".audit-response-panel","audit.response"],
+    ["#permissionsSave","users.save"],
+    ["#permissionsReset","users.save"]
+  ];
+
+  function getUserPermissions(userKey){
+    const user=permissionUsers[userKey];
+    try{
+      const saved=localStorage.getItem(`jccPermissions:${userKey}`);
+      if(!saved)return getDefaultPermissions(user.profile);
+      const permissions=JSON.parse(saved);
+      if(!permissions.includes("accountants.view")&&permissions.some(permission=>permission.startsWith("accountants."))){
+        permissions.push("accountants.view");
+      }
+      if(!permissions.includes("companies.view")&&permissions.some(permission=>permission.startsWith("companies."))){
+        permissions.push("companies.view");
+      }
+      return permissions;
+    }catch(error){
+      return getDefaultPermissions(user.profile);
+    }
+  }
+
+  function hasCurrentPermission(permission){
+    return getUserPermissions(currentUserKey).includes(permission);
+  }
+
+  function setPermissionVisibility(element,visible,permission=""){
+    if(!element)return;
+    element.classList.toggle("permission-hidden",!visible);
+    if(permission)element.dataset.requiredPermission=permission;
+  }
+
+  function applyCurrentUserPermissions(){
+    const allowed=new Set(getUserPermissions(currentUserKey));
+    permissionVisibilityRules.forEach(([selector,permission])=>{
+      document.querySelectorAll(selector).forEach(element=>setPermissionVisibility(element,allowed.has(permission),permission));
+    });
+
+    const cardPrefix=activeCardModule==="sociedades"?"companies":"accountants";
+    setPermissionVisibility(document.querySelector('#cardsPrimaryToolbar [data-action-demo="Nueva tarjeta"]'),allowed.has(`${cardPrefix}.create`),`${cardPrefix}.create`);
+    setPermissionVisibility(document.querySelector('#cardsPrimaryToolbar [data-action-demo="Emisión masiva"]'),allowed.has(`${cardPrefix}.bulk`),`${cardPrefix}.bulk`);
+    setPermissionVisibility($("cardsColumnsToggle"),allowed.has(`${cardPrefix}.columns`),`${cardPrefix}.columns`);
+    setPermissionVisibility($("exportCardsBtn"),allowed.has(`${cardPrefix}.export`),`${cardPrefix}.export`);
+    setPermissionVisibility(document.querySelector("#cardsView > .filters-card"),allowed.has(`${cardPrefix}.filter`),`${cardPrefix}.filter`);
+    document.querySelectorAll(".card-detail-btn").forEach(element=>setPermissionVisibility(element,allowed.has(`${cardPrefix}.detail`),`${cardPrefix}.detail`));
+    document.querySelectorAll(".view-card-btn").forEach(element=>setPermissionVisibility(element,allowed.has(`${cardPrefix}.card`),`${cardPrefix}.card`));
+    document.querySelectorAll(".view-card-history-btn").forEach(element=>setPermissionVisibility(element,allowed.has(`${cardPrefix}.history`),`${cardPrefix}.history`));
+    document.querySelectorAll(".card-actions-host").forEach(element=>{
+      setPermissionVisibility(element,allowed.has(`${cardPrefix}.card`)||allowed.has(`${cardPrefix}.history`));
+    });
+    document.querySelectorAll(".history-detail-btn").forEach(element=>setPermissionVisibility(element,allowed.has("notifications.detail"),"notifications.detail"));
+    document.querySelectorAll(".audit-view-btn").forEach(element=>setPermissionVisibility(element,allowed.has("audit.request")||allowed.has("audit.response")));
+
+    const canAssign=allowed.has("users.assign");
+    getPermissionInputs().forEach(input=>input.disabled=!canAssign);
+    document.querySelectorAll("[data-permission-action],#permissionsSelectAll,#permissionsSelectNone").forEach(element=>{
+      setPermissionVisibility(element,canAssign,"users.assign");
+    });
+
+    const reportLinks=[...document.querySelectorAll("#reportsSubmenu a")];
+    setPermissionVisibility($("reportsMenuGroup"),reportLinks.some(link=>!link.classList.contains("permission-hidden")));
+    document.querySelectorAll('[data-view-shortcut="cards"]').forEach(element=>{
+      setPermissionVisibility(element,allowed.has("accountants.view")||allowed.has("companies.view"));
+    });
+  }
+
+  function ensureCurrentViewIsAuthorized(){
+    const activeLink=document.querySelector("#nxSidebar [data-view].active");
+    if(activeLink&&!activeLink.classList.contains("permission-hidden"))return;
+    const fallback=document.querySelector("#nxSidebar [data-view]:not(.permission-hidden)");
+    if(fallback)fallback.click();
+  }
+
+  function updatePermissionsSummary(){
+    const inputs=getPermissionInputs();
+    const selected=inputs.filter(input=>input.checked).length;
+    $("permissionsSummary").innerHTML=`<strong>${selected}</strong> de ${inputs.length} permisos asignados`;
+  }
+
+  function loadUserPermissions(){
+    const userKey=$("permissionsUser").value;
+    const user=permissionUsers[userKey];
+    $("permissionsLogin").value=user.login;
+    $("permissionsName").value=user.name;
+    $("permissionsRole").value=user.role;
+
+    const permissions=getUserPermissions(userKey);
+    const selected=new Set(permissions);
+    getPermissionInputs().forEach(input=>input.checked=selected.has(input.dataset.permission));
+    updatePermissionsSummary();
+  }
+
+  document.querySelectorAll("[data-permission-action]").forEach(button=>{
+    button.addEventListener("click",()=>{
+      const group=button.closest(".permissions-group");
+      const checked=button.dataset.permissionAction==="all";
+      getPermissionInputs(group).forEach(input=>input.checked=checked);
+      updatePermissionsSummary();
+    });
+  });
+  getPermissionInputs().forEach(input=>input.addEventListener("change",updatePermissionsSummary));
+  $("permissionsSelectAll").addEventListener("click",()=>{
+    getPermissionInputs().forEach(input=>input.checked=true);
+    updatePermissionsSummary();
+  });
+  $("permissionsSelectNone").addEventListener("click",()=>{
+    getPermissionInputs().forEach(input=>input.checked=false);
+    updatePermissionsSummary();
+  });
+  $("permissionsUser").addEventListener("change",loadUserPermissions);
+  $("permissionsSave").addEventListener("click",()=>{
+    const userKey=$("permissionsUser").value;
+    const selected=getPermissionInputs().filter(input=>input.checked).map(input=>input.dataset.permission);
+    localStorage.setItem(`jccPermissions:${userKey}`,JSON.stringify(selected));
+    if(userKey===currentUserKey){
+      applyCurrentUserPermissions();
+      ensureCurrentViewIsAuthorized();
+    }
+    showToast(`Permisos de ${permissionUsers[userKey].name} guardados correctamente.`);
+  });
+  $("permissionsReset").addEventListener("click",()=>{
+    const userKey=$("permissionsUser").value;
+    localStorage.removeItem(`jccPermissions:${userKey}`);
+    loadUserPermissions();
+    if(userKey===currentUserKey)applyCurrentUserPermissions();
+    showToast("Permisos restablecidos según el rol del usuario.");
+  });
+  loadUserPermissions();
 
   /* Modal general */
   let selectedNotification=null;
@@ -4291,6 +4824,7 @@ en <!DOCTYPE html>
     document.querySelectorAll("#cardsView [data-action-demo]").forEach(button=>{
       button.addEventListener("click",()=>showToast(`Acción "${button.dataset.actionDemo}" disponible para conectar con el backend.`));
     });
+    applyCurrentUserPermissions();
   }
 
   function openCardDetail(id){
@@ -4371,10 +4905,11 @@ en <!DOCTYPE html>
     const registration=isCompany?row.registro:row.matricula;
     const brandingPrimary=$("brandingPrimary").value;
     const brandingSecondary=$("brandingSecondary").value;
+    const brandingFont=$("brandingFont").value;
     const brandingLogo=$("brandingPreviewLogo").src||"logo (1).png";
     const body=`
-      <div class="credential-preview" style="border-color:${brandingSecondary}">
-        <div class="credential-preview-head" style="background:${brandingPrimary};border-bottom:4px solid ${brandingSecondary}">
+      <div class="credential-preview" style="border-color:${brandingPrimary};font-family:${brandingFont}">
+        <div class="credential-preview-head" style="background:${brandingPrimary};border-bottom:4px solid ${brandingSecondary};color:${brandingSecondary}">
           <img class="credential-preview-brand-logo" src="${escapeHtml(brandingLogo)}" alt="Logo de la credencial">
           <div class="credential-preview-brand-copy">
             <strong>Junta Central de Contadores</strong>
@@ -4382,7 +4917,7 @@ en <!DOCTYPE html>
           </div>
         </div>
         <div class="credential-preview-body">
-          <div class="credential-preview-photo" style="border:2px solid ${brandingSecondary}">${isCompany?"🏢":"👤"}</div>
+          <div class="credential-preview-photo" style="border:2px solid ${brandingPrimary}">${isCompany?"🏢":"👤"}</div>
           <div class="credential-preview-data">
             <h4>${escapeHtml(holder)}</h4>
             <p>${isCompany?"NIT":"Identificación"}: <strong>${escapeHtml(identification)}</strong></p>
@@ -4976,13 +5511,16 @@ en <!DOCTYPE html>
   });
 
   function updateBrandingPreview(){
-    $("brandingPreviewHeader").style.backgroundColor=$("brandingPrimary").value;
-    $("brandingPreviewBadge").style.backgroundColor=$("brandingSecondary").value;
+    const preview=$("brandingPreviewCard");
+    preview.style.setProperty("--branding-card-background",$("brandingPrimary").value);
+    preview.style.setProperty("--branding-card-text",$("brandingSecondary").value);
+    preview.style.setProperty("--branding-card-font",$("brandingFont").value);
   }
 
   ["brandingPrimary","brandingSecondary"].forEach(id=>{
     $(id).addEventListener("input",updateBrandingPreview);
   });
+  $("brandingFont").addEventListener("change",updateBrandingPreview);
 
   let brandingLogoUrl="";
   $("brandingLogo").addEventListener("change",()=>{
@@ -5000,7 +5538,7 @@ en <!DOCTYPE html>
     }
     if(brandingLogoUrl) URL.revokeObjectURL(brandingLogoUrl);
     brandingLogoUrl=URL.createObjectURL(file);
-    $("brandingPreviewLogo").src=brandingLogoUrl;
+    document.querySelectorAll(".branding-card-logo").forEach(logo=>logo.src=brandingLogoUrl);
   });
 
   $("brandingSave").addEventListener("click",()=>{
@@ -5179,7 +5717,7 @@ en <!DOCTYPE html>
     $("auditSummary").textContent=`Total ${filtered.length} registro(s) · página ${auditPage} de ${totalPages}. Use “Ver” para desplegar petición y respuesta.`;
     $("auditTableBody").innerHTML=visible.map(log=>`
       <tr><td>${escapeHtml(log.date)}</td><td><code>${escapeHtml(log.endpoint)}</code></td><td><span class="audit-method">${escapeHtml(log.method)}</span></td><td>${escapeHtml(log.typeLabel)}</td><td><span class="badge ${log.changeState?"warning":"neutral"}">${log.changeState?"True":"False"}</span></td><td><span class="audit-http ${log.http<400?"success":"error"}">${log.http}</span></td><td>${escapeHtml(log.duration)}</td><td><button type="button" class="btn btn-outline-primary btn-sm audit-view-btn" data-id="${log.id}">👁 Ver</button></td></tr>
-      <tr class="audit-detail-row" id="audit-detail-${log.id}"><td colspan="8" class="audit-detail-cell"><div class="audit-detail-grid"><div><strong>URL</strong><pre class="audit-code">${escapeHtml(log.url)}</pre><strong>Headers de la petición</strong><pre class="audit-code">{"Authorization":"***","Content-Type":"application/json"}</pre><strong>Parámetros / cuerpo</strong><pre class="audit-code">${escapeHtml(log.request)}</pre></div><div><strong>Headers de la respuesta</strong><pre class="audit-code">{"Content-Type":"application/json; charset=utf-8"}</pre><strong>Cuerpo de la respuesta</strong><pre class="audit-code">${escapeHtml(log.response)}</pre></div></div></td></tr>`).join("");
+      <tr class="audit-detail-row" id="audit-detail-${log.id}"><td colspan="8" class="audit-detail-cell"><div class="audit-detail-grid"><div class="audit-request-panel"><strong>URL</strong><pre class="audit-code">${escapeHtml(log.url)}</pre><strong>Headers de la petición</strong><pre class="audit-code">{"Authorization":"***","Content-Type":"application/json"}</pre><strong>Parámetros / cuerpo</strong><pre class="audit-code">${escapeHtml(log.request)}</pre></div><div class="audit-response-panel"><strong>Headers de la respuesta</strong><pre class="audit-code">{"Content-Type":"application/json; charset=utf-8"}</pre><strong>Cuerpo de la respuesta</strong><pre class="audit-code">${escapeHtml(log.response)}</pre></div></div></td></tr>`).join("");
     document.querySelectorAll(".audit-view-btn").forEach(button=>button.addEventListener("click",()=>{
       $("audit-detail-"+button.dataset.id).classList.toggle("visible");
     }));
@@ -5192,6 +5730,7 @@ en <!DOCTYPE html>
       button.addEventListener("click",()=>{auditPage=page;renderAudit()});
       pagination.appendChild(button);
     }
+    applyCurrentUserPermissions();
   }
 
   $("auditBack").addEventListener("click",()=>showView("cards"));
@@ -5626,6 +6165,7 @@ en <!DOCTYPE html>
     document.querySelectorAll(".history-detail-btn").forEach(button=>{
       button.addEventListener("click",()=>openNotificationDetail(button.dataset.code));
     });
+    applyCurrentUserPermissions();
   }
 
   function openNotificationDetail(code){
@@ -5974,9 +6514,16 @@ en <!DOCTYPE html>
   else if(initialReportRoute==="accountants"||initialReportRoute==="companies")showView("cards");
   else if(initialReportRoute==="notifications")showView("history");
   else if(initialReportRoute==="certificates")showView("certificates");
+  else if(initialHash==="branding")showView("branding");
+  else if(initialHash==="validador-qr")showView("qrValidator");
+  else if(initialHash==="auditoria")showView("audit");
+  else if(initialHash==="certificados")showView("certificates");
   else if(initialHash==="notificaciones")showView("notifications");
   else if(initialHash==="historial")showView("history");
+  else if(initialHash==="usuarios")showView("users");
   else showView("cards");
+  applyCurrentUserPermissions();
+  ensureCurrentViewIsAuthorized();
 })();
 </script>
 
@@ -6024,7 +6571,7 @@ en <!DOCTYPE html>
   document.querySelectorAll("[data-view-shortcut]").forEach(function(link){
     link.addEventListener("click", function(event){
       event.preventDefault();
-      const target = document.querySelector('[data-view="' + link.dataset.viewShortcut + '"]');
+      const target = document.querySelector('[data-view="' + link.dataset.viewShortcut + '"]:not(.permission-hidden)');
       if(target) target.click();
       document.querySelectorAll(".nx-dropdown").forEach(function(dropdown){
         dropdown.classList.remove("open");
