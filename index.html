@@ -536,22 +536,7 @@ en <!DOCTYPE html>
     .columns-selector-option:hover{background:#f1f4f8}
     .columns-selector-option input{margin:0}
     .credential-preview{max-width:620px;margin:auto;overflow:hidden;border:1px solid #d8dde3;border-radius:12px;background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.12)}
-    .credential-preview-head{display:flex;gap:12px;align-items:center;padding:13px 16px;color:#fff;background:linear-gradient(135deg,#174a7e,#2378c7)}
-    .credential-preview-brand-logo{width:92px;height:42px;padding:4px;border-radius:5px;background:#fff;object-fit:contain}
-    .credential-preview-brand-copy{min-width:0}
-    .credential-preview-head strong{display:block;font-size:14px}
-    .credential-preview-head small{font-size:9px;opacity:.85}
-    .credential-preview-body{display:flex;gap:14px;align-items:center;padding:18px}
-    .credential-preview-photo{width:76px;height:88px;display:grid;place-items:center;flex:0 0 76px;border-radius:7px;background:#e9edf2;color:#6c757d;font-size:34px}
-    .credential-preview-data h4{margin:0 0 8px;font-size:13px}
-    .credential-preview-data p{margin:4px 0;color:var(--muted);font-size:10px}
-    .credential-qr-section{display:flex;gap:16px;align-items:center;padding:0 18px 18px}
-    .credential-qr{width:112px;height:112px;padding:8px;display:grid;grid-template-columns:repeat(11,1fr);grid-template-rows:repeat(11,1fr);gap:1px;flex:0 0 112px;border:1px solid #cfd5dc;border-radius:7px;background:#fff}
-    .credential-qr i{display:block;background:transparent}
-    .credential-qr i.on{background:#17202a}
-    .credential-qr-copy strong{display:block;margin-bottom:6px;font-size:12px}
-    .credential-qr-copy p{margin:3px 0;color:var(--muted);font-size:10px;line-height:1.45}
-    .credential-qr-countdown{color:var(--primary);font-weight:800}
+    .credential-preview-branded{padding:18px 18px 0;background:#f3f5f9}
     .credential-history-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 18px 18px}
     .credential-history-card{border:1px solid var(--border);border-radius:8px;background:#fbfcfe;overflow:hidden}
     .credential-history-card h4{margin:0;padding:10px 12px;border-bottom:1px solid var(--border);background:#f4f6f8;font-size:11px}
@@ -990,9 +975,15 @@ en <!DOCTYPE html>
     .branding-card-back-details>div:nth-child(even){text-align:right}
     .branding-card-back-details .branding-card-value{font-size:clamp(10px,1.75vw,20px)}
     .branding-preview-note{margin:12px 0 0;color:var(--muted);font-size:10px;line-height:1.45;text-align:center}
+    .branding-publish-actions{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:13px;padding-top:13px;border-top:1px solid var(--border)}
+    .branding-publish-actions small{color:var(--muted);font-size:10px;line-height:1.4}
+    .branding-publish-actions .btn:disabled{opacity:.48;cursor:not-allowed;box-shadow:none}
     .branding-history{margin:0;padding:0;list-style:none}
-    .branding-history li{display:flex;justify-content:space-between;gap:12px;padding:11px 14px;border-top:1px solid var(--border);font-size:10px}
+    .branding-history li{border-top:1px solid var(--border);font-size:10px}
     .branding-history li:first-child{border-top:0}
+    .branding-history li.selected{background:#eaf2ff;box-shadow:inset 3px 0 0 var(--primary)}
+    .branding-history-item{display:flex;width:100%;justify-content:space-between;gap:12px;align-items:center;padding:11px 14px;border:0;background:transparent;color:var(--text);font:inherit;text-align:left;cursor:pointer}
+    .branding-history-item:hover{background:#f6f9ff}
     .branding-published{padding:3px 7px;border-radius:999px;background:#d1e7dd;color:#0f5132;font-weight:700}
     .qr-validator-content{max-width:620px;margin:18px 22px}
     .qr-field-list{display:grid;gap:0;margin-bottom:16px;border:1px solid var(--border);border-radius:6px;overflow:hidden}
@@ -1130,7 +1121,6 @@ en <!DOCTYPE html>
       .permissions-user-grid .field label{text-align:left}
       .permissions-user-header,.permissions-toolbar,.permissions-footer{align-items:flex-start;flex-direction:column}
       .permissions-footer .btn{width:100%}
-      .credential-qr-section{align-items:flex-start;flex-direction:column}
       .credential-history-grid{grid-template-columns:1fr}
       .card-history-content{margin:13px}
       .card-history-sections{grid-template-columns:1fr}
@@ -2508,10 +2498,21 @@ en <!DOCTYPE html>
         <span class="menu-text">Certificados</span>
       </a>
 
-      <a href="#branding" data-view="branding">
-        <span class="menu-icon">✎</span>
-        <span class="menu-text">Branding</span>
-      </a>
+      <div class="report-menu-group open" id="brandingMenuGroup">
+        <button type="button" class="report-menu-toggle" id="brandingMenuToggle" aria-expanded="true" aria-controls="brandingSubmenu">
+          <span class="menu-icon">✎</span>
+          <span class="menu-text">Branding</span>
+          <span class="report-menu-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="report-menu-submenu" id="brandingSubmenu">
+          <a href="#branding-contadores" data-view="branding" data-branding-module="contadores">
+            <span class="menu-text">Contadores</span>
+          </a>
+          <a href="#branding-sociedades" data-view="branding" data-branding-module="sociedades">
+            <span class="menu-text">Sociedades</span>
+          </a>
+        </div>
+      </div>
 
       <a href="#validador-qr" data-view="qrValidator">
         <span class="menu-icon">▦</span>
@@ -2636,7 +2637,6 @@ en <!DOCTYPE html>
                 <span id="cardHistoryIdentification"></span>
                 <span id="cardHistoryRegistration"></span>
                 <span id="cardHistoryExpedient"></span>
-                <span id="cardHistoryCode"></span>
                 <span id="cardHistoryEmail"></span>
                 <span id="cardHistoryDate"></span>
                 <span id="cardHistoryPersonDetail"></span>
@@ -2685,18 +2685,7 @@ en <!DOCTYPE html>
         <section id="individualIssuePreview" class="card individual-issue-card individual-issue-preview">
           <div class="individual-issue-card-header preview">2. Vista previa de la tarjeta</div>
           <div class="individual-issue-card-body">
-            <div class="individual-holder">
-              <div class="individual-holder-avatar" id="individualIssueAvatar">👤</div>
-              <div style="flex:1">
-                <h3 id="individualIssueName">Titular consultado</h3>
-                <div class="individual-holder-details">
-                  <p><span>Número de documento</span><strong id="individualIssueDocument"></strong></p>
-                  <p><span>Tarjeta profesional</span><strong id="individualIssueRegistration"></strong></p>
-                  <p><span id="individualIssueExtraLabel">Universidad</span><strong id="individualIssueExtraValue"></strong></p>
-                  <p><span>Estado</span><strong><span class="status approved">Activo</span></strong></p>
-                </div>
-              </div>
-            </div>
+            <div class="branding-preview-card individual-branding-preview" id="individualIssueCardPreview"></div>
 
             <div class="individual-confirm-row">
               <button type="button" id="individualIssueConfirm" class="btn btn-success individual-confirm-button">Confirmar emisión</button>
@@ -2746,8 +2735,8 @@ en <!DOCTYPE html>
     <section id="brandingView" class="view">
       <header class="page-header">
         <div>
-          <h1>Branding de credenciales</h1>
-          <p>Configure la identidad visual aplicada a las credenciales y comunicaciones de emisión.</p>
+          <h1 id="brandingViewTitle">Branding de credenciales — Contadores</h1>
+          <p id="brandingViewDescription">Configure de forma independiente la identidad visual de las credenciales para contadores.</p>
         </div>
         <div class="header-actions">
           <button type="button" class="btn btn-outline-secondary" id="brandingBack">← Volver</button>
@@ -2756,7 +2745,7 @@ en <!DOCTYPE html>
 
       <div class="branding-layout">
         <section class="card individual-issue-card">
-          <div class="individual-issue-card-header">Configuración (versión actual: <span id="brandingVersion">8</span>)</div>
+          <div class="individual-issue-card-header">Configuración (versión publicada: <span id="brandingVersion">8</span>)</div>
           <div class="individual-issue-card-body">
             <div class="branding-fields" id="brandingEditFields">
               <div class="branding-field full">
@@ -2797,23 +2786,23 @@ en <!DOCTYPE html>
                   <article class="branding-id-card" aria-label="Vista previa del frente de la tarjeta">
                     <div class="branding-card-head">
                       <img src="logo (1).png" id="brandingPreviewLogo" class="branding-preview-logo branding-card-logo" alt="Logo de la credencial">
-                      <span class="branding-card-status">Activa</span>
+                      <span class="branding-card-status" data-branding-field="status">Activa</span>
                     </div>
                     <div class="branding-card-front-body">
                       <img class="branding-card-photo" src="data:image/jpeg;base64,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" alt="Fotografía genérica del contador">
                       <div class="branding-card-number">
-                        <span class="branding-card-label">Tarjeta profesional</span>
-                        <strong class="branding-card-value">356042-T</strong>
+                        <span class="branding-card-label" data-branding-field="registration-label">Tarjeta profesional</span>
+                        <strong class="branding-card-value" data-branding-field="registration">356042-T</strong>
                       </div>
                     </div>
                     <div class="branding-card-front-footer">
                       <div>
-                        <span class="branding-card-label">Fecha Res. Inscripción</span>
-                        <strong class="branding-card-value">06 - Feb - 2026</strong>
+                        <span class="branding-card-label" data-branding-field="date-label">Fecha Res. Inscripción</span>
+                        <strong class="branding-card-value" data-branding-field="date">06 - Feb - 2026</strong>
                       </div>
                       <div>
                         <span class="branding-card-label">N. Expediente</span>
-                        <strong class="branding-card-value">426826</strong>
+                        <strong class="branding-card-value" data-branding-field="expedient">426826</strong>
                       </div>
                     </div>
                   </article>
@@ -2824,41 +2813,36 @@ en <!DOCTYPE html>
                     </div>
                     <div class="branding-card-back-details">
                       <div>
-                        <span class="branding-card-label">Nombre y apellido</span>
-                        <strong class="branding-card-value">Sergio Andres Niño Ibañez</strong>
+                        <span class="branding-card-label" data-branding-field="holder-label">Nombre y apellido</span>
+                        <strong class="branding-card-value" data-branding-field="holder">Sergio Andres Niño Ibañez</strong>
                       </div>
                       <div>
-                        <span class="branding-card-label">Cédula de ciudadanía</span>
-                        <strong class="branding-card-value">1.022.413.295</strong>
+                        <span class="branding-card-label" data-branding-field="document-label">Cédula de ciudadanía</span>
+                        <strong class="branding-card-value" data-branding-field="document">1.022.413.295</strong>
                       </div>
                       <div>
-                        <span class="branding-card-label">Institución de Educación Superior</span>
-                        <strong class="branding-card-value">Politécnico Grancolombiano</strong>
+                        <span class="branding-card-label" data-branding-field="extra-label">Institución de Educación Superior</span>
+                        <strong class="branding-card-value" data-branding-field="extra">Politécnico Grancolombiano</strong>
                       </div>
                       <div>
-                        <span class="branding-card-label">Res. Inscripción</span>
-                        <strong class="branding-card-value">378</strong>
+                        <span class="branding-card-label" data-branding-field="resolution-label">Res. Inscripción</span>
+                        <strong class="branding-card-value" data-branding-field="resolution">378</strong>
                       </div>
                     </div>
                   </article>
                 </div>
                 <p class="branding-preview-note">Vista visual de referencia. Los cambios no se conectan con servicios externos.</p>
+                <div class="branding-publish-actions">
+                  <small id="brandingPublishSelection">Seleccione una versión del historial para publicarla.</small>
+                  <button type="button" class="btn btn-primary btn-sm" id="brandingPublish" disabled>Publicar</button>
+                </div>
               </div>
             </div>
           </section>
 
           <section class="card individual-issue-card">
             <div class="individual-issue-card-header">Historial de versiones</div>
-            <ul class="branding-history" id="brandingHistory">
-              <li><span>v8 — 2026-07-14 09:41</span><span class="branding-published">Publicada</span></li>
-              <li><span>v7 — 2026-07-14 09:41</span></li>
-              <li><span>v6 — 2026-07-01 09:29</span></li>
-              <li><span>v5 — 2026-06-17 08:30</span></li>
-              <li><span>v4 — 2026-06-10 11:44</span></li>
-              <li><span>v3 — 2026-06-09 14:08</span></li>
-              <li><span>v2 — 2026-06-04 17:09</span></li>
-              <li><span>v1 — 2026-06-04 17:00</span></li>
-            </ul>
+            <ul class="branding-history" id="brandingHistory"></ul>
           </section>
         </div>
       </div>
@@ -3036,7 +3020,7 @@ en <!DOCTYPE html>
             <div class="permissions-options">
               <label class="permission-option"><input type="checkbox" data-permission="branding.view">Consultar configuración</label>
               <label class="permission-option"><input type="checkbox" data-permission="branding.edit">Editar identidad visual</label>
-              <label class="permission-option"><input type="checkbox" data-permission="branding.publish">Guardar nueva versión</label>
+              <label class="permission-option"><input type="checkbox" data-permission="branding.publish">Publicar versión</label>
             </div>
           </fieldset>
 
@@ -3945,12 +3929,18 @@ en <!DOCTYPE html>
     document.querySelectorAll("[data-view]").forEach(link=>{
       const isActiveView=link.dataset.view===viewName;
       const isActiveCardModule=!link.dataset.cardModule||link.dataset.cardModule===activeCardModule;
+      const isActiveBrandingModule=!link.dataset.brandingModule||link.dataset.brandingModule===activeBrandingModule;
       const isActiveRoute=activeReportRoute
         ? link.dataset.reportRoute===activeReportRoute
         : !link.dataset.reportRoute;
-      link.classList.toggle("active",isActiveView&&isActiveCardModule&&isActiveRoute);
+      link.classList.toggle("active",isActiveView&&isActiveCardModule&&isActiveBrandingModule&&isActiveRoute);
     });
     if($("reportsMenuToggle"))$("reportsMenuToggle").classList.toggle("active",Boolean(activeReportRoute));
+    if($("brandingMenuToggle"))$("brandingMenuToggle").classList.toggle("active",viewName==="branding");
+    if(viewName==="branding"&&$("brandingMenuGroup")){
+      $("brandingMenuGroup").classList.add("open");
+      $("brandingMenuToggle").setAttribute("aria-expanded","true");
+    }
 
     const hashMap = {
       cards:"tarjetas",
@@ -3969,7 +3959,9 @@ en <!DOCTYPE html>
 
     const viewHash=activeReportRoute
       ? reportRouteHashes[activeReportRoute]
-      : viewName==="cards"?`tarjetas-${activeCardModule}`:hashMap[viewName];
+      : viewName==="cards"
+        ?`tarjetas-${activeCardModule}`
+        :viewName==="branding"?`branding-${activeBrandingModule}`:hashMap[viewName];
     history.replaceState(null,"","#"+viewHash);
     window.scrollTo({top:0,behavior:"smooth"});
     return true;
@@ -3984,6 +3976,7 @@ en <!DOCTYPE html>
       }
       setReportRoute(link.dataset.reportRoute||"");
       if(link.dataset.cardModule)activateCardModule(link.dataset.cardModule);
+      if(link.dataset.brandingModule)activateBrandingModule(link.dataset.brandingModule);
       showView(link.dataset.view);
     });
   });
@@ -3993,6 +3986,14 @@ en <!DOCTYPE html>
       const group=$("reportsMenuGroup");
       const isOpen=group.classList.toggle("open");
       $("reportsMenuToggle").setAttribute("aria-expanded",String(isOpen));
+    });
+  }
+
+  if($("brandingMenuToggle")){
+    $("brandingMenuToggle").addEventListener("click",()=>{
+      const group=$("brandingMenuGroup");
+      const isOpen=group.classList.toggle("open");
+      $("brandingMenuToggle").setAttribute("aria-expanded",String(isOpen));
     });
   }
 
@@ -4083,7 +4084,7 @@ en <!DOCTYPE html>
     ['#nxSidebar a[href="#reporte-notificaciones"]',"reports.notifications"],
     ['#nxSidebar a[href="#reporte-certificados"]',"reports.certificates"],
     ['#nxSidebar a[href="#certificados"]',"certificates.view"],
-    ['#nxSidebar a[href="#branding"]',"branding.view"],
+    ["#brandingMenuGroup","branding.view"],
     ['#nxSidebar a[href="#validador-qr"]',"qr.view"],
     ['#nxSidebar a[href="#auditoria"]',"audit.view"],
     ["#exportCertificatesBtn","certificates.export"],
@@ -4101,7 +4102,8 @@ en <!DOCTYPE html>
     ["#exportReportsBtn","reports.export"],
     ["#printReportsBtn","reports.print"],
     ["#brandingEditFields","branding.edit"],
-    ["#brandingSave","branding.publish"],
+    ["#brandingSave","branding.edit"],
+    ["#brandingPublish","branding.publish"],
     ["#qrFieldsCard","qr.fields"],
     ["#qrValidatorSave","qr.save"],
     ["#qrExpirationCard","qr.expiration"],
@@ -4178,6 +4180,11 @@ en <!DOCTYPE html>
   function ensureCurrentViewIsAuthorized(){
     const activeLink=document.querySelector("#nxSidebar [data-view].active");
     if(activeLink&&!activeLink.classList.contains("permission-hidden"))return;
+    const activeView=Object.entries(views).find(([,element])=>element.classList.contains("active"));
+    if(activeView){
+      const requiredPermission=getViewRequiredPermission(activeView[0]);
+      if(!requiredPermission||hasCurrentPermission(requiredPermission))return;
+    }
     const fallback=document.querySelector("#nxSidebar [data-view]:not(.permission-hidden)");
     if(fallback)fallback.click();
   }
@@ -4251,7 +4258,6 @@ en <!DOCTYPE html>
 
   function closeModal(){
     $("detailModal").classList.remove("open");
-    clearInterval(window.__credentialQrTimer);
   }
 
   $("closeDetailModal").addEventListener("click",closeModal);
@@ -4439,6 +4445,7 @@ en <!DOCTYPE html>
   }
 
   let activeCardModule="contadores";
+  let activeBrandingModule="contadores";
   let cardsPage=1;
   let appliedCardFilters=[];
   let stagedCardFilters=[];
@@ -4875,7 +4882,6 @@ en <!DOCTYPE html>
     $("cardHistoryIdentification").textContent=`${isCompany?"NIT":"Identificación"}: ${identification}`;
     $("cardHistoryRegistration").textContent=`${isCompany?"Registro":"Matrícula"}: ${registration}`;
     $("cardHistoryExpedient").textContent=`Expediente: ${row.expediente}`;
-    $("cardHistoryCode").textContent=`Código: ${row.codigo}`;
     $("cardHistoryEmail").textContent=`Correo: ${row.correo||"No registrado"}`;
     $("cardHistoryDate").textContent=`Fecha emisión: ${row.fecha}`;
     $("cardHistoryPersonDetail").textContent=isCompany
@@ -4900,44 +4906,17 @@ en <!DOCTYPE html>
     const row=module.rows.find(item=>item.id===id);
     if(!row)return;
     const isCompany=activeCardModule==="sociedades";
-    const holder=isCompany?row.razonSocial:row.solicitante;
     const identification=isCompany?row.nit:row.documento;
-    const registration=isCompany?row.registro:row.matricula;
-    const brandingPrimary=$("brandingPrimary").value;
-    const brandingSecondary=$("brandingSecondary").value;
-    const brandingFont=$("brandingFont").value;
-    const brandingLogo=$("brandingPreviewLogo").src||"logo (1).png";
     const body=`
-      <div class="credential-preview" style="border-color:${brandingPrimary};font-family:${brandingFont}">
-        <div class="credential-preview-head" style="background:${brandingPrimary};border-bottom:4px solid ${brandingSecondary};color:${brandingSecondary}">
-          <img class="credential-preview-brand-logo" src="${escapeHtml(brandingLogo)}" alt="Logo de la credencial">
-          <div class="credential-preview-brand-copy">
-            <strong>Junta Central de Contadores</strong>
-            <small>${isCompany?"Tarjeta digital para sociedades":"Tarjeta profesional digital"}</small>
-          </div>
-        </div>
-        <div class="credential-preview-body">
-          <div class="credential-preview-photo" style="border:2px solid ${brandingPrimary}">${isCompany?"🏢":"👤"}</div>
-          <div class="credential-preview-data">
-            <h4>${escapeHtml(holder)}</h4>
-            <p>${isCompany?"NIT":"Identificación"}: <strong>${escapeHtml(identification)}</strong></p>
-            <p>${isCompany?"Registro":"Matrícula"}: <strong>${escapeHtml(registration)}</strong></p>
-            <p>Estado: ${cardStatusBadge(row.tarjeta)}</p>
-            <p>${isCompany?"Resolución":"Universidad"}: <strong>${isCompany?escapeHtml(row.resolucion):"Universidad Nacional de Colombia"}</strong></p>
-          </div>
-        </div>
-        <div class="credential-qr-section">
-          <div class="credential-qr" id="credentialQr" role="img" aria-label="QR estático de verificación"></div>
-          <div class="credential-qr-copy">
-            <p>Escanee el código para consultar la vigencia y los datos públicos de esta tarjeta.</p>
-          </div>
-        </div>
+      <div class="credential-preview credential-preview-branded">
+        <div class="branding-preview-card" id="cardModalBrandingPreview"></div>
         <div class="credential-export-actions">
           <button type="button" class="btn btn-primary" id="exportCredentialPdf">Exportar tarjeta</button>
         </div>
       </div>`;
     document.querySelectorAll(".card-actions-menu.open").forEach(item=>item.classList.remove("open"));
     openModal("Tarjeta digital",row.codigo,body,false);
+    renderBrandedCardPreview(row,identification,"cardModalBrandingPreview");
     $("exportCredentialPdf").addEventListener("click",()=>{
       const previousTitle=document.title;
       const safeCode=String(row.codigo).replace(/[^a-z0-9_-]/gi,"_");
@@ -4947,21 +4926,6 @@ en <!DOCTYPE html>
       document.body.classList.remove("credential-printing");
       document.title=previousTitle;
     });
-    const qrSeed=Number(row.id);
-    const renderQr=()=>{
-      const qr=$("credentialQr");
-      if(!qr)return;
-      qr.innerHTML=Array.from({length:121},(_,index)=>{
-        const x=index%11;
-        const y=Math.floor(index/11);
-        const finder=(x<3&&y<3)||(x>7&&y<3)||(x<3&&y>7);
-        const finderOn=finder&&(x%2===0||y%2===0||(x%3===1&&y%3===1));
-        const dataOn=((index*17+qrSeed*13+x*y*5)%11)<5;
-        return `<i class="${finder?finderOn?"on":"":dataOn?"on":""}"></i>`;
-      }).join("");
-    };
-    clearInterval(window.__credentialQrTimer);
-    renderQr();
   }
 
   document.addEventListener("click",event=>{
@@ -5400,6 +5364,50 @@ en <!DOCTYPE html>
     });
   });
 
+  function renderBrandedCardPreview(row,identification,targetId="individualIssueCardPreview"){
+    const isCompany=activeCardModule==="sociedades";
+    const excelRow=row?getCardExcelRow(row,activeCardModule):{};
+    const preview=$(targetId);
+    const sourcePreview=$("brandingPreviewCard");
+    const stack=sourcePreview.querySelector(".branding-preview-stack").cloneNode(true);
+    const setField=(field,value)=>{
+      const element=stack.querySelector(`[data-branding-field="${field}"]`);
+      if(element)element.textContent=value;
+    };
+    const formatDate=value=>{
+      const [year,month,day]=String(value||new Date().toISOString().slice(0,10)).slice(0,10).split("-");
+      const months=["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+      return `${day} - ${months[Number(month)-1]||month} - ${year}`;
+    };
+    const fallbackRegistration=(isCompany?"SC-":"TP ")+String(identification).replace(/\D/g,"").slice(-6).padStart(6,"0")+(isCompany?"":"-T");
+
+    stack.querySelectorAll("[id]").forEach(element=>element.removeAttribute("id"));
+    const photo=stack.querySelector(".branding-card-photo");
+    if(photo)photo.alt=isCompany?"Fotografía genérica de la sociedad":"Fotografía genérica del contador";
+    setField("status",row?.tarjeta||"Activa");
+    setField("registration-label",isCompany?"Registro profesional":"Tarjeta profesional");
+    setField("registration",row?(isCompany?row.registro:row.matricula):fallbackRegistration);
+    setField("date-label",isCompany?"Fecha de inscripción":"Fecha Res. Inscripción");
+    setField("date",formatDate(row?.fecha));
+    setField("expedient",row?.expediente||"Pendiente");
+    setField("holder-label",isCompany?"Razón social":"Nombre y apellido");
+    setField("holder",row?(isCompany?row.razonSocial:row.solicitante):(isCompany?"Sociedad de Contadores Consultada":"Contador Público Consultado"));
+    setField("document-label",isCompany?"NIT":"Cédula de ciudadanía");
+    setField("document",row?(isCompany?row.nit:row.documento):identification);
+    setField("extra-label",isCompany?"Tipo de sociedad":"Institución de Educación Superior");
+    setField("extra",isCompany?(excelRow.tipoSociedad==="S"?"Sociedad de contadores":excelRow.tipoSociedad||"Sociedad registrada"):excelRow.universidad||"Universidad Nacional de Colombia");
+    setField("resolution-label","Res. Inscripción");
+    setField("resolution",row?(row.resolucion??excelRow.resolucion):isCompany?"104":"0001");
+
+    preview.innerHTML="";
+    const publishedConfig=getPublishedBrandingConfig(activeCardModule);
+    preview.style.setProperty("--branding-card-background",publishedConfig.background);
+    preview.style.setProperty("--branding-card-text",publishedConfig.text);
+    preview.style.setProperty("--branding-card-font",publishedConfig.font);
+    stack.querySelectorAll(".branding-card-logo").forEach(logo=>logo.src=publishedConfig.logo);
+    preview.appendChild(stack);
+  }
+
   $("individualIssueSearch").addEventListener("click",()=>{
     const identification=$("individualIssueIdentification").value.trim();
     if(!identification){
@@ -5412,20 +5420,7 @@ en <!DOCTYPE html>
     const row=cardModules[activeCardModule].rows.find(item=>
       normalize(isCompany?item.nit:item.documento)===normalize(identification)
     );
-    $("individualIssueAvatar").textContent=isCompany?"🏢":"👤";
-    $("individualIssueName").textContent=row
-      ?(isCompany?row.razonSocial:row.solicitante)
-      :(isCompany?"Sociedad de Contadores Consultada":"Contador Público Consultado");
-    $("individualIssueDocument").textContent=row
-      ?(isCompany?row.nit:row.documento)
-      :identification;
-    $("individualIssueRegistration").textContent=row
-      ?(isCompany?row.registro:row.matricula)
-      :(isCompany?"SOC-":"TP ")+identification.slice(-6).padStart(6,"0");
-    $("individualIssueExtraLabel").textContent=isCompany?"Resolución":"Universidad";
-    $("individualIssueExtraValue").textContent=isCompany
-      ?String(row?.resolucion??104)
-      :"Universidad Nacional de Colombia";
+    renderBrandedCardPreview(row,identification);
     $("individualIssueResult").classList.remove("visible");
     $("individualIssuePreview").classList.add("visible");
   });
@@ -5510,22 +5505,158 @@ en <!DOCTYPE html>
     reader.readAsText(file);
   });
 
-  function updateBrandingPreview(){
-    const preview=$("brandingPreviewCard");
-    preview.style.setProperty("--branding-card-background",$("brandingPrimary").value);
-    preview.style.setProperty("--branding-card-text",$("brandingSecondary").value);
-    preview.style.setProperty("--branding-card-font",$("brandingFont").value);
+  const brandingDefaultLogo="logo (1).png";
+  const createBrandingConfig=(background="#14275f",text="#ffffff",font="Arial, sans-serif",logo=brandingDefaultLogo)=>({background,text,font,logo});
+  const copyBrandingConfig=config=>({...config});
+  const brandingProfiles={
+    contadores:{
+      label:"Contadores",
+      draft:createBrandingConfig(),
+      selectedVersion:null,
+      versions:[
+        {version:8,stamp:"2026-07-14 09:41",published:true,config:createBrandingConfig()},
+        {version:7,stamp:"2026-07-14 09:41",published:false,config:createBrandingConfig("#18316f")},
+        {version:6,stamp:"2026-07-01 09:29",published:false,config:createBrandingConfig("#17306a")},
+        {version:5,stamp:"2026-06-17 08:30",published:false,config:createBrandingConfig("#14275f")},
+        {version:4,stamp:"2026-06-10 11:44",published:false,config:createBrandingConfig("#18346f")},
+        {version:3,stamp:"2026-06-09 14:08",published:false,config:createBrandingConfig("#1b3976")},
+        {version:2,stamp:"2026-06-04 17:09",published:false,config:createBrandingConfig("#203f7c")},
+        {version:1,stamp:"2026-06-04 17:00",published:false,config:createBrandingConfig("#244681")}
+      ]
+    },
+    sociedades:{
+      label:"Sociedades",
+      draft:createBrandingConfig("#17445f"),
+      selectedVersion:null,
+      versions:[
+        {version:4,stamp:"2026-07-12 15:26",published:true,config:createBrandingConfig("#17445f")},
+        {version:3,stamp:"2026-07-02 10:18",published:false,config:createBrandingConfig("#1d526d")},
+        {version:2,stamp:"2026-06-18 16:04",published:false,config:createBrandingConfig("#245c75")},
+        {version:1,stamp:"2026-06-05 08:35",published:false,config:createBrandingConfig("#2b657d")}
+      ]
+    }
+  };
+
+  function getPublishedBrandingConfig(moduleName){
+    const profile=brandingProfiles[moduleName]||brandingProfiles.contadores;
+    const published=profile.versions.find(item=>item.published);
+    return copyBrandingConfig(published?.config||profile.draft);
   }
 
-  ["brandingPrimary","brandingSecondary"].forEach(id=>{
-    $(id).addEventListener("input",updateBrandingPreview);
-  });
-  $("brandingFont").addEventListener("change",updateBrandingPreview);
+  function updateBrandingSample(moduleName){
+    const preview=$("brandingPreviewCard");
+    const setField=(field,value)=>{
+      preview.querySelectorAll(`[data-branding-field="${field}"]`).forEach(element=>element.textContent=value);
+    };
+    const isCompany=moduleName==="sociedades";
+    const photo=preview.querySelector(".branding-card-photo");
+    if(photo)photo.alt=isCompany?"Fotografía genérica de la sociedad":"Fotografía genérica del contador";
+    setField("status","Activa");
+    setField("registration-label",isCompany?"Registro profesional":"Tarjeta profesional");
+    setField("registration",isCompany?"SC-001458":"356042-T");
+    setField("date-label",isCompany?"Fecha de inscripción":"Fecha Res. Inscripción");
+    setField("date",isCompany?"12 - Jul - 2026":"06 - Feb - 2026");
+    setField("expedient",isCompany?"427530":"426826");
+    setField("holder-label",isCompany?"Razón social":"Nombre y apellido");
+    setField("holder",isCompany?"Cuencar Consultores S.A.S.":"Sergio Andres Niño Ibañez");
+    setField("document-label",isCompany?"NIT":"Cédula de ciudadanía");
+    setField("document",isCompany?"901.245.780-3":"1.022.413.295");
+    setField("extra-label",isCompany?"Tipo de sociedad":"Institución de Educación Superior");
+    setField("extra",isCompany?"Sociedad de contadores":"Politécnico Grancolombiano");
+    setField("resolution-label","Res. Inscripción");
+    setField("resolution",isCompany?"100":"378");
+  }
 
-  let brandingLogoUrl="";
+  function applyBrandingConfig(config){
+    $("brandingPrimary").value=config.background;
+    $("brandingSecondary").value=config.text;
+    $("brandingFont").value=config.font;
+    const preview=$("brandingPreviewCard");
+    preview.style.setProperty("--branding-card-background",config.background);
+    preview.style.setProperty("--branding-card-text",config.text);
+    preview.style.setProperty("--branding-card-font",config.font);
+    preview.querySelectorAll(".branding-card-logo").forEach(logo=>logo.src=config.logo);
+  }
+
+  function captureBrandingControls(){
+    const profile=brandingProfiles[activeBrandingModule];
+    return {
+      background:$("brandingPrimary").value,
+      text:$("brandingSecondary").value,
+      font:$("brandingFont").value,
+      logo:$("brandingPreviewLogo").getAttribute("src")||profile.draft.logo||brandingDefaultLogo
+    };
+  }
+
+  function updateBrandingPublishState(){
+    const profile=brandingProfiles[activeBrandingModule];
+    const selected=profile.versions.find(item=>item.version===profile.selectedVersion);
+    $("brandingPublish").disabled=!selected;
+    $("brandingPublishSelection").textContent=selected
+      ?`Versión v${selected.version} seleccionada para publicar.`
+      :"Seleccione una versión del historial para publicarla.";
+  }
+
+  function renderBrandingHistory(){
+    const profile=brandingProfiles[activeBrandingModule];
+    const history=$("brandingHistory");
+    history.innerHTML="";
+    profile.versions.forEach(version=>{
+      const item=document.createElement("li");
+      item.classList.toggle("selected",version.version===profile.selectedVersion);
+      const button=document.createElement("button");
+      button.type="button";
+      button.className="branding-history-item";
+      button.dataset.version=version.version;
+      const label=document.createElement("span");
+      label.textContent=`v${version.version} — ${version.stamp}`;
+      button.appendChild(label);
+      if(version.published){
+        const badge=document.createElement("span");
+        badge.className="branding-published";
+        badge.textContent="Publicada";
+        button.appendChild(badge);
+      }
+      button.addEventListener("click",()=>{
+        profile.selectedVersion=version.version;
+        applyBrandingConfig(version.config);
+        renderBrandingHistory();
+      });
+      item.appendChild(button);
+      history.appendChild(item);
+    });
+    updateBrandingPublishState();
+  }
+
+  function activateBrandingModule(moduleName){
+    if(!brandingProfiles[moduleName])return;
+    activeBrandingModule=moduleName;
+    const profile=brandingProfiles[moduleName];
+    profile.selectedVersion=null;
+    $("brandingLogo").value="";
+    $("brandingViewTitle").textContent=`Branding de credenciales — ${profile.label}`;
+    $("brandingViewDescription").textContent=`Configure de forma independiente la identidad visual de las credenciales para ${moduleName}.`;
+    const published=profile.versions.find(item=>item.published);
+    $("brandingVersion").textContent=published?.version||"—";
+    updateBrandingSample(moduleName);
+    applyBrandingConfig(profile.draft);
+    renderBrandingHistory();
+  }
+
+  function updateBrandingDraft(){
+    const profile=brandingProfiles[activeBrandingModule];
+    profile.selectedVersion=null;
+    profile.draft=captureBrandingControls();
+    applyBrandingConfig(profile.draft);
+    renderBrandingHistory();
+  }
+
+  ["brandingPrimary","brandingSecondary"].forEach(id=>$(id).addEventListener("input",updateBrandingDraft));
+  $("brandingFont").addEventListener("change",updateBrandingDraft);
+
   $("brandingLogo").addEventListener("change",()=>{
     const file=$("brandingLogo").files[0];
-    if(!file) return;
+    if(!file)return;
     if(file.size>300*1024){
       $("brandingLogo").value="";
       showToast("El logo no puede superar los 300 KB.");
@@ -5536,30 +5667,40 @@ en <!DOCTYPE html>
       showToast("Seleccione un logo PNG, JPG o SVG.");
       return;
     }
-    if(brandingLogoUrl) URL.revokeObjectURL(brandingLogoUrl);
-    brandingLogoUrl=URL.createObjectURL(file);
-    document.querySelectorAll(".branding-card-logo").forEach(logo=>logo.src=brandingLogoUrl);
+    const profile=brandingProfiles[activeBrandingModule];
+    profile.selectedVersion=null;
+    profile.draft=captureBrandingControls();
+    profile.draft.logo=URL.createObjectURL(file);
+    applyBrandingConfig(profile.draft);
+    renderBrandingHistory();
   });
 
   $("brandingSave").addEventListener("click",()=>{
-    const nextVersion=Number($("brandingVersion").textContent)+1;
-    $("brandingVersion").textContent=nextVersion;
-    document.querySelectorAll("#brandingHistory .branding-published").forEach(badge=>badge.remove());
+    const profile=brandingProfiles[activeBrandingModule];
+    profile.draft=captureBrandingControls();
+    const nextVersion=Math.max(0,...profile.versions.map(item=>item.version))+1;
     const now=new Date();
-    const stamp=now.toLocaleDateString("es-CO",{year:"numeric",month:"2-digit",day:"2-digit"})+" "+now.toLocaleTimeString("es-CO",{hour:"2-digit",minute:"2-digit"});
-    const item=document.createElement("li");
-    const label=document.createElement("span");
-    const badge=document.createElement("span");
-    label.textContent=`v${nextVersion} — ${stamp}`;
-    badge.className="branding-published";
-    badge.textContent="Publicada";
-    item.append(label,badge);
-    $("brandingHistory").prepend(item);
-    showToast(`Branding guardado como versión ${nextVersion}.`);
+    const stamp=now.toLocaleDateString("sv-SE")+" "+now.toLocaleTimeString("es-CO",{hour:"2-digit",minute:"2-digit",hour12:false});
+    profile.versions.unshift({version:nextVersion,stamp,published:false,config:copyBrandingConfig(profile.draft)});
+    profile.selectedVersion=null;
+    renderBrandingHistory();
+    showToast(`Versión v${nextVersion} guardada para ${profile.label}. Aún no está publicada.`);
+  });
+
+  $("brandingPublish").addEventListener("click",()=>{
+    const profile=brandingProfiles[activeBrandingModule];
+    const selected=profile.versions.find(item=>item.version===profile.selectedVersion);
+    if(!selected)return;
+    profile.versions.forEach(item=>item.published=item===selected);
+    profile.draft=copyBrandingConfig(selected.config);
+    profile.selectedVersion=null;
+    $("brandingVersion").textContent=selected.version;
+    applyBrandingConfig(profile.draft);
+    renderBrandingHistory();
+    showToast(`Versión v${selected.version} publicada para ${profile.label}.`);
   });
 
   $("brandingBack").addEventListener("click",()=>showView("cards"));
-  updateBrandingPreview();
 
   $("qrValidatorBack").addEventListener("click",()=>showView("cards"));
   $("qrValidatorSave").addEventListener("click",()=>{
@@ -6506,6 +6647,7 @@ en <!DOCTYPE html>
       ?"sociedades"
       :"contadores"
   );
+  activateBrandingModule(initialHash==="branding-sociedades"?"sociedades":"contadores");
   renderHistorySummary();
   renderHistoryTable();
   updateNotificationPreview();
@@ -6514,7 +6656,8 @@ en <!DOCTYPE html>
   else if(initialReportRoute==="accountants"||initialReportRoute==="companies")showView("cards");
   else if(initialReportRoute==="notifications")showView("history");
   else if(initialReportRoute==="certificates")showView("certificates");
-  else if(initialHash==="branding")showView("branding");
+  else if(initialHash==="nueva-tarjeta")openIndividualIssue();
+  else if(["branding","branding-contadores","branding-sociedades"].includes(initialHash))showView("branding");
   else if(initialHash==="validador-qr")showView("qrValidator");
   else if(initialHash==="auditoria")showView("audit");
   else if(initialHash==="certificados")showView("certificates");
