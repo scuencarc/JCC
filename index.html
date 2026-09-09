@@ -4765,6 +4765,7 @@ en <!DOCTYPE html>
               <button class="btn btn-outline-secondary btn-sm btn-icon card-actions-toggle" data-id="${row.id}" title="Más acciones" aria-haspopup="true" aria-expanded="false">⋮</button>
               <div class="card-actions-menu">
                 <button type="button" class="view-card-btn" data-id="${row.id}">▣ Ver tarjeta</button>
+                ${String(row.tarjeta).toLowerCase()==="emitida"?`<button type="button" class="regenerate-card-btn" data-id="${row.id}">↻ Regenerar</button>`:""}
                 <button type="button" class="view-card-history-btn" data-id="${row.id}">◷ Historial</button>
               </div>
             </div>
@@ -4822,6 +4823,17 @@ en <!DOCTYPE html>
 
     document.querySelectorAll(".view-card-btn").forEach(button=>{
       button.addEventListener("click",()=>openCardPreview(Number(button.dataset.id)));
+    });
+
+    document.querySelectorAll(".regenerate-card-btn").forEach(button=>{
+      button.addEventListener("click",()=>{
+        const row=cardModules[activeCardModule].rows.find(item=>item.id===Number(button.dataset.id));
+        if(!row||String(row.tarjeta).toLowerCase()!=="emitida")return;
+        document.querySelectorAll(".card-actions-menu.open").forEach(item=>item.classList.remove("open"));
+        document.querySelectorAll(".card-actions-toggle").forEach(item=>item.setAttribute("aria-expanded","false"));
+        const registration=activeCardModule==="sociedades"?row.registro:row.matricula;
+        showToast(`Tarjeta ${registration} regenerada correctamente.`);
+      });
     });
 
     document.querySelectorAll(".view-card-history-btn").forEach(button=>{
@@ -5858,7 +5870,7 @@ en <!DOCTYPE html>
     $("auditSummary").textContent=`Total ${filtered.length} registro(s) · página ${auditPage} de ${totalPages}. Use “Ver” para desplegar petición y respuesta.`;
     $("auditTableBody").innerHTML=visible.map(log=>`
       <tr><td>${escapeHtml(log.date)}</td><td><code>${escapeHtml(log.endpoint)}</code></td><td><span class="audit-method">${escapeHtml(log.method)}</span></td><td>${escapeHtml(log.typeLabel)}</td><td><span class="badge ${log.changeState?"warning":"neutral"}">${log.changeState?"True":"False"}</span></td><td><span class="audit-http ${log.http<400?"success":"error"}">${log.http}</span></td><td>${escapeHtml(log.duration)}</td><td><button type="button" class="btn btn-outline-primary btn-sm audit-view-btn" data-id="${log.id}">👁 Ver</button></td></tr>
-      <tr class="audit-detail-row" id="audit-detail-${log.id}"><td colspan="8" class="audit-detail-cell"><div class="audit-detail-grid"><div class="audit-request-panel"><strong>URL</strong><pre class="audit-code">${escapeHtml(log.url)}</pre><strong>Headers de la petición</strong><pre class="audit-code">{"Authorization":"***","Content-Type":"application/json"}</pre><strong>Parámetros / cuerpo</strong><pre class="audit-code">${escapeHtml(log.request)}</pre></div><div class="audit-response-panel"><strong>Headers de la respuesta</strong><pre class="audit-code">{"Content-Type":"application/json; charset=utf-8"}</pre><strong>Cuerpo de la respuesta</strong><pre class="audit-code">${escapeHtml(log.response)}</pre></div></div></td></tr>`).join("");
+      <tr class="audit-detail-row" id="audit-detail-${log.id}"><td colspan="8" class="audit-detail-cell"><div class="audit-detail-grid"><div class="audit-request-panel"><strong>URL</strong><pre class="audit-code">${escapeHtml(log.url)}</pre><strong>Parámetros / cuerpo</strong><pre class="audit-code">${escapeHtml(log.request)}</pre></div><div class="audit-response-panel"><strong>Cuerpo de la respuesta</strong><pre class="audit-code">${escapeHtml(log.response)}</pre></div></div></td></tr>`).join("");
     document.querySelectorAll(".audit-view-btn").forEach(button=>button.addEventListener("click",()=>{
       $("audit-detail-"+button.dataset.id).classList.toggle("visible");
     }));
