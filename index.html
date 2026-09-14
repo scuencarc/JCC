@@ -927,6 +927,7 @@ en <!DOCTYPE html>
     .individual-issue-help{margin:0 0 12px;color:var(--muted);font-size:11px;line-height:1.5}
     .individual-issue-search{display:flex;gap:8px;align-items:center}
     .individual-issue-search .control{flex:1}
+    .issue-type-control{flex:0 0 180px!important;min-width:170px}
     .individual-issue-preview{display:none}
     .individual-issue-preview.visible{display:block}
     .individual-holder{display:flex;gap:14px;align-items:center;padding:12px;border:1px solid var(--border);border-radius:7px;background:#fbfcfe}
@@ -1100,6 +1101,7 @@ en <!DOCTYPE html>
       .detail-grid{grid-template-columns:1fr}
       .individual-issue-content{margin:13px}
       .individual-issue-search,.individual-email-row{display:flex;flex-direction:column;align-items:stretch}
+      .issue-type-control{width:100%;min-width:0;flex:1 1 auto!important}
       .bulk-issue-actions{align-items:stretch;flex-direction:column}
       .bulk-file-control{width:100%;min-width:0}
       #brandingView{max-width:100vw;overflow-x:hidden}
@@ -2677,7 +2679,8 @@ en <!DOCTYPE html>
             <p class="individual-issue-help" id="individualIssueHelp">Ingrese el número de identificación. El sistema consulta el registro de matrícula y muestra una vista previa antes de emitir.</p>
             <div class="individual-issue-search">
               <input type="text" id="individualIssueIdentification" inputmode="numeric" maxlength="20" class="control" placeholder="Número de identificación">
-              <button type="button" class="btn btn-primary btn-sm" id="individualIssueSearch">⌕ Consultar matrícula</button>
+              <select id="individualIssueType" class="control issue-type-control" aria-label="Tipo de solicitud"></select>
+              <button type="button" class="btn btn-primary btn-sm" id="individualIssueSearch">⌕ Consultar</button>
             </div>
           </div>
         </section>
@@ -2722,6 +2725,7 @@ en <!DOCTYPE html>
 
             <div class="bulk-issue-actions" style="margin-top:14px">
               <input type="file" id="bulkIssueFile" accept=".csv,.txt,text/csv,text/plain" class="control bulk-file-control">
+              <select id="bulkIssueType" class="control issue-type-control" aria-label="Tipo de solicitud"></select>
               <button type="button" class="btn btn-primary btn-sm" id="bulkIssueProcess">↑ Procesar</button>
             </div>
 
@@ -5348,6 +5352,25 @@ en <!DOCTYPE html>
   });
   resetCertificateFilterBuilder();
 
+  function populateIssueTypeSelect(selectId){
+    const select=$(selectId);
+    const types=activeCardModule==="sociedades"
+      ?["Primera vez","Duplicado","Modificación"]
+      :["Primera vez","Duplicado","Sustitución"];
+    select.innerHTML="";
+    const placeholder=document.createElement("option");
+    placeholder.value="";
+    placeholder.textContent="Seleccionar tipo";
+    select.appendChild(placeholder);
+    types.forEach(type=>{
+      const option=document.createElement("option");
+      option.value=type;
+      option.textContent=type;
+      select.appendChild(option);
+    });
+    select.value="";
+  }
+
   function openIndividualIssue(){
     const isCompany=activeCardModule==="sociedades";
     $("individualIssueHeaderText").textContent=isCompany
@@ -5358,8 +5381,9 @@ en <!DOCTYPE html>
       ?"Ingrese el NIT. El sistema consulta el registro de la sociedad y muestra una vista previa antes de emitir."
       :"Ingrese el número de identificación. El sistema consulta el registro de matrícula y muestra una vista previa antes de emitir.";
     $("individualIssueIdentification").placeholder=isCompany?"NIT de la sociedad":"Número de identificación";
-    $("individualIssueSearch").textContent=isCompany?"⌕ Consultar sociedad":"⌕ Consultar matrícula";
+    $("individualIssueSearch").textContent="⌕ Consultar";
     $("individualIssueIdentification").value="";
+    populateIssueTypeSelect("individualIssueType");
     $("individualIssuePreview").classList.remove("visible");
     $("individualIssueResult").classList.remove("visible");
     showView("individualIssue");
@@ -5427,6 +5451,11 @@ en <!DOCTYPE html>
       $("individualIssueIdentification").focus();
       return;
     }
+    if(!$("individualIssueType").value){
+      showToast("Seleccione el tipo de solicitud.");
+      $("individualIssueType").focus();
+      return;
+    }
     const isCompany=activeCardModule==="sociedades";
     const normalize=value=>String(value||"").replace(/\D/g,"");
     const row=cardModules[activeCardModule].rows.find(item=>
@@ -5438,7 +5467,7 @@ en <!DOCTYPE html>
   });
 
   $("individualIssueConfirm").addEventListener("click",()=>{
-    $("individualIssueResult").textContent="Emisión confirmada correctamente.";
+    $("individualIssueResult").textContent=`Emisión confirmada correctamente. Tipo: ${$("individualIssueType").value}.`;
     $("individualIssueResult").classList.add("visible");
   });
 
@@ -5454,6 +5483,7 @@ en <!DOCTYPE html>
       ?"Suba el archivo: el sistema consulta el registro de cada sociedad, emite cada credencial y envía la notificación. Los duplicados se omiten y los errores se listan."
       :"Suba el archivo: el sistema consulta el registro de matrícula, emite cada credencial y notifica al titular. Los duplicados se omiten y los errores se listan.";
     $("bulkIssueFile").value="";
+    populateIssueTypeSelect("bulkIssueType");
     $("bulkIssueResult").className="bulk-result";
     $("bulkIssueResult").textContent="";
     showView("bulkIssue");
@@ -5487,6 +5517,12 @@ en <!DOCTYPE html>
   $("bulkIssueProcess").addEventListener("click",()=>{
     const file=$("bulkIssueFile").files[0];
     const result=$("bulkIssueResult");
+    if(!$("bulkIssueType").value){
+      result.textContent="Seleccione el tipo de solicitud antes de procesar.";
+      result.className="bulk-result visible error";
+      $("bulkIssueType").focus();
+      return;
+    }
     if(!file){
       result.textContent="Seleccione un archivo CSV o TXT antes de procesar.";
       result.className="bulk-result visible error";
@@ -5507,7 +5543,7 @@ en <!DOCTYPE html>
         return;
       }
       const holder=activeCardModule==="sociedades"?"sociedades":"contadores";
-      result.textContent=`Archivo validado: ${records} ${holder} listos para emisión. La integración con el backend procesará duplicados, errores y notificaciones.`;
+      result.textContent=`Archivo validado: ${records} ${holder} listos para emisión. Tipo: ${$("bulkIssueType").value}. La integración con el backend procesará duplicados, errores y notificaciones.`;
       result.className="bulk-result visible";
     };
     reader.onerror=()=>{
