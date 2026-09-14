@@ -959,7 +959,7 @@ en <!DOCTYPE html>
     .branding-preview-card{--branding-card-background:#14275f;--branding-card-text:#fff;--branding-card-font:Arial,sans-serif;max-width:100%;padding:16px;overflow:hidden;border:1px solid var(--border);border-radius:8px;background:#f3f5f9;box-sizing:border-box}
     .branding-preview-stack{display:grid;width:100%;max-width:400px;min-width:0;gap:14px;margin:0 auto}
     .branding-id-card{position:relative;isolation:isolate;display:flex;width:100%;max-width:100%;min-width:0;aspect-ratio:1.598/1;flex-direction:column;overflow:hidden;padding:4.4%;border-radius:7.5%;background:var(--branding-card-background);box-shadow:0 10px 24px rgba(20,39,95,.18);box-sizing:border-box;color:var(--branding-card-text);font-family:var(--branding-card-font)}
-    .branding-id-card::before{position:absolute;z-index:-2;inset:-12%;background:repeating-radial-gradient(ellipse at 20% 45%,transparent 0 9px,rgba(255,255,255,.1) 10px 12px,transparent 13px 22px);background-size:92px 74px;content:"";opacity:.52;transform:rotate(-8deg) scale(1.15)}
+    .branding-id-card::before{position:absolute;z-index:-2;inset:-12%;background-image:var(--branding-card-pattern,repeating-radial-gradient(ellipse at 20% 45%,transparent 0 9px,rgba(255,255,255,.1) 10px 12px,transparent 13px 22px));background-repeat:repeat;background-size:92px 74px;content:"";opacity:.52;transform:rotate(-8deg) scale(1.15)}
     .branding-id-card::after{position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 26% 82%,rgba(0,0,0,.77),transparent 52%),linear-gradient(115deg,rgba(0,0,0,.16),transparent 48%,rgba(41,77,193,.34));content:""}
     .branding-card-head{display:flex;justify-content:space-between;gap:14px;align-items:center;min-height:12%}
     .branding-card-head.back{justify-content:flex-end}
@@ -2755,6 +2755,10 @@ en <!DOCTYPE html>
               <div class="branding-field full">
                 <label for="brandingLogo">Logo (PNG/JPG/SVG, máximo 300 KB)</label>
                 <input type="file" id="brandingLogo" accept="image/png,image/jpeg,image/svg+xml" class="control">
+              </div>
+              <div class="branding-field full">
+                <label for="brandingPattern">Agregar patrón (PNG, máximo 500 KB)</label>
+                <input type="file" id="brandingPattern" accept="image/png" class="control">
               </div>
               <div class="branding-field">
                 <label for="brandingPrimary">Color de fondo</label>
@@ -4857,7 +4861,9 @@ en <!DOCTYPE html>
       matricula:"Tarjeta profesional",
       resolucion:"Resolución"
     };
-    const rowEntries=Object.entries(row).filter(([key])=>!["id","numero","codigo"].includes(key));
+    const excludedDetailKeys=["id","numero","codigo"];
+    if(activeCardModule==="sociedades")excludedDetailKeys.push("registro");
+    const rowEntries=Object.entries(row).filter(([key])=>!excludedDetailKeys.includes(key));
     const entries=activeCardModule==="sociedades"
       ?rowEntries
       :[["Universidad","Universidad Nacional de Colombia"],...rowEntries];
@@ -5438,6 +5444,8 @@ en <!DOCTYPE html>
     preview.style.setProperty("--branding-card-background",publishedConfig.background);
     preview.style.setProperty("--branding-card-text",publishedConfig.text);
     preview.style.setProperty("--branding-card-font",publishedConfig.font);
+    if(publishedConfig.pattern)preview.style.setProperty("--branding-card-pattern",`url("${publishedConfig.pattern}")`);
+    else preview.style.removeProperty("--branding-card-pattern");
     stack.querySelectorAll(".branding-card-logo").forEach(logo=>logo.src=publishedConfig.logo);
     preview.appendChild(stack);
   }
@@ -5552,7 +5560,7 @@ en <!DOCTYPE html>
   });
 
   const brandingDefaultLogo="logo (1).png";
-  const createBrandingConfig=(background="#14275f",text="#ffffff",font="Arial, sans-serif",logo=brandingDefaultLogo)=>({background,text,font,logo});
+  const createBrandingConfig=(background="#14275f",text="#ffffff",font="Arial, sans-serif",logo=brandingDefaultLogo,pattern="")=>({background,text,font,logo,pattern});
   const copyBrandingConfig=config=>({...config});
   const brandingProfiles={
     contadores:{
@@ -5621,6 +5629,9 @@ en <!DOCTYPE html>
     preview.style.setProperty("--branding-card-background",config.background);
     preview.style.setProperty("--branding-card-text",config.text);
     preview.style.setProperty("--branding-card-font",config.font);
+    preview.dataset.brandingPattern=config.pattern||"";
+    if(config.pattern)preview.style.setProperty("--branding-card-pattern",`url("${config.pattern}")`);
+    else preview.style.removeProperty("--branding-card-pattern");
     preview.querySelectorAll(".branding-card-logo").forEach(logo=>logo.src=config.logo);
   }
 
@@ -5630,7 +5641,8 @@ en <!DOCTYPE html>
       background:$("brandingPrimary").value,
       text:$("brandingSecondary").value,
       font:$("brandingFont").value,
-      logo:$("brandingPreviewLogo").getAttribute("src")||profile.draft.logo||brandingDefaultLogo
+      logo:$("brandingPreviewLogo").getAttribute("src")||profile.draft.logo||brandingDefaultLogo,
+      pattern:$("brandingPreviewCard").dataset.brandingPattern||""
     };
   }
 
@@ -5680,6 +5692,7 @@ en <!DOCTYPE html>
     const profile=brandingProfiles[moduleName];
     profile.selectedVersion=null;
     $("brandingLogo").value="";
+    $("brandingPattern").value="";
     $("brandingViewTitle").textContent=`Branding de credenciales — ${profile.label}`;
     $("brandingViewDescription").textContent=`Configure de forma independiente la identidad visual de las credenciales para ${moduleName}.`;
     const published=profile.versions.find(item=>item.published);
@@ -5717,6 +5730,27 @@ en <!DOCTYPE html>
     profile.selectedVersion=null;
     profile.draft=captureBrandingControls();
     profile.draft.logo=URL.createObjectURL(file);
+    applyBrandingConfig(profile.draft);
+    renderBrandingHistory();
+  });
+
+  $("brandingPattern").addEventListener("change",()=>{
+    const file=$("brandingPattern").files[0];
+    if(!file)return;
+    if(file.size>500*1024){
+      $("brandingPattern").value="";
+      showToast("El patrón no puede superar los 500 KB.");
+      return;
+    }
+    if(file.type!=="image/png"){
+      $("brandingPattern").value="";
+      showToast("Seleccione una imagen de patrón en formato PNG.");
+      return;
+    }
+    const profile=brandingProfiles[activeBrandingModule];
+    profile.selectedVersion=null;
+    profile.draft=captureBrandingControls();
+    profile.draft.pattern=URL.createObjectURL(file);
     applyBrandingConfig(profile.draft);
     renderBrandingHistory();
   });
