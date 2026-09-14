@@ -995,7 +995,7 @@ en <!DOCTYPE html>
     .qr-validator-footer{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
     .qr-validator-note{color:var(--muted);font-size:10px}
     .audit-content{margin:18px 22px}
-    .audit-filters{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr)) auto;gap:10px;align-items:end}
+    .audit-filters{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr)) auto;gap:10px;align-items:end}
     .audit-summary{margin:12px 0;color:var(--muted);font-size:10px}
     .audit-method,.audit-http{display:inline-block;padding:3px 7px;border-radius:999px;font-size:9px;font-weight:800}
     .audit-method{background:#e9ecef;color:#495057}
@@ -3092,10 +3092,8 @@ en <!DOCTYPE html>
             <div class="audit-filters">
               <div class="field"><label for="auditFrom">Desde (fecha y hora)</label><input type="datetime-local" class="control" id="auditFrom"></div>
               <div class="field"><label for="auditTo">Hasta (fecha y hora)</label><input type="datetime-local" class="control" id="auditTo"></div>
-              <div class="field"><label for="auditText">Texto (petición o respuesta)</label><input type="text" class="control" id="auditText" placeholder="Buscar similitud..."></div>
               <div class="field"><label for="auditEndpoint">Endpoint</label><select class="control" id="auditEndpoint"><option value="">Todos</option><option value="/contadores/">/contadores/</option><option value="/sociedades/">/sociedades/</option></select></div>
               <div class="field"><label for="auditType">Tipo</label><select class="control" id="auditType"><option value="">Todos</option></select></div>
-              <div class="field"><label for="auditChangeState">Cambiar estado</label><select class="control" id="auditChangeState"><option value="">Todos</option><option value="true">True</option><option value="false">False</option></select></div>
               <button type="button" class="btn btn-primary btn-sm" id="auditSearch">⌕ Buscar</button>
             </div>
             <div class="field" style="max-width:130px;margin-top:10px"><label for="auditPageSize">Por página</label><select class="control" id="auditPageSize"><option>10</option><option>20</option><option>50</option><option>100</option></select></div>
@@ -3106,7 +3104,7 @@ en <!DOCTYPE html>
         <section class="card table-card">
           <div class="table-wrap">
             <table class="data-table">
-              <thead><tr><th>Fecha y hora</th><th>Endpoint</th><th>Método</th><th>Tipo</th><th>Cambiar estado</th><th>HTTP</th><th>Duración</th><th></th></tr></thead>
+              <thead><tr><th>Fecha y hora</th><th>Endpoint</th><th>Método</th><th>Tipo</th><th>HTTP</th><th>Duración</th><th></th></tr></thead>
               <tbody id="auditTableBody"></tbody>
             </table>
           </div>
@@ -5882,19 +5880,14 @@ en <!DOCTYPE html>
   }
 
   function renderAudit(){
-    const textQuery=$("auditText").value.trim().toLowerCase();
     const endpoint=$("auditEndpoint").value;
     const type=$("auditType").value;
-    const changeState=$("auditChangeState").value;
     const from=$("auditFrom").value;
     const to=$("auditTo").value;
     const filtered=auditLogs.filter(log=>{
-      const haystack=`${log.endpoint} ${log.typeLabel} ${log.changeState} ${log.url} ${log.request} ${log.response}`.toLowerCase();
       const localDate=log.date.replace(" ","T");
-      return (!textQuery||haystack.includes(textQuery))
-        &&(!endpoint||log.endpoint===endpoint)
+      return (!endpoint||log.endpoint===endpoint)
         &&(!type||log.type===type)
-        &&(!changeState||String(log.changeState)===changeState)
         &&(!from||localDate>=from)
         &&(!to||localDate<=to);
     });
@@ -5905,8 +5898,8 @@ en <!DOCTYPE html>
     const visible=filtered.slice(start,start+pageSize);
     $("auditSummary").textContent=`Total ${filtered.length} registro(s) · página ${auditPage} de ${totalPages}. Use “Ver” para desplegar petición y respuesta.`;
     $("auditTableBody").innerHTML=visible.map(log=>`
-      <tr><td>${escapeHtml(log.date)}</td><td><code>${escapeHtml(log.endpoint)}</code></td><td><span class="audit-method">${escapeHtml(log.method)}</span></td><td>${escapeHtml(log.typeLabel)}</td><td><span class="badge ${log.changeState?"warning":"neutral"}">${log.changeState?"True":"False"}</span></td><td><span class="audit-http ${log.http<400?"success":"error"}">${log.http}</span></td><td>${escapeHtml(log.duration)}</td><td><button type="button" class="btn btn-outline-primary btn-sm audit-view-btn" data-id="${log.id}">👁 Ver</button></td></tr>
-      <tr class="audit-detail-row" id="audit-detail-${log.id}"><td colspan="8" class="audit-detail-cell"><div class="audit-detail-grid"><div class="audit-request-panel"><strong>URL</strong><pre class="audit-code">${escapeHtml(log.url)}</pre><strong>Parámetros / cuerpo</strong><pre class="audit-code">${escapeHtml(log.request)}</pre></div><div class="audit-response-panel"><strong>Cuerpo de la respuesta</strong><pre class="audit-code">${escapeHtml(log.response)}</pre></div></div></td></tr>`).join("");
+      <tr><td>${escapeHtml(log.date)}</td><td><code>${escapeHtml(log.endpoint)}</code></td><td><span class="audit-method">${escapeHtml(log.method)}</span></td><td>${escapeHtml(log.typeLabel)}</td><td><span class="audit-http ${log.http<400?"success":"error"}">${log.http}</span></td><td>${escapeHtml(log.duration)}</td><td><button type="button" class="btn btn-outline-primary btn-sm audit-view-btn" data-id="${log.id}">👁 Ver</button></td></tr>
+      <tr class="audit-detail-row" id="audit-detail-${log.id}"><td colspan="7" class="audit-detail-cell"><div class="audit-detail-grid"><div class="audit-request-panel"><strong>URL</strong><pre class="audit-code">${escapeHtml(log.url)}</pre><strong>Parámetros / cuerpo</strong><pre class="audit-code">${escapeHtml(log.request)}</pre></div><div class="audit-response-panel"><strong>Cuerpo de la respuesta</strong><pre class="audit-code">${escapeHtml(log.response)}</pre></div></div></td></tr>`).join("");
     document.querySelectorAll(".audit-view-btn").forEach(button=>button.addEventListener("click",()=>{
       $("audit-detail-"+button.dataset.id).classList.toggle("visible");
     }));
@@ -5930,10 +5923,7 @@ en <!DOCTYPE html>
     auditPage=1;
     renderAudit();
   });
-  ["auditType","auditChangeState"].forEach(id=>{
-    $(id).addEventListener("change",()=>{auditPage=1;renderAudit()});
-  });
-  $("auditText").addEventListener("keydown",event=>{if(event.key==="Enter"){auditPage=1;renderAudit()}});
+  $("auditType").addEventListener("change",()=>{auditPage=1;renderAudit()});
   updateAuditTypeOptions();
   renderAudit();
 
