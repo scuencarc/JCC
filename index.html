@@ -4295,6 +4295,7 @@ en <!DOCTYPE html>
   function openModal(title,subtitle,bodyHtml,showDuplicate=false){
     $("detailModalTitle").textContent=title;
     $("detailModalSubtitle").textContent=subtitle||"";
+    $("detailModalSubtitle").hidden=!subtitle;
     $("detailModalBody").innerHTML=bodyHtml;
     $("duplicateNotificationBtn").style.display=showDuplicate?"inline-flex":"none";
     $("detailModal").classList.add("open");
@@ -4973,7 +4974,7 @@ en <!DOCTYPE html>
         </div>
       </div>`;
     document.querySelectorAll(".card-actions-menu.open").forEach(item=>item.classList.remove("open"));
-    openModal("Tarjeta digital",row.codigo,body,false);
+    openModal("Tarjeta digital","",body,false);
     renderBrandedCardPreview(row,identification,"cardModalBrandingPreview");
     $("exportCredentialPdf").addEventListener("click",()=>{
       const previousTitle=document.title;
