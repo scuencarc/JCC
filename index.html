@@ -975,6 +975,44 @@ en <!DOCTYPE html>
     .branding-card-back-details{display:grid;grid-template-columns:1fr 36%;gap:9% 7%;align-items:end;margin-top:auto}
     .branding-card-back-details>div:nth-child(even){text-align:right}
     .branding-card-back-details .branding-card-value{font-size:clamp(10px,1.75vw,20px)}
+    .branding-preview-stack.accountant-card-stack{max-width:380px}
+    .accountant-branding-card{aspect-ratio:366/430;padding:5.45%;border-radius:6.6%;background:conic-gradient(from 90deg at 59% 49%,#091026 0deg,#000209 19deg,var(--branding-card-background) 201deg,#17244f 333deg,#091026 360deg)}
+    .accountant-branding-card::before{inset:0;background-image:var(--branding-card-pattern,url("card-pattern-jcc.jpg"));background-repeat:no-repeat;background-position:center;background-size:auto 100%;mix-blend-mode:multiply;opacity:.7;transform:none}
+    .accountant-branding-card::after{background:linear-gradient(180deg,rgba(0,2,9,0) 0 46%,rgba(0,2,9,.36) 62%,rgba(0,2,9,.9) 100%)}
+    .accountant-card-logo-row{display:flex;height:10%;align-items:flex-start;margin-bottom:4.5%}
+    .accountant-card-logo{width:100%;height:100%;padding:0;border-radius:0;background:transparent;object-fit:contain;object-position:left top}
+    .accountant-card-main{display:grid;grid-template-columns:55% 1fr;gap:6%;align-items:end;min-height:43%}
+    .accountant-branding-card .branding-card-photo{width:100%;aspect-ratio:179/174;border:0;border-radius:13.5%;box-shadow:0 5px 15px rgba(0,0,0,.22);object-fit:cover;object-position:center 28%}
+    .accountant-card-side{display:grid;gap:13px;align-content:center;text-align:right}
+    .accountant-card-info{min-width:0}
+    .accountant-card-label{display:block;margin-bottom:5px;font-size:clamp(9px,1.5vw,13px);font-weight:400;line-height:1.2}
+    .accountant-card-side .accountant-card-value{display:block;font-size:clamp(13px,2.7vw,23px);font-weight:700;line-height:1.08;overflow-wrap:anywhere}
+    .accountant-card-side .accountant-card-info:nth-child(n+2) .accountant-card-value{font-size:clamp(11px,2.05vw,18px)}
+    .accountant-card-registration{display:flex;justify-content:flex-end;gap:7px;align-items:center}
+    .accountant-card-copy{font-size:clamp(11px,1.7vw,15px);opacity:.9}
+    .accountant-card-details{display:grid;grid-template-columns:58% 1fr;gap:8% 7%;align-content:end;flex:1;padding-top:7%}
+    .accountant-card-details .accountant-card-info:nth-child(even){text-align:right}
+    .accountant-card-details .accountant-card-value{display:block;font-size:clamp(11px,2.05vw,17px);font-weight:700;line-height:1.18;overflow-wrap:anywhere}
+    .accountant-card-details .accountant-card-label{font-size:clamp(8px,1.45vw,12px)}
+    .accountant-card-details .accountant-card-info:nth-child(3) .accountant-card-value{font-size:clamp(10px,1.8vw,16px)}
+    .branding-preview-stack.company-card-stack{max-width:380px}
+    .company-branding-card{aspect-ratio:358/415.284;padding:7.8% 4.47% 6%;border-radius:6.7%;background:conic-gradient(from 90deg at 50% 50%,#170e00 0deg,var(--branding-card-background) 209deg,#170e00 360deg)}
+    .company-branding-card::before{inset:0;background-image:var(--branding-card-pattern,url("card-pattern-sociedades.jpg"));background-repeat:no-repeat;background-position:center;background-size:auto 100%;mix-blend-mode:multiply;opacity:.2;transform:none}
+    .company-branding-card::after{background:linear-gradient(180deg,rgba(23,14,0,0) 0 48%,rgba(23,14,0,.18) 67%,rgba(23,14,0,.54) 100%)}
+    .company-card-logo-row{display:flex;height:10%;align-items:flex-start;margin-bottom:7%}
+    .company-card-header-logo{width:100%;height:100%;padding:0;border-radius:0;background:transparent;object-fit:contain;object-position:left top}
+    .company-card-main{display:grid;grid-template-columns:50% 1fr;gap:12%;align-items:center;min-height:42%}
+    .company-card-mark{width:100%;aspect-ratio:163/175;padding:6%;border-radius:10%;background:#fff;box-sizing:border-box;object-fit:contain}
+    .company-card-side{display:grid;gap:13px;align-content:center;text-align:right}
+    .company-card-info{min-width:0}
+    .company-card-label{display:block;margin-bottom:5px;font-size:clamp(8px,1.42vw,12px);font-weight:400;line-height:1.2}
+    .company-card-value{display:block;font-size:clamp(10px,1.9vw,16px);font-weight:500;line-height:1.18;overflow-wrap:anywhere}
+    .company-card-side .company-card-info:first-child .company-card-value{font-size:clamp(13px,2.7vw,23px);font-weight:700}
+    .company-card-registration{display:flex;justify-content:flex-end;gap:7px;align-items:center}
+    .company-card-copy{font-size:clamp(11px,1.7vw,15px);opacity:.9}
+    .company-card-details{display:grid;grid-template-columns:61% 1fr;gap:8% 6%;align-content:end;flex:1;padding-top:7%}
+    .company-card-details .company-card-info:nth-child(even){text-align:right}
+    .company-card-details .company-card-value{font-size:clamp(9px,1.65vw,14px)}
     .branding-preview-note{margin:12px 0 0;color:var(--muted);font-size:10px;line-height:1.45;text-align:center}
     .branding-publish-actions{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:13px;padding-top:13px;border-top:1px solid var(--border)}
     .branding-publish-actions small{color:var(--muted);font-size:10px;line-height:1.4}
@@ -4900,7 +4938,7 @@ en <!DOCTYPE html>
     $("cardHistoryHolder").textContent=holder;
     $("cardHistorySubtitle").textContent=`Historial de la credencial ${row.codigo}.`;
     $("cardHistoryIdentification").textContent=`${isCompany?"NIT":"Identificación"}: ${identification}`;
-    $("cardHistoryRegistration").textContent=`${isCompany?"Registro":"Matrícula"}: ${registration}`;
+    $("cardHistoryRegistration").textContent=`${isCompany?"Inscripción":"Matrícula"}: ${registration}`;
     $("cardHistoryExpedient").textContent=`Expediente: ${row.expediente}`;
     $("cardHistoryEmail").textContent=`Correo: ${row.correo||"No registrado"}`;
     $("cardHistoryDate").textContent=`Fecha emisión: ${row.fecha}`;
@@ -5408,8 +5446,7 @@ en <!DOCTYPE html>
     const isCompany=activeCardModule==="sociedades";
     const excelRow=row?getCardExcelRow(row,activeCardModule):{};
     const preview=$(targetId);
-    const sourcePreview=$("brandingPreviewCard");
-    const stack=sourcePreview.querySelector(".branding-preview-stack").cloneNode(true);
+    const stack=createBrandingStack(activeCardModule);
     const setField=(field,value)=>{
       const element=stack.querySelector(`[data-branding-field="${field}"]`);
       if(element)element.textContent=value;
@@ -5419,25 +5456,30 @@ en <!DOCTYPE html>
       const months=["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
       return `${day} - ${months[Number(month)-1]||month} - ${year}`;
     };
+    const formatAccountantDocument=value=>{
+      const digits=String(value||"").replace(/\D/g,"");
+      return digits?digits.replace(/\B(?=(\d{3})+(?!\d))/g,"."):value;
+    };
     const fallbackRegistration=(isCompany?"SC-":"TP ")+String(identification).replace(/\D/g,"").slice(-6).padStart(6,"0")+(isCompany?"":"-T");
 
     stack.querySelectorAll("[id]").forEach(element=>element.removeAttribute("id"));
     const photo=stack.querySelector(".branding-card-photo");
     if(photo)photo.alt=isCompany?"Fotografía genérica de la sociedad":"Fotografía genérica del contador";
     setField("status",row?.tarjeta||"Activa");
-    setField("registration-label",isCompany?"Registro profesional":"Tarjeta profesional");
-    setField("registration",row?(isCompany?row.registro:row.matricula):fallbackRegistration);
-    setField("date-label",isCompany?"Fecha de inscripción":"Fecha Res. Inscripción");
+    setField("registration-label",isCompany?"Número de Registro":"Tarjeta profesional");
+    setField("registration",row?(isCompany?(excelRow.inscripcion||String(row.registro).replace(/\D/g,"")):String(row.matricula).replace(/^TP\s*/i,"")):fallbackRegistration.replace(/^(SC-|TP\s*)/i,""));
+    setField("date-label","Fecha Res. Inscripción");
     setField("date",formatDate(row?.fecha));
     setField("expedient",row?.expediente||"Pendiente");
-    setField("holder-label",isCompany?"Razón social":"Nombre y apellido");
+    setField("holder-label","Nombre");
     setField("holder",row?(isCompany?row.razonSocial:row.solicitante):(isCompany?"Sociedad de Contadores Consultada":"Contador Público Consultado"));
     setField("document-label",isCompany?"NIT":"Cédula de ciudadanía");
-    setField("document",row?(isCompany?row.nit:row.documento):identification);
-    setField("extra-label",isCompany?"Tipo de sociedad":"Institución de Educación Superior");
+    setField("document",row?(isCompany?row.nit:formatAccountantDocument(row.documento)):(isCompany?identification:formatAccountantDocument(identification)));
+    setField("extra-label",isCompany?"Tipo de registro":"Institución de Educación Superior");
     setField("extra",isCompany?(excelRow.tipoSociedad==="S"?"Sociedad de contadores":excelRow.tipoSociedad||"Sociedad registrada"):excelRow.universidad||"Universidad Nacional de Colombia");
     setField("resolution-label","Res. Inscripción");
-    setField("resolution",row?(row.resolucion??excelRow.resolucion):isCompany?"104":"0001");
+    const resolution=row?(row.resolucion??excelRow.resolucion):isCompany?"0142":"0001";
+    setField("resolution",isCompany?String(resolution).padStart(4,"0"):resolution);
 
     preview.innerHTML="";
     const publishedConfig=getPublishedBrandingConfig(activeCardModule);
@@ -5559,7 +5601,113 @@ en <!DOCTYPE html>
     reader.readAsText(file);
   });
 
-  const brandingDefaultLogo="logo (1).png";
+  function createBrandingStack(moduleName){
+    const stack=document.createElement("div");
+    if(moduleName==="sociedades"){
+      stack.className="branding-preview-stack company-card-stack";
+      stack.innerHTML=`
+        <article class="branding-id-card company-branding-card" aria-label="Vista previa de la tarjeta profesional de la sociedad">
+          <div class="company-card-logo-row">
+            <img src="card-logo-jcc.svg" id="brandingPreviewLogo" class="company-card-header-logo branding-card-logo" alt="Logo de la Junta Central de Contadores">
+          </div>
+          <div class="company-card-main">
+            <img class="company-card-mark" src="card-logo-sociedades.png" alt="Logo genérico de la sociedad">
+            <div class="company-card-side">
+              <div class="company-card-info">
+                <span class="company-card-label" data-branding-field="registration-label">Número de Registro</span>
+                <div class="company-card-registration">
+                  <strong class="company-card-value" data-branding-field="registration">5892</strong>
+                  <span class="company-card-copy" aria-hidden="true">⧉</span>
+                </div>
+              </div>
+              <div class="company-card-info">
+                <span class="company-card-label" data-branding-field="date-label">Fecha Res. Inscripción</span>
+                <strong class="company-card-value" data-branding-field="date">12 - Mar - 2025</strong>
+              </div>
+              <div class="company-card-info">
+                <span class="company-card-label">Número de Expediente</span>
+                <strong class="company-card-value" data-branding-field="expedient">621948</strong>
+              </div>
+            </div>
+          </div>
+          <div class="company-card-details">
+            <div class="company-card-info">
+              <span class="company-card-label" data-branding-field="holder-label">Nombre</span>
+              <strong class="company-card-value" data-branding-field="holder">Innovación Financiera y Tributaria S.A.S.</strong>
+            </div>
+            <div class="company-card-info">
+              <span class="company-card-label" data-branding-field="document-label">NIT</span>
+              <strong class="company-card-value" data-branding-field="document">901482310-5</strong>
+            </div>
+            <div class="company-card-info">
+              <span class="company-card-label" data-branding-field="extra-label">Tipo de registro</span>
+              <strong class="company-card-value" data-branding-field="extra">Sociedad de contadores</strong>
+            </div>
+            <div class="company-card-info">
+              <span class="company-card-label" data-branding-field="resolution-label">Res. Inscripción</span>
+              <strong class="company-card-value" data-branding-field="resolution">0142</strong>
+            </div>
+          </div>
+        </article>`;
+      return stack;
+    }
+    stack.className="branding-preview-stack accountant-card-stack";
+    stack.innerHTML=`
+      <article class="branding-id-card accountant-branding-card" aria-label="Vista previa de la tarjeta profesional del contador">
+        <div class="accountant-card-logo-row">
+          <img src="card-logo-jcc.svg" id="brandingPreviewLogo" class="accountant-card-logo branding-card-logo" alt="Logo de la Junta Central de Contadores">
+        </div>
+        <div class="accountant-card-main">
+          <img class="branding-card-photo" src="card-photo-jcc.png" alt="Fotografía genérica del contador">
+          <div class="accountant-card-side">
+            <div class="accountant-card-info">
+              <span class="accountant-card-label" data-branding-field="registration-label">Tarjeta profesional</span>
+              <div class="accountant-card-registration">
+                <strong class="accountant-card-value" data-branding-field="registration">356042-T</strong>
+                <span class="accountant-card-copy" aria-hidden="true">⧉</span>
+              </div>
+            </div>
+            <div class="accountant-card-info">
+              <span class="accountant-card-label" data-branding-field="date-label">Fecha Res. Inscripción</span>
+              <strong class="accountant-card-value" data-branding-field="date">06 - Feb - 2026</strong>
+            </div>
+            <div class="accountant-card-info">
+              <span class="accountant-card-label" data-branding-field="resolution-label">Res. Inscripción</span>
+              <strong class="accountant-card-value" data-branding-field="resolution">378</strong>
+            </div>
+          </div>
+        </div>
+        <div class="accountant-card-details">
+          <div class="accountant-card-info">
+            <span class="accountant-card-label" data-branding-field="holder-label">Nombre</span>
+            <strong class="accountant-card-value" data-branding-field="holder">Sergio Andres Niño Ibañez</strong>
+          </div>
+          <div class="accountant-card-info">
+            <span class="accountant-card-label" data-branding-field="document-label">Cédula de ciudadanía</span>
+            <strong class="accountant-card-value" data-branding-field="document">1.022.413.295</strong>
+          </div>
+          <div class="accountant-card-info">
+            <span class="accountant-card-label" data-branding-field="extra-label">Institución de Educación Superior</span>
+            <strong class="accountant-card-value" data-branding-field="extra">Politécnico Grancolombiano</strong>
+          </div>
+          <div class="accountant-card-info">
+            <span class="accountant-card-label">N. Expediente</span>
+            <strong class="accountant-card-value" data-branding-field="expedient">426826</strong>
+          </div>
+        </div>
+      </article>`;
+    return stack;
+  }
+
+  function renderBrandingTemplate(moduleName){
+    const preview=$("brandingPreviewCard");
+    const current=preview.querySelector(".branding-preview-stack");
+    const stack=createBrandingStack(moduleName);
+    if(current)current.replaceWith(stack);
+    else preview.prepend(stack);
+  }
+
+  const brandingDefaultLogo="card-logo-jcc.svg";
   const createBrandingConfig=(background="#14275f",text="#ffffff",font="Arial, sans-serif",logo=brandingDefaultLogo,pattern="")=>({background,text,font,logo,pattern});
   const copyBrandingConfig=config=>({...config});
   const brandingProfiles={
@@ -5580,13 +5728,13 @@ en <!DOCTYPE html>
     },
     sociedades:{
       label:"Sociedades",
-      draft:createBrandingConfig("#17445f"),
+      draft:createBrandingConfig("#a0a0a0","#ffffff","Arial, sans-serif","card-logo-jcc.svg"),
       selectedVersion:null,
       versions:[
-        {version:4,stamp:"2026-07-12 15:26",published:true,config:createBrandingConfig("#17445f")},
-        {version:3,stamp:"2026-07-02 10:18",published:false,config:createBrandingConfig("#1d526d")},
-        {version:2,stamp:"2026-06-18 16:04",published:false,config:createBrandingConfig("#245c75")},
-        {version:1,stamp:"2026-06-05 08:35",published:false,config:createBrandingConfig("#2b657d")}
+        {version:4,stamp:"2026-07-12 15:26",published:true,config:createBrandingConfig("#a0a0a0","#ffffff","Arial, sans-serif","card-logo-jcc.svg")},
+        {version:3,stamp:"2026-07-02 10:18",published:false,config:createBrandingConfig("#8e8b84","#ffffff","Arial, sans-serif","card-logo-jcc.svg")},
+        {version:2,stamp:"2026-06-18 16:04",published:false,config:createBrandingConfig("#77736a","#ffffff","Arial, sans-serif","card-logo-jcc.svg")},
+        {version:1,stamp:"2026-06-05 08:35",published:false,config:createBrandingConfig("#625e57","#ffffff","Arial, sans-serif","card-logo-jcc.svg")}
       ]
     }
   };
@@ -5606,19 +5754,19 @@ en <!DOCTYPE html>
     const photo=preview.querySelector(".branding-card-photo");
     if(photo)photo.alt=isCompany?"Fotografía genérica de la sociedad":"Fotografía genérica del contador";
     setField("status","Activa");
-    setField("registration-label",isCompany?"Registro profesional":"Tarjeta profesional");
-    setField("registration",isCompany?"SC-001458":"356042-T");
-    setField("date-label",isCompany?"Fecha de inscripción":"Fecha Res. Inscripción");
-    setField("date",isCompany?"12 - Jul - 2026":"06 - Feb - 2026");
-    setField("expedient",isCompany?"427530":"426826");
-    setField("holder-label",isCompany?"Razón social":"Nombre y apellido");
-    setField("holder",isCompany?"Cuencar Consultores S.A.S.":"Sergio Andres Niño Ibañez");
+    setField("registration-label",isCompany?"Número de Registro":"Tarjeta profesional");
+    setField("registration",isCompany?"5892":"356042-T");
+    setField("date-label","Fecha Res. Inscripción");
+    setField("date",isCompany?"12 - Mar - 2025":"06 - Feb - 2026");
+    setField("expedient",isCompany?"621948":"426826");
+    setField("holder-label","Nombre");
+    setField("holder",isCompany?"Innovación Financiera y Tributaria S.A.S.":"Sergio Andres Niño Ibañez");
     setField("document-label",isCompany?"NIT":"Cédula de ciudadanía");
-    setField("document",isCompany?"901.245.780-3":"1.022.413.295");
-    setField("extra-label",isCompany?"Tipo de sociedad":"Institución de Educación Superior");
+    setField("document",isCompany?"901482310-5":"1.022.413.295");
+    setField("extra-label",isCompany?"Tipo de registro":"Institución de Educación Superior");
     setField("extra",isCompany?"Sociedad de contadores":"Politécnico Grancolombiano");
     setField("resolution-label","Res. Inscripción");
-    setField("resolution",isCompany?"100":"378");
+    setField("resolution",isCompany?"0142":"378");
   }
 
   function applyBrandingConfig(config){
@@ -5697,6 +5845,7 @@ en <!DOCTYPE html>
     $("brandingViewDescription").textContent=`Configure de forma independiente la identidad visual de las credenciales para ${moduleName}.`;
     const published=profile.versions.find(item=>item.published);
     $("brandingVersion").textContent=published?.version||"—";
+    renderBrandingTemplate(moduleName);
     updateBrandingSample(moduleName);
     applyBrandingConfig(profile.draft);
     renderBrandingHistory();
