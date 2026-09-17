@@ -92,7 +92,7 @@ en <!DOCTYPE html>
       font-size:10px;
       font-weight:800;
       letter-spacing:.08em;
-      text-transform:uppercase;
+      text-transform:none;
     }
 
     .menu a{
@@ -451,7 +451,7 @@ en <!DOCTYPE html>
       border-bottom:1px solid var(--border);
       font-size:11px;
       letter-spacing:.03em;
-      text-transform:uppercase;
+      text-transform:none;
       white-space:nowrap;
     }
 
@@ -896,7 +896,7 @@ en <!DOCTYPE html>
       font-size:9px;
       font-weight:800;
       letter-spacing:.04em;
-      text-transform:uppercase;
+      text-transform:none;
     }
 
     .detail-photo-item{grid-column:1/-1}
@@ -2487,12 +2487,12 @@ en <!DOCTYPE html>
 
       <a href="#tarjetas-contadores" data-view="cards" data-card-module="contadores" class="active">
         <span class="menu-icon">▣</span>
-        <span class="menu-text">Tarjetas Contadores</span>
+        <span class="menu-text">Tarjetas contadores</span>
       </a>
 
       <a href="#tarjetas-sociedades" data-view="cards" data-card-module="sociedades">
         <span class="menu-icon">▣</span>
-        <span class="menu-text">Tarjetas Sociedades</span>
+        <span class="menu-text">Tarjetas sociedades</span>
       </a>
 
       <a href="#notificaciones" data-view="notifications">
@@ -2595,7 +2595,7 @@ en <!DOCTYPE html>
           <div class="banner-icon" id="moduleIcon">🪪</div>
           <div class="banner-content">
             <div class="banner-title-line">
-              <h2 id="moduleTitle">Tarjeta Digital para Contadores</h2>
+              <h2 id="moduleTitle">Tarjeta digital para contadores</h2>
               <span class="banner-badge" id="moduleBadge">PERSONA NATURAL</span>
             </div>
             <p id="moduleDescription">Gestión de solicitudes y credenciales digitales de contadores públicos registrados.</p>
@@ -2777,7 +2777,7 @@ en <!DOCTYPE html>
     <section id="brandingView" class="view">
       <header class="page-header">
         <div>
-          <h1 id="brandingViewTitle">Branding de credenciales — Contadores</h1>
+          <h1 id="brandingViewTitle">Branding de credenciales — contadores</h1>
           <p id="brandingViewDescription">Configure de forma independiente la identidad visual de las credenciales para contadores.</p>
         </div>
         <div class="header-actions">
@@ -2946,7 +2946,7 @@ en <!DOCTYPE html>
     <!-- VISTA USUARIOS Y PERMISOS -->
     <section id="usersView" class="view">
       <header class="page-header">
-        <div><h1>Usuarios Gestión de permisos y opciones</h1></div>
+        <div><h1>Usuarios gestión de permisos y opciones</h1></div>
       </header>
 
       <div class="permissions-content">
@@ -3146,7 +3146,7 @@ en <!DOCTYPE html>
         <section class="card table-card">
           <div class="table-wrap">
             <table class="data-table">
-              <thead><tr><th>Fecha y hora</th><th>Endpoint</th><th>Método</th><th>Tipo</th><th>HTTP</th><th>Duración</th><th></th></tr></thead>
+              <thead><tr><th>Fecha y hora</th><th>Endpoint</th><th>Método</th><th>Tipo</th><th>Http</th><th>Duración</th><th></th></tr></thead>
               <tbody id="auditTableBody"></tbody>
             </table>
           </div>
@@ -3219,7 +3219,7 @@ en <!DOCTYPE html>
     <section id="notificationsView" class="view">
       <header class="page-header">
         <div>
-          <h1>Configuración de Notificaciones</h1>
+          <h1>Configuración de notificaciones</h1>
           <p>Administre notificaciones push, alertas estándar y mensajes informativos.</p>
         </div>
         <div class="header-actions">
@@ -4318,7 +4318,7 @@ en <!DOCTYPE html>
   /* Tarjetas digitales */
   const cardModules={
     contadores:{
-      title:"Tarjeta Digital para Contadores",
+      title:"Tarjeta digital para contadores",
       badge:"PERSONA NATURAL",
       description:"Gestión de solicitudes y credenciales digitales de contadores públicos registrados.",
       icon:"🪪",
@@ -4345,7 +4345,7 @@ en <!DOCTYPE html>
       ]
     },
     sociedades:{
-      title:"Tarjeta Digital para Sociedades",
+      title:"Tarjeta digital para sociedades",
       badge:"PERSONA JURÍDICA",
       description:"Gestión de solicitudes y credenciales de sociedades de contadores y firmas registradas.",
       icon:"🏢",
@@ -4395,7 +4395,7 @@ en <!DOCTYPE html>
     sociedades:[
       ["expediente","Expediente"],
       ["razonSocial","Razón social"],
-      ["nit","NIT"],
+      ["nit","Nit"],
       ["tipo","Tipo"],
       ["fechaEmision","Fecha emisión"],
       ["tipoSociedad","Tipo de sociedad"],
@@ -4896,16 +4896,43 @@ en <!DOCTYPE html>
     const row=module.rows.find(item=>item.id===id);
     if(!row)return;
 
-    const detailLabels={
-      matricula:"Tarjeta profesional",
-      resolucion:"Resolución"
-    };
-    const excludedDetailKeys=["id","numero","codigo"];
-    if(activeCardModule==="sociedades")excludedDetailKeys.push("registro");
+    const isCompany=activeCardModule==="sociedades";
+    const detailLabels=isCompany
+      ?{
+        expediente:"Expediente",
+        tipo:"Tipo",
+        solicitante:"Razón social",
+        razonSocial:"Razón social",
+        nit:"Nit",
+        registro:"Número de inscripción",
+        matricula:"Número de inscripción",
+        tarjetaProfesional:"Número de inscripción",
+        resolucion:"Resolución",
+        tarjeta:"Estado tarjeta",
+        fecha:"Fecha emisión"
+      }
+      :{
+        Universidad:"Universidad",
+        expediente:"Expediente",
+        tipo:"Tipo",
+        solicitante:"Nombre completo",
+        documento:"Documento",
+        matricula:"Tarjeta profesional",
+        correo:"Correo",
+        tarjeta:"Estado tarjeta",
+        fecha:"Fecha emisión",
+        resolucion:"Resolución"
+      };
+    const excludedDetailKeys=["id","numero","codigo","representante","representanteLegal","representante_legal"];
     const rowEntries=Object.entries(row).filter(([key])=>!excludedDetailKeys.includes(key));
-    const entries=activeCardModule==="sociedades"
+    const entries=isCompany
       ?rowEntries
       :[["Universidad","Universidad Nacional de Colombia"],...rowEntries];
+    const formatDetailLabel=key=>{
+      if(detailLabels[key])return detailLabels[key];
+      const spaced=key.replace(/([A-Z])/g," $1").replaceAll("_"," ").trim();
+      return spaced.charAt(0).toUpperCase()+spaced.slice(1).toLowerCase();
+    };
     const body=`
       <div class="detail-grid">
         <div class="detail-item detail-photo-item">
@@ -4914,7 +4941,7 @@ en <!DOCTYPE html>
         </div>
         ${entries.map(([key,value])=>`
           <div class="detail-item">
-            <label>${escapeHtml(detailLabels[key]||key.replace(/([A-Z])/g," $1"))}</label>
+            <label>${escapeHtml(formatDetailLabel(key))}</label>
             <strong>${escapeHtml(value)}</strong>
           </div>`).join("")}
       </div>`;
@@ -5842,7 +5869,7 @@ en <!DOCTYPE html>
     profile.selectedVersion=null;
     $("brandingLogo").value="";
     $("brandingPattern").value="";
-    $("brandingViewTitle").textContent=`Branding de credenciales — ${profile.label}`;
+    $("brandingViewTitle").textContent=`Branding de credenciales — ${profile.label.toLowerCase()}`;
     $("brandingViewDescription").textContent=`Configure de forma independiente la identidad visual de las credenciales para ${moduleName}.`;
     const published=profile.versions.find(item=>item.published);
     $("brandingVersion").textContent=published?.version||"—";
