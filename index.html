@@ -956,9 +956,9 @@ en <!DOCTYPE html>
     .branding-field label{display:block;margin-bottom:5px;color:#555;font-size:10px;font-weight:700}
     .branding-color{width:100%;height:36px;padding:3px;border:1px solid var(--border);border-radius:5px;background:#fff;cursor:pointer}
     .branding-actions{display:flex;gap:8px;margin-top:15px}
-    .branding-preview-card{--branding-card-background:#14275f;--branding-card-text:#fff;--branding-card-font:Arial,sans-serif;max-width:100%;padding:16px;overflow:hidden;border:1px solid var(--border);border-radius:8px;background:#f3f5f9;box-sizing:border-box}
+    .branding-preview-card{--branding-card-background:#14275f;--branding-card-text:#fff;max-width:100%;padding:16px;overflow:hidden;border:1px solid var(--border);border-radius:8px;background:#f3f5f9;box-sizing:border-box}
     .branding-preview-stack{display:grid;width:100%;max-width:400px;min-width:0;gap:14px;margin:0 auto}
-    .branding-id-card{position:relative;isolation:isolate;display:flex;width:100%;max-width:100%;min-width:0;aspect-ratio:1.598/1;flex-direction:column;overflow:hidden;padding:4.4%;border-radius:7.5%;background:var(--branding-card-background);box-shadow:0 10px 24px rgba(20,39,95,.18);box-sizing:border-box;color:var(--branding-card-text);font-family:var(--branding-card-font)}
+    .branding-id-card{position:relative;isolation:isolate;display:flex;width:100%;max-width:100%;min-width:0;aspect-ratio:1.598/1;flex-direction:column;overflow:hidden;padding:4.4%;border-radius:7.5%;background:var(--branding-card-background);box-shadow:0 10px 24px rgba(20,39,95,.18);box-sizing:border-box;color:var(--branding-card-text);font-family:Arial,sans-serif}
     .branding-id-card::before{position:absolute;z-index:-2;inset:-12%;background-image:var(--branding-card-pattern,repeating-radial-gradient(ellipse at 20% 45%,transparent 0 9px,rgba(255,255,255,.1) 10px 12px,transparent 13px 22px));background-repeat:repeat;background-size:92px 74px;content:"";opacity:.52;transform:rotate(-8deg) scale(1.15)}
     .branding-id-card::after{position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 26% 82%,rgba(0,0,0,.77),transparent 52%),linear-gradient(115deg,rgba(0,0,0,.16),transparent 48%,rgba(41,77,193,.34));content:""}
     .branding-card-head{display:flex;justify-content:space-between;gap:14px;align-items:center;min-height:12%}
@@ -1013,6 +1013,17 @@ en <!DOCTYPE html>
     .company-card-details{display:grid;grid-template-columns:61% 1fr;gap:8% 6%;align-content:end;flex:1;padding-top:7%}
     .company-card-details .company-card-info:nth-child(even){text-align:right}
     .company-card-details .company-card-value{font-size:clamp(9px,1.65vw,14px)}
+    .branding-signature-layout{display:grid;grid-template-columns:minmax(320px,.8fr) minmax(320px,1.2fr);gap:16px;margin:18px 22px}
+    .branding-signature-standalone{display:flex;min-height:210px;flex-direction:column;justify-content:center;align-items:center;padding:24px;border:1px dashed #aeb8c5;border-radius:8px;background:#f8f9fb;text-align:center}
+    .branding-signature-standalone img{width:min(260px,80%);max-height:100px;margin-bottom:14px;object-fit:contain}
+    .branding-signature-standalone strong{color:var(--text);font-size:16px}
+    .branding-signature-standalone span{margin-top:5px;color:var(--muted);font-size:11px}
+    .branding-card-signature{display:none;min-height:8%;justify-content:flex-end;gap:8px;align-items:center;margin-top:2%;text-align:right}
+    .branding-card-signature.visible{display:flex}
+    .branding-signature-image{width:28%;max-width:92px;max-height:34px;object-fit:contain}
+    .branding-signature-copy{min-width:0;line-height:1.05}
+    .branding-signature-name{display:block;font-size:clamp(8px,1.35vw,11px);font-weight:700;overflow-wrap:anywhere}
+    .branding-signature-role{display:block;margin-top:3px;font-size:clamp(7px,1.1vw,9px);opacity:.86}
     .branding-preview-note{margin:12px 0 0;color:var(--muted);font-size:10px;line-height:1.45;text-align:center}
     .branding-publish-actions{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:13px;padding-top:13px;border-top:1px solid var(--border)}
     .branding-publish-actions small{color:var(--muted);font-size:10px;line-height:1.4}
@@ -1142,9 +1153,10 @@ en <!DOCTYPE html>
       .issue-type-control{width:100%;min-width:0;flex:1 1 auto!important}
       .bulk-issue-actions{align-items:stretch;flex-direction:column}
       .bulk-file-control{width:100%;min-width:0}
-      #brandingView{max-width:100vw;overflow-x:hidden}
-      #brandingView .page-header{max-width:100vw;box-sizing:border-box}
+      #brandingView,#brandingSignatureView{max-width:100vw;overflow-x:hidden}
+      #brandingView .page-header,#brandingSignatureView .page-header{max-width:100vw;box-sizing:border-box}
       .branding-layout{display:flex;width:calc(100vw - 26px);max-width:calc(100vw - 26px);flex-direction:column;margin:13px;box-sizing:border-box}
+      .branding-signature-layout{display:flex;width:calc(100vw - 26px);max-width:calc(100vw - 26px);flex-direction:column;margin:13px;box-sizing:border-box}
       .branding-layout>.individual-issue-card,.branding-layout>div{width:100%;max-width:100%;min-width:0;box-sizing:border-box}
       .branding-fields{grid-template-columns:1fr}
       .branding-preview-card{padding:8px}
@@ -1152,7 +1164,7 @@ en <!DOCTYPE html>
       .branding-preview-stack{gap:10px}
       .branding-preview-logo{height:25px;padding:3px 5px}
       .branding-card-status{padding:4px 10px}
-      #brandingView .control,#brandingView .branding-color{width:100%;max-width:100%;box-sizing:border-box}
+      #brandingView .control,#brandingView .branding-color,#brandingSignatureView .control{width:100%;max-width:100%;box-sizing:border-box}
       .qr-validator-content{margin:13px}
       .audit-content{margin:13px}
       .audit-filters,.audit-detail-grid{grid-template-columns:1fr}
@@ -2551,6 +2563,9 @@ en <!DOCTYPE html>
           <a href="#branding-sociedades" data-view="branding" data-branding-module="sociedades">
             <span class="menu-text">Sociedades</span>
           </a>
+          <a href="#branding-firma" data-view="brandingSignature">
+            <span class="menu-text">Firma</span>
+          </a>
         </div>
       </div>
 
@@ -2806,16 +2821,6 @@ en <!DOCTYPE html>
                 <label for="brandingSecondary">Color de letra</label>
                 <input type="color" id="brandingSecondary" class="branding-color" value="#ffffff">
               </div>
-              <div class="branding-field full">
-                <label for="brandingFont">Fuente de la letra</label>
-                <select id="brandingFont" class="control">
-                  <option value="Arial, sans-serif" selected>Arial</option>
-                  <option value="Verdana, sans-serif">Verdana</option>
-                  <option value="Trebuchet MS, sans-serif">Trebuchet MS</option>
-                  <option value="Georgia, serif">Georgia</option>
-                  <option value="Courier New, monospace">Courier New</option>
-                </select>
-              </div>
             </div>
             <div class="branding-actions">
               <button type="button" class="btn btn-primary btn-sm" id="brandingSave">Guardar nueva versión</button>
@@ -2891,6 +2896,51 @@ en <!DOCTYPE html>
             <ul class="branding-history" id="brandingHistory"></ul>
           </section>
         </div>
+      </div>
+    </section>
+
+    <!-- VISTA FIRMA DE BRANDING -->
+    <section id="brandingSignatureView" class="view">
+      <header class="page-header">
+        <div>
+          <h1>Firma</h1>
+          <p>Configure una única firma para las tarjetas de contadores y sociedades.</p>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="btn btn-outline-secondary" id="brandingSignatureBack">← Volver</button>
+        </div>
+      </header>
+
+      <div class="branding-signature-layout">
+        <section class="card individual-issue-card">
+          <div class="individual-issue-card-header">Configuración de firma</div>
+          <div class="individual-issue-card-body" id="brandingSignatureFields">
+            <div class="branding-fields">
+              <div class="branding-field full">
+                <label for="brandingSignature">Imagen de la firma (PNG, máximo 300 KB)</label>
+                <input type="file" id="brandingSignature" accept="image/png" class="control">
+              </div>
+              <div class="branding-field full">
+                <label for="brandingDirectorName">Nombre del director(a)</label>
+                <input type="text" id="brandingDirectorName" class="control" maxlength="100" placeholder="Ingrese el nombre del director(a)">
+              </div>
+            </div>
+            <div class="branding-actions">
+              <button type="button" class="btn btn-primary" id="brandingSignatureSave">Guardar firma</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card individual-issue-card">
+          <div class="individual-issue-card-header">Vista previa</div>
+          <div class="individual-issue-card-body">
+            <div class="branding-signature-standalone" id="brandingSignaturePreview">
+              <img id="brandingSignaturePreviewImage" alt="Firma del director(a)" hidden>
+              <strong id="brandingSignaturePreviewName">Nombre del director(a)</strong>
+              <span>Director(a)</span>
+            </div>
+          </div>
+        </section>
       </div>
     </section>
 
@@ -3605,63 +3655,6 @@ en <!DOCTYPE html>
         </div>
       </section>
 
-      <section class="reports-kpi-grid">
-        <article class="card report-kpi" data-report-scope="cards">
-          <div class="report-kpi-icon blue">▣</div>
-          <div>
-            <span>Tarjetas registradas</span>
-            <strong id="reportCardsTotal">1.572</strong>
-            <small><b class="positive">+8,4 %</b> frente al periodo anterior</small>
-          </div>
-        </article>
-
-        <article class="card report-kpi" data-report-scope="cards">
-          <div class="report-kpi-icon green">✓</div>
-          <div>
-            <span>Tarjetas activas</span>
-            <strong id="reportCardsActive">1.253</strong>
-            <small><b class="positive" id="reportCardsActiveRate">79,7 %</b> del total registrado</small>
-          </div>
-        </article>
-
-        <article class="card report-kpi" data-report-scope="cards">
-          <div class="report-kpi-icon yellow">◷</div>
-          <div>
-            <span>Tarjetas emitidas</span>
-            <strong id="reportCardsIssued">319</strong>
-            <small><b class="warning-text" id="reportCardsIssuedRate">20,3 %</b> pendientes de activación</small>
-          </div>
-        </article>
-
-        <article class="card report-kpi" data-report-scope="notifications">
-          <div class="report-kpi-icon purple">●</div>
-          <div>
-            <span>Notificaciones registradas</span>
-            <strong id="reportNotifications">8</strong>
-            <small><b class="positive" id="reportNotificationsDelivered">5</b> entregadas correctamente</small>
-          </div>
-        </article>
-
-        <article class="card report-kpi" data-report-scope="notifications">
-          <div class="report-kpi-icon cyan">%</div>
-          <div>
-            <span>Tasa de entrega</span>
-            <strong id="reportDeliveryRate">62,5 %</strong>
-            <small><b class="negative" id="reportNotificationsFailed">1 envío fallido</b> en el periodo</small>
-          </div>
-        </article>
-
-        <article class="card report-kpi" data-report-scope="certificates">
-          <div class="report-kpi-icon blue">▤</div>
-          <div>
-            <span>Certificados generados</span>
-            <strong id="reportCertificatesTotal">2.186</strong>
-            <small><b class="positive">+6,2 %</b> frente al periodo anterior</small>
-          </div>
-        </article>
-
-      </section>
-
       <section class="reports-dashboard-grid">
         <article class="card report-chart-card" data-report-scope="cards">
           <div class="report-card-header">
@@ -3949,6 +3942,7 @@ en <!DOCTYPE html>
     individualIssue: $("individualIssueView"),
     bulkIssue: $("bulkIssueView"),
     branding: $("brandingView"),
+    brandingSignature: $("brandingSignatureView"),
     qrValidator: $("qrValidatorView"),
     users: $("usersView"),
     audit: $("auditView"),
@@ -3980,8 +3974,8 @@ en <!DOCTYPE html>
       link.classList.toggle("active",isActiveView&&isActiveCardModule&&isActiveBrandingModule&&isActiveRoute);
     });
     if($("reportsMenuToggle"))$("reportsMenuToggle").classList.toggle("active",Boolean(activeReportRoute));
-    if($("brandingMenuToggle"))$("brandingMenuToggle").classList.toggle("active",viewName==="branding");
-    if(viewName==="branding"&&$("brandingMenuGroup")){
+    if($("brandingMenuToggle"))$("brandingMenuToggle").classList.toggle("active",viewName==="branding"||viewName==="brandingSignature");
+    if((viewName==="branding"||viewName==="brandingSignature")&&$("brandingMenuGroup")){
       $("brandingMenuGroup").classList.add("open");
       $("brandingMenuToggle").setAttribute("aria-expanded","true");
     }
@@ -3992,6 +3986,7 @@ en <!DOCTYPE html>
       individualIssue:"nueva-tarjeta",
       bulkIssue:"emision-masiva",
       branding:"branding",
+      brandingSignature:"branding-firma",
       qrValidator:"validador-qr",
       users:"usuarios",
       audit:"auditoria",
@@ -4106,6 +4101,7 @@ en <!DOCTYPE html>
       individualIssue:`${cardPrefix}.create`,
       bulkIssue:`${cardPrefix}.bulk`,
       branding:"branding.view",
+      brandingSignature:"branding.view",
       qrValidator:"qr.view",
       users:"users.view",
       audit:"audit.view",
@@ -4148,6 +4144,8 @@ en <!DOCTYPE html>
     ["#brandingEditFields","branding.edit"],
     ["#brandingSave","branding.edit"],
     ["#brandingPublish","branding.publish"],
+    ["#brandingSignatureFields","branding.edit"],
+    ["#brandingSignatureSave","branding.edit"],
     ["#qrFieldsCard","qr.fields"],
     ["#qrValidatorSave","qr.save"],
     ["#qrExpirationCard","qr.expiration"],
@@ -4385,7 +4383,7 @@ en <!DOCTYPE html>
       ["estadoRegistro","Estado registro"],
       ["resolucion","Resolución"],
       ["fechaEstado","Fecha del estado"],
-      ["fechaRegistro","Fecha de registro"],
+      ["fechaRadicacion","Fecha de radicación"],
       ["fechaResolucion","Fecha de resolución"],
       ["actaJcc","Acta JCC"],
       ["fechaGrado","Fecha de grado"],
@@ -4420,6 +4418,11 @@ en <!DOCTYPE html>
     return String(value||"Activo")
       .toLocaleLowerCase("es-CO")
       .replace(/(^|\s)\S/g,letter=>letter.toLocaleUpperCase("es-CO"));
+  }
+
+  function formatDayMonthYear(value){
+    const match=String(value||"").match(/^(\d{4})-(\d{2})-(\d{2})/);
+    return match?`${match[3]}/${match[2]}/${match[1]}`:String(value||"");
   }
 
   function getCardExcelRow(row,moduleName=activeCardModule){
@@ -4459,7 +4462,7 @@ en <!DOCTYPE html>
         estadoRegistro:formatRegistryStatus(row.estadoRegistro),
         resolucion:String(index+1).padStart(4,"0"),
         fechaEstado:`${emissionDate} 11:56:05`,
-        fechaRegistro:`${emissionDate} 17:08:27`,
+        fechaRadicacion:`${emissionDate} 17:08:27`,
         fechaResolucion:`${emissionDate} 00:00:00`,
         actaJcc:451+index,
         fechaGrado:graduationDates[index]||"",
@@ -4800,6 +4803,7 @@ en <!DOCTYPE html>
         const cells=visibleColumns.map(([key])=>{
           if(key==="estadoTarjeta")return `<td>${cardStatusBadge(row.tarjeta)}</td>`;
           if(key==="estadoRegistro"||key==="estadoSociedad")return `<td>${registryStatusBadge(excelRow[key])}</td>`;
+          if(key==="fechaResolucion")return `<td>${escapeHtml(formatDayMonthYear(excelRow[key]))}</td>`;
           return `<td>${escapeHtml(excelRow[key])}</td>`;
         }).join("");
 
@@ -5156,7 +5160,7 @@ en <!DOCTYPE html>
 
     const csv=[
       columns.map(([,label])=>csvValue(label)).join(";"),
-      ...exportRows.map(row=>columns.map(([key])=>csvValue(row[key])).join(";"))
+      ...exportRows.map(row=>columns.map(([key])=>csvValue(key==="fechaResolucion"?formatDayMonthYear(row[key]):row[key])).join(";"))
     ].join("\r\n");
     const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
     const url=URL.createObjectURL(blob);
@@ -5513,10 +5517,10 @@ en <!DOCTYPE html>
     const publishedConfig=getPublishedBrandingConfig(activeCardModule);
     preview.style.setProperty("--branding-card-background",publishedConfig.background);
     preview.style.setProperty("--branding-card-text",publishedConfig.text);
-    preview.style.setProperty("--branding-card-font",publishedConfig.font);
     if(publishedConfig.pattern)preview.style.setProperty("--branding-card-pattern",`url("${publishedConfig.pattern}")`);
     else preview.style.removeProperty("--branding-card-pattern");
     stack.querySelectorAll(".branding-card-logo").forEach(logo=>logo.src=publishedConfig.logo);
+    applyBrandingSignature(stack,brandingSignatureConfig);
     preview.appendChild(stack);
   }
 
@@ -5676,6 +5680,13 @@ en <!DOCTYPE html>
               <strong class="company-card-value" data-branding-field="resolution">0142</strong>
             </div>
           </div>
+          <div class="branding-card-signature">
+            <img class="branding-signature-image" alt="Firma del director(a)" hidden>
+            <div class="branding-signature-copy">
+              <strong class="branding-signature-name" data-branding-field="director-name"></strong>
+              <small class="branding-signature-role">Director(a)</small>
+            </div>
+          </div>
         </article>`;
       return stack;
     }
@@ -5723,6 +5734,13 @@ en <!DOCTYPE html>
             <strong class="accountant-card-value" data-branding-field="expedient">426826</strong>
           </div>
         </div>
+        <div class="branding-card-signature">
+          <img class="branding-signature-image" alt="Firma del director(a)" hidden>
+          <div class="branding-signature-copy">
+            <strong class="branding-signature-name" data-branding-field="director-name"></strong>
+            <small class="branding-signature-role">Director(a)</small>
+          </div>
+        </div>
       </article>`;
     return stack;
   }
@@ -5736,7 +5754,8 @@ en <!DOCTYPE html>
   }
 
   const brandingDefaultLogo="card-logo-jcc.svg";
-  const createBrandingConfig=(background="#14275f",text="#ffffff",font="Arial, sans-serif",logo=brandingDefaultLogo,pattern="")=>({background,text,font,logo,pattern});
+  const brandingSignatureConfig={signature:"",directorName:""};
+  const createBrandingConfig=(background="#14275f",text="#ffffff",logo=brandingDefaultLogo,pattern="")=>({background,text,logo,pattern});
   const copyBrandingConfig=config=>({...config});
   const brandingProfiles={
     contadores:{
@@ -5756,13 +5775,13 @@ en <!DOCTYPE html>
     },
     sociedades:{
       label:"Sociedades",
-      draft:createBrandingConfig("#a0a0a0","#ffffff","Arial, sans-serif","card-logo-jcc.svg"),
+      draft:createBrandingConfig("#a0a0a0","#ffffff","card-logo-jcc.svg"),
       selectedVersion:null,
       versions:[
-        {version:4,stamp:"2026-07-12 15:26",published:true,config:createBrandingConfig("#a0a0a0","#ffffff","Arial, sans-serif","card-logo-jcc.svg")},
-        {version:3,stamp:"2026-07-02 10:18",published:false,config:createBrandingConfig("#8e8b84","#ffffff","Arial, sans-serif","card-logo-jcc.svg")},
-        {version:2,stamp:"2026-06-18 16:04",published:false,config:createBrandingConfig("#77736a","#ffffff","Arial, sans-serif","card-logo-jcc.svg")},
-        {version:1,stamp:"2026-06-05 08:35",published:false,config:createBrandingConfig("#625e57","#ffffff","Arial, sans-serif","card-logo-jcc.svg")}
+        {version:4,stamp:"2026-07-12 15:26",published:true,config:createBrandingConfig("#a0a0a0","#ffffff","card-logo-jcc.svg")},
+        {version:3,stamp:"2026-07-02 10:18",published:false,config:createBrandingConfig("#8e8b84","#ffffff","card-logo-jcc.svg")},
+        {version:2,stamp:"2026-06-18 16:04",published:false,config:createBrandingConfig("#77736a","#ffffff","card-logo-jcc.svg")},
+        {version:1,stamp:"2026-06-05 08:35",published:false,config:createBrandingConfig("#625e57","#ffffff","card-logo-jcc.svg")}
       ]
     }
   };
@@ -5797,18 +5816,37 @@ en <!DOCTYPE html>
     setField("resolution",isCompany?"0142":"378");
   }
 
+  function applyBrandingSignature(root,config){
+    const signature=config.signature||"";
+    const directorName=config.directorName||"";
+    root.querySelectorAll(".branding-card-signature").forEach(section=>{
+      section.classList.toggle("visible",Boolean(signature||directorName));
+    });
+    root.querySelectorAll(".branding-signature-image").forEach(image=>{
+      if(signature){
+        image.src=signature;
+        image.hidden=false;
+      }else{
+        image.removeAttribute("src");
+        image.hidden=true;
+      }
+    });
+    root.querySelectorAll('[data-branding-field="director-name"]').forEach(element=>{
+      element.textContent=directorName;
+    });
+  }
+
   function applyBrandingConfig(config){
     $("brandingPrimary").value=config.background;
     $("brandingSecondary").value=config.text;
-    $("brandingFont").value=config.font;
     const preview=$("brandingPreviewCard");
     preview.style.setProperty("--branding-card-background",config.background);
     preview.style.setProperty("--branding-card-text",config.text);
-    preview.style.setProperty("--branding-card-font",config.font);
     preview.dataset.brandingPattern=config.pattern||"";
     if(config.pattern)preview.style.setProperty("--branding-card-pattern",`url("${config.pattern}")`);
     else preview.style.removeProperty("--branding-card-pattern");
     preview.querySelectorAll(".branding-card-logo").forEach(logo=>logo.src=config.logo);
+    applyBrandingSignature(preview,brandingSignatureConfig);
   }
 
   function captureBrandingControls(){
@@ -5816,7 +5854,6 @@ en <!DOCTYPE html>
     return {
       background:$("brandingPrimary").value,
       text:$("brandingSecondary").value,
-      font:$("brandingFont").value,
       logo:$("brandingPreviewLogo").getAttribute("src")||profile.draft.logo||brandingDefaultLogo,
       pattern:$("brandingPreviewCard").dataset.brandingPattern||""
     };
@@ -5888,7 +5925,6 @@ en <!DOCTYPE html>
   }
 
   ["brandingPrimary","brandingSecondary"].forEach(id=>$(id).addEventListener("input",updateBrandingDraft));
-  $("brandingFont").addEventListener("change",updateBrandingDraft);
 
   $("brandingLogo").addEventListener("change",()=>{
     const file=$("brandingLogo").files[0];
@@ -5932,6 +5968,57 @@ en <!DOCTYPE html>
     renderBrandingHistory();
   });
 
+  $("brandingSignature").addEventListener("change",()=>{
+    const file=$("brandingSignature").files[0];
+    if(!file)return;
+    if(file.size>300*1024){
+      $("brandingSignature").value="";
+      showToast("La firma no puede superar los 300 KB.");
+      return;
+    }
+    if(file.type!=="image/png"){
+      $("brandingSignature").value="";
+      showToast("Seleccione una imagen de firma en formato PNG.");
+      return;
+    }
+    brandingSignatureConfig.signature=URL.createObjectURL(file);
+    renderBrandingSignatureConfiguration();
+  });
+
+  function renderBrandingSignatureConfiguration(){
+    const previewImage=$("brandingSignaturePreviewImage");
+    if(brandingSignatureConfig.signature){
+      previewImage.src=brandingSignatureConfig.signature;
+      previewImage.hidden=false;
+    }else{
+      previewImage.removeAttribute("src");
+      previewImage.hidden=true;
+    }
+    $("brandingSignaturePreviewName").textContent=brandingSignatureConfig.directorName||"Nombre del director(a)";
+    applyBrandingSignature($("brandingPreviewCard"),brandingSignatureConfig);
+  }
+
+  $("brandingDirectorName").addEventListener("input",()=>{
+    brandingSignatureConfig.directorName=$("brandingDirectorName").value.trim();
+    renderBrandingSignatureConfiguration();
+  });
+
+  $("brandingSignatureSave").addEventListener("click",()=>{
+    brandingSignatureConfig.directorName=$("brandingDirectorName").value.trim();
+    if(!brandingSignatureConfig.signature){
+      showToast("Seleccione la imagen PNG de la firma.");
+      $("brandingSignature").focus();
+      return;
+    }
+    if(!brandingSignatureConfig.directorName){
+      showToast("Ingrese el nombre del director(a).");
+      $("brandingDirectorName").focus();
+      return;
+    }
+    renderBrandingSignatureConfiguration();
+    showToast("Firma guardada para las tarjetas de contadores y sociedades.");
+  });
+
   $("brandingSave").addEventListener("click",()=>{
     const profile=brandingProfiles[activeBrandingModule];
     profile.draft=captureBrandingControls();
@@ -5958,6 +6045,7 @@ en <!DOCTYPE html>
   });
 
   $("brandingBack").addEventListener("click",()=>showView("cards"));
+  $("brandingSignatureBack").addEventListener("click",()=>showView("cards"));
 
   $("qrValidatorBack").addEventListener("click",()=>showView("cards"));
   $("qrValidatorSave").addEventListener("click",()=>{
@@ -6734,36 +6822,6 @@ en <!DOCTYPE html>
     }
 
     const {total,active,issued}=selectedCards;
-    const activeRate=total?(active/total)*100:0;
-    const issuedRate=total?(issued/total)*100:0;
-    const notificationTotals={
-      all:{total:8,delivered:5,failed:1},
-      entregada:{total:5,delivered:5,failed:0},
-      programada:{total:1,delivered:0,failed:0},
-      fallida:{total:1,delivered:0,failed:1}
-    };
-    const selectedNotifications=type==="notifications"
-      ?(notificationTotals[status]||notificationTotals.all)
-      :notificationTotals.all;
-    const registeredNotifications=selectedNotifications.total;
-    const delivered=selectedNotifications.delivered;
-    const rate=registeredNotifications?((delivered/registeredNotifications)*100):0;
-    const certificateTotals={
-      all:{total:2186,downloaded:2151,pending:35},
-      accountants:{total:1768,downloaded:1739,pending:29},
-      companies:{total:418,downloaded:412,pending:6}
-    };
-    const selectedCertificates={...certificateTotals[segment]};
-    $("reportCardsTotal").textContent=total.toLocaleString("es-CO");
-    $("reportCardsActive").textContent=active.toLocaleString("es-CO");
-    $("reportCardsIssued").textContent=issued.toLocaleString("es-CO");
-    $("reportCardsActiveRate").textContent=activeRate.toLocaleString("es-CO",{minimumFractionDigits:1,maximumFractionDigits:1})+" %";
-    $("reportCardsIssuedRate").textContent=issuedRate.toLocaleString("es-CO",{minimumFractionDigits:1,maximumFractionDigits:1})+" %";
-    $("reportNotifications").textContent=registeredNotifications.toLocaleString("es-CO");
-    $("reportNotificationsDelivered").textContent=delivered.toLocaleString("es-CO");
-    $("reportNotificationsFailed").textContent=`${selectedNotifications.failed.toLocaleString("es-CO")} envío${selectedNotifications.failed===1?"":"s"} fallido${selectedNotifications.failed===1?"":"s"}`;
-    $("reportDeliveryRate").textContent=rate.toLocaleString("es-CO",{minimumFractionDigits:1,maximumFractionDigits:1})+" %";
-    $("reportCertificatesTotal").textContent=selectedCertificates.total.toLocaleString("es-CO");
 
     const statusRows=$("cardsStatusChart").querySelectorAll(".horizontal-chart-row");
     const chartValues=[active,0,0,issued];
@@ -6897,6 +6955,7 @@ en <!DOCTYPE html>
       :"contadores"
   );
   activateBrandingModule(initialHash==="branding-sociedades"?"sociedades":"contadores");
+  renderBrandingSignatureConfiguration();
   renderHistorySummary();
   renderHistoryTable();
   updateNotificationPreview();
@@ -6907,6 +6966,7 @@ en <!DOCTYPE html>
   else if(initialReportRoute==="certificates")showView("certificates");
   else if(initialHash==="nueva-tarjeta")openIndividualIssue();
   else if(["branding","branding-contadores","branding-sociedades"].includes(initialHash))showView("branding");
+  else if(initialHash==="branding-firma")showView("brandingSignature");
   else if(initialHash==="validador-qr")showView("qrValidator");
   else if(initialHash==="auditoria")showView("audit");
   else if(initialHash==="certificados")showView("certificates");
