@@ -2569,10 +2569,21 @@ en <!DOCTYPE html>
         </div>
       </div>
 
-      <a href="#validador-qr" data-view="qrValidator">
-        <span class="menu-icon">▦</span>
-        <span class="menu-text">Validador QR</span>
-      </a>
+      <div class="report-menu-group open" id="qrValidatorMenuGroup">
+        <button type="button" class="report-menu-toggle" id="qrValidatorMenuToggle" aria-expanded="true" aria-controls="qrValidatorSubmenu">
+          <span class="menu-icon">▦</span>
+          <span class="menu-text">Validador QR</span>
+          <span class="report-menu-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="report-menu-submenu" id="qrValidatorSubmenu">
+          <a href="#validador-qr-contador" data-view="qrValidator" data-qr-module="contador">
+            <span class="menu-text">Contador</span>
+          </a>
+          <a href="#validador-qr-sociedad" data-view="qrValidator" data-qr-module="sociedad">
+            <span class="menu-text">Sociedad</span>
+          </a>
+        </div>
+      </div>
 
       <a href="#auditoria" data-view="audit">
         <span class="menu-icon">↺</span>
@@ -2948,8 +2959,8 @@ en <!DOCTYPE html>
     <section id="qrValidatorView" class="view">
       <header class="page-header">
         <div>
-          <h1>Campos del validador (verificación pública)</h1>
-          <p>Defina la información visible al consultar el código QR de una tarjeta.</p>
+          <h1 id="qrValidatorTitle">Validador QR — contador</h1>
+          <p id="qrValidatorDescription">Defina la información visible al consultar el código QR de una tarjeta de contador.</p>
         </div>
         <div class="header-actions">
           <button type="button" class="btn btn-outline-secondary" id="qrValidatorBack">← Volver</button>
@@ -2958,17 +2969,10 @@ en <!DOCTYPE html>
 
       <div class="qr-validator-content">
         <section class="card individual-issue-card" id="qrFieldsCard">
-          <div class="individual-issue-card-header">Seleccione los campos visibles al verificar el QR de una tarjeta</div>
+          <div class="individual-issue-card-header" id="qrValidatorFieldsTitle">Campos visibles de la tarjeta del contador</div>
           <div class="individual-issue-card-body">
             <form id="qrValidatorForm">
-              <div class="qr-field-list">
-                <label class="qr-field-option"><input type="checkbox" value="foto" checked> <span>Fotografía</span></label>
-                <label class="qr-field-option"><input type="checkbox" value="nombres" checked> <span>Nombres</span></label>
-                <label class="qr-field-option"><input type="checkbox" value="matricula" checked> <span>Matrícula</span></label>
-                <label class="qr-field-option"><input type="checkbox" value="numero_identificacion"> <span>Identificación</span></label>
-                <label class="qr-field-option"><input type="checkbox" value="codigo_tarjeta" checked> <span>Código de tarjeta</span></label>
-                <label class="qr-field-option"><input type="checkbox" value="estado" checked> <span>Estado (vigente)</span></label>
-              </div>
+              <div class="qr-field-list" id="qrValidatorFieldsList"></div>
             </form>
             <div class="qr-validator-footer">
               <button type="button" class="btn btn-primary btn-sm" id="qrValidatorSave">Guardar</button>
@@ -2977,19 +2981,6 @@ en <!DOCTYPE html>
           </div>
         </section>
 
-        <section class="card individual-issue-card" id="qrExpirationCard">
-          <div class="individual-issue-card-header">Tiempo de expiración del QR de la app</div>
-          <div class="individual-issue-card-body">
-            <p class="individual-issue-help">Defina cada cuántos segundos debe expirar y renovarse el código QR dinámico.</p>
-            <div class="individual-issue-search">
-              <div class="field" style="flex:1">
-                <label for="qrExpirationSeconds">Tiempo de expiración (segundos)</label>
-                <input type="number" id="qrExpirationSeconds" class="control" min="5" max="3600" step="1" value="12">
-              </div>
-              <button type="button" class="btn btn-primary btn-sm" id="qrExpirationSave">Guardar</button>
-            </div>
-          </div>
-        </section>
       </div>
     </section>
 
@@ -3128,7 +3119,6 @@ en <!DOCTYPE html>
             <div class="permissions-options">
               <label class="permission-option"><input type="checkbox" data-permission="qr.view">Consultar configuración</label>
               <label class="permission-option"><input type="checkbox" data-permission="qr.fields">Configurar campos visibles</label>
-              <label class="permission-option"><input type="checkbox" data-permission="qr.expiration">Configurar expiración</label>
               <label class="permission-option"><input type="checkbox" data-permission="qr.save">Guardar configuración</label>
             </div>
           </fieldset>
@@ -3968,16 +3958,22 @@ en <!DOCTYPE html>
       const isActiveView=link.dataset.view===viewName;
       const isActiveCardModule=!link.dataset.cardModule||link.dataset.cardModule===activeCardModule;
       const isActiveBrandingModule=!link.dataset.brandingModule||link.dataset.brandingModule===activeBrandingModule;
+      const isActiveQrModule=!link.dataset.qrModule||link.dataset.qrModule===activeQrValidatorModule;
       const isActiveRoute=activeReportRoute
         ? link.dataset.reportRoute===activeReportRoute
         : !link.dataset.reportRoute;
-      link.classList.toggle("active",isActiveView&&isActiveCardModule&&isActiveBrandingModule&&isActiveRoute);
+      link.classList.toggle("active",isActiveView&&isActiveCardModule&&isActiveBrandingModule&&isActiveQrModule&&isActiveRoute);
     });
     if($("reportsMenuToggle"))$("reportsMenuToggle").classList.toggle("active",Boolean(activeReportRoute));
     if($("brandingMenuToggle"))$("brandingMenuToggle").classList.toggle("active",viewName==="branding"||viewName==="brandingSignature");
     if((viewName==="branding"||viewName==="brandingSignature")&&$("brandingMenuGroup")){
       $("brandingMenuGroup").classList.add("open");
       $("brandingMenuToggle").setAttribute("aria-expanded","true");
+    }
+    if($("qrValidatorMenuToggle"))$("qrValidatorMenuToggle").classList.toggle("active",viewName==="qrValidator");
+    if(viewName==="qrValidator"&&$("qrValidatorMenuGroup")){
+      $("qrValidatorMenuGroup").classList.add("open");
+      $("qrValidatorMenuToggle").setAttribute("aria-expanded","true");
     }
 
     const hashMap = {
@@ -4000,7 +3996,11 @@ en <!DOCTYPE html>
       ? reportRouteHashes[activeReportRoute]
       : viewName==="cards"
         ?`tarjetas-${activeCardModule}`
-        :viewName==="branding"?`branding-${activeBrandingModule}`:hashMap[viewName];
+        :viewName==="branding"
+          ?`branding-${activeBrandingModule}`
+          :viewName==="qrValidator"
+            ?`validador-qr-${activeQrValidatorModule}`
+            :hashMap[viewName];
     history.replaceState(null,"","#"+viewHash);
     window.scrollTo({top:0,behavior:"smooth"});
     return true;
@@ -4016,6 +4016,7 @@ en <!DOCTYPE html>
       setReportRoute(link.dataset.reportRoute||"");
       if(link.dataset.cardModule)activateCardModule(link.dataset.cardModule);
       if(link.dataset.brandingModule)activateBrandingModule(link.dataset.brandingModule);
+      if(link.dataset.qrModule)activateQrValidatorModule(link.dataset.qrModule);
       showView(link.dataset.view);
     });
   });
@@ -4033,6 +4034,14 @@ en <!DOCTYPE html>
       const group=$("brandingMenuGroup");
       const isOpen=group.classList.toggle("open");
       $("brandingMenuToggle").setAttribute("aria-expanded",String(isOpen));
+    });
+  }
+
+  if($("qrValidatorMenuToggle")){
+    $("qrValidatorMenuToggle").addEventListener("click",()=>{
+      const group=$("qrValidatorMenuGroup");
+      const isOpen=group.classList.toggle("open");
+      $("qrValidatorMenuToggle").setAttribute("aria-expanded",String(isOpen));
     });
   }
 
@@ -4125,7 +4134,7 @@ en <!DOCTYPE html>
     ['#nxSidebar a[href="#reporte-certificados"]',"reports.certificates"],
     ['#nxSidebar a[href="#certificados"]',"certificates.view"],
     ["#brandingMenuGroup","branding.view"],
-    ['#nxSidebar a[href="#validador-qr"]',"qr.view"],
+    ["#qrValidatorMenuGroup","qr.view"],
     ['#nxSidebar a[href="#auditoria"]',"audit.view"],
     ["#exportCertificatesBtn","certificates.export"],
     ['#certificatesView > .certificate-filters-card',"certificates.filter"],
@@ -4148,8 +4157,6 @@ en <!DOCTYPE html>
     ["#brandingSignatureSave","branding.edit"],
     ["#qrFieldsCard","qr.fields"],
     ["#qrValidatorSave","qr.save"],
-    ["#qrExpirationCard","qr.expiration"],
-    ["#qrExpirationSave","qr.expiration"],
     ["#auditView .audit-content > .individual-issue-card","audit.filter"],
     [".audit-request-panel","audit.request"],
     [".audit-response-panel","audit.response"],
@@ -4494,6 +4501,7 @@ en <!DOCTYPE html>
 
   let activeCardModule="contadores";
   let activeBrandingModule="contadores";
+  let activeQrValidatorModule="contador";
   let cardsPage=1;
   let appliedCardFilters=[];
   let stagedCardFilters=[];
@@ -6047,6 +6055,52 @@ en <!DOCTYPE html>
   $("brandingBack").addEventListener("click",()=>showView("cards"));
   $("brandingSignatureBack").addEventListener("click",()=>showView("cards"));
 
+  const qrValidatorFieldSets={
+    contador:[
+      {value:"tarjeta_profesional",label:"Tarjeta profesional"},
+      {value:"fecha_resolucion_inscripcion",label:"Fecha resolución de inscripción"},
+      {value:"resolucion_inscripcion",label:"Resolución de inscripción"},
+      {value:"nombre",label:"Nombre"},
+      {value:"cedula_ciudadania",label:"Cédula de ciudadanía"},
+      {value:"institucion_educacion_superior",label:"Institución de educación superior"},
+      {value:"numero_expediente",label:"Número de expediente"},
+      {value:"estado",label:"Estado (vigente)"}
+    ],
+    sociedad:[
+      {value:"numero_registro",label:"Número de registro"},
+      {value:"fecha_resolucion_inscripcion",label:"Fecha resolución inscripción"},
+      {value:"numero_expediente",label:"Número de expediente"},
+      {value:"razon_social",label:"Razón social"},
+      {value:"nit",label:"NIT"},
+      {value:"tipo_registro",label:"Tipo de registro"},
+      {value:"resolucion_inscripcion",label:"Resolución de inscripción"}
+    ]
+  };
+
+  function getQrValidatorSelection(moduleName){
+    const fields=qrValidatorFieldSets[moduleName]||qrValidatorFieldSets.contador;
+    try{
+      const stored=JSON.parse(localStorage.getItem(`jccQrValidatorFields:${moduleName}`));
+      if(Array.isArray(stored))return new Set(stored);
+    }catch(error){}
+    return new Set(fields.map(field=>field.value));
+  }
+
+  function activateQrValidatorModule(moduleName){
+    if(!qrValidatorFieldSets[moduleName])return;
+    activeQrValidatorModule=moduleName;
+    const isCompany=moduleName==="sociedad";
+    const selection=getQrValidatorSelection(moduleName);
+    $("qrValidatorTitle").textContent=`Validador QR — ${moduleName}`;
+    $("qrValidatorDescription").textContent=`Defina la información visible al consultar el código QR de una tarjeta de ${moduleName}.`;
+    $("qrValidatorFieldsTitle").textContent=`Campos visibles de la tarjeta ${isCompany?"de la sociedad":"del contador"}`;
+    $("qrValidatorFieldsList").innerHTML=qrValidatorFieldSets[moduleName].map(field=>`
+      <label class="qr-field-option">
+        <input type="checkbox" value="${escapeHtml(field.value)}" ${selection.has(field.value)?"checked":""}>
+        <span>${escapeHtml(field.label)}</span>
+      </label>`).join("");
+  }
+
   $("qrValidatorBack").addEventListener("click",()=>showView("cards"));
   $("qrValidatorSave").addEventListener("click",()=>{
     const selected=[...document.querySelectorAll('#qrValidatorForm input[type="checkbox"]:checked')];
@@ -6054,20 +6108,8 @@ en <!DOCTYPE html>
       showToast("Seleccione al menos un campo para la verificación pública.");
       return;
     }
-    showToast(`${selected.length} campos del Validador QR guardados correctamente.`);
-  });
-
-  const storedQrExpiration=Number(localStorage.getItem("jccQrExpirationSeconds"));
-  if(storedQrExpiration>=5&&storedQrExpiration<=3600) $("qrExpirationSeconds").value=storedQrExpiration;
-  $("qrExpirationSave").addEventListener("click",()=>{
-    const seconds=Number($("qrExpirationSeconds").value);
-    if(!Number.isInteger(seconds)||seconds<5||seconds>3600){
-      showToast("Ingrese un tiempo entre 5 y 3600 segundos.");
-      $("qrExpirationSeconds").focus();
-      return;
-    }
-    localStorage.setItem("jccQrExpirationSeconds",String(seconds));
-    showToast(`Tiempo de expiración guardado: ${seconds} segundos.`);
+    localStorage.setItem(`jccQrValidatorFields:${activeQrValidatorModule}`,JSON.stringify(selected.map(field=>field.value)));
+    showToast(`${selected.length} campos del validador QR para ${activeQrValidatorModule} guardados correctamente.`);
   });
 
   const auditLogs=[
@@ -6956,6 +6998,7 @@ en <!DOCTYPE html>
   );
   activateBrandingModule(initialHash==="branding-sociedades"?"sociedades":"contadores");
   renderBrandingSignatureConfiguration();
+  activateQrValidatorModule(initialHash==="validador-qr-sociedad"?"sociedad":"contador");
   renderHistorySummary();
   renderHistoryTable();
   updateNotificationPreview();
@@ -6967,7 +7010,7 @@ en <!DOCTYPE html>
   else if(initialHash==="nueva-tarjeta")openIndividualIssue();
   else if(["branding","branding-contadores","branding-sociedades"].includes(initialHash))showView("branding");
   else if(initialHash==="branding-firma")showView("brandingSignature");
-  else if(initialHash==="validador-qr")showView("qrValidator");
+  else if(["validador-qr","validador-qr-contador","validador-qr-sociedad"].includes(initialHash))showView("qrValidator");
   else if(initialHash==="auditoria")showView("audit");
   else if(initialHash==="certificados")showView("certificates");
   else if(initialHash==="notificaciones")showView("notifications");
