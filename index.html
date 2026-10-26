@@ -392,6 +392,17 @@ en <!DOCTYPE html>
     }
     .certificate-filter-chip b{color:var(--primary)}
     .certificate-filter-chip i{font-style:normal;color:#26384b;font-size:13px;line-height:1}
+    .certificate-unified-filters{display:grid;grid-template-columns:minmax(280px,2fr) minmax(180px,.7fr);gap:14px;align-items:end}
+    .certificate-unified-table{min-width:1180px}
+    .certificate-type-badge{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;font-size:9px;font-weight:700;white-space:nowrap}
+    .certificate-type-badge.accountant{background:#e7f0ff;color:#1856a7}
+    .certificate-type-badge.company{background:#f2eaff;color:#6841a5}
+    .certificate-active-status{display:inline-flex;gap:6px;align-items:center;color:#137a47;font-size:10px;font-weight:700;white-space:nowrap}
+    .certificate-active-status::before{width:7px;height:7px;border-radius:50%;background:#18a662;content:""}
+    .certificate-actions{display:flex;gap:7px;align-items:center;white-space:nowrap}
+    .certificate-detail-section-title{margin:18px 0 9px;font-size:13px}
+    .certificate-detail-table{min-width:760px}
+    .certificate-no-records{padding:18px;border:1px solid #dfe5ec;border-radius:6px;background:#f8f9fb;color:var(--muted);font-size:11px;text-align:center}
 
     .field label{
       display:block;
@@ -1140,6 +1151,7 @@ en <!DOCTYPE html>
       .cards-filter-actions{justify-content:stretch}
       .cards-filter-actions .btn{flex:1}
       .certificate-filters-card .cards-filter-row{grid-template-columns:1fr}
+      .certificate-unified-filters{grid-template-columns:1fr}
       .certificate-active-filters{align-items:flex-start;flex-direction:column}
       .banner-layout{align-items:flex-start;flex-wrap:wrap}
       .table-card-head{align-items:flex-start;flex-direction:column}
@@ -2362,8 +2374,7 @@ en <!DOCTYPE html>
     .compliance-item > div:first-child{font-size:10px}
     .reports-generated-at{font-size:9px}
 
-    #exportCardsBtn,
-    #exportCertificatesBtn{
+    #exportCardsBtn{
       width:112px;
       height:32px;
       padding:0 10px;
@@ -3063,7 +3074,6 @@ en <!DOCTYPE html>
               <label class="permission-option"><input type="checkbox" data-permission="certificates.view">Consultar certificados</label>
               <label class="permission-option"><input type="checkbox" data-permission="certificates.filter">Filtrar certificados</label>
               <label class="permission-option"><input type="checkbox" data-permission="certificates.download">Descargar PDF</label>
-              <label class="permission-option"><input type="checkbox" data-permission="certificates.export">Exportar CSV</label>
             </div>
           </fieldset>
 
@@ -3199,60 +3209,55 @@ en <!DOCTYPE html>
     <section id="certificatesView" class="view">
       <header class="page-header">
         <div>
+          <ol class="individual-issue-breadcrumb" aria-label="Ruta de navegación">
+            <li><a href="#tarjetas-contadores" data-view="cards" data-card-module="contadores">Inicio</a></li>
+            <li><a href="#certificados" data-view="certificates">Certificados</a></li>
+            <li>Consulta de certificados</li>
+          </ol>
           <h1 id="certificatesViewTitle">Certificados</h1>
-          <p id="certificatesViewDescription">Consulte y descargue los certificados disponibles para contadores y sociedades.</p>
+          <p id="certificatesViewDescription">Consulta unificada de certificados de vigencia y antecedentes de contadores públicos y sociedades.</p>
         </div>
       </header>
 
-      <section class="card filters-card certificate-filters-card">
+      <section class="card filters-card certificate-filters-card" id="certificateSearchCard">
         <div class="certificate-filters-header">
-          <span aria-hidden="true">☷</span>
-          <h3>Filtros</h3>
+          <span aria-hidden="true">⌕</span>
+          <h3>Búsqueda y filtros</h3>
         </div>
         <div class="certificate-filters-body">
-          <div class="cards-filters-list" id="certificateFiltersList"></div>
-          <div class="cards-filter-actions">
-            <button type="button" class="btn btn-primary" id="certificateFilterBtn">▼ Filtrar</button>
-            <button type="button" class="btn btn-light" id="clearCertificateFiltersBtn">↶ Limpiar</button>
+          <div class="certificate-unified-filters">
+            <div class="field">
+              <label for="certificatesSearch">Buscar certificado o titular</label>
+              <input class="control" id="certificatesSearch" placeholder="Número de certificado, NIT, documento, nombre o razón social">
+            </div>
+            <div class="field">
+              <label for="certificateHolderType">Tipo de titular</label>
+              <select class="control" id="certificateHolderType">
+                <option value="todos">Todos</option>
+                <option value="contador">Contador</option>
+                <option value="sociedad">Sociedad</option>
+              </select>
+            </div>
           </div>
-          <div class="certificate-active-filters" id="certificateActiveFilters" aria-live="polite"></div>
         </div>
       </section>
 
       <section class="card table-card" style="margin-top:18px">
         <div class="table-card-head">
           <div>
-            <h3>Certificados generados</h3>
-            <p>Documentos emitidos por la Junta Central de Contadores.</p>
-          </div>
-          <div class="table-head-actions">
-            <button type="button" class="btn btn-outline-primary btn-sm" id="exportCertificatesBtn">⬇ Exportar CSV</button>
-            <input class="control" id="certificatesSearch" placeholder="Buscar en la tabla...">
+            <h3>Resultados de certificados</h3>
+            <p id="certificatesResultSummary">Se encontraron 2 certificados.</p>
           </div>
         </div>
         <div class="table-wrap">
-          <table class="data-table">
+          <table class="data-table certificate-unified-table">
             <thead>
-              <tr><th>Expediente</th><th>Contador/sociedad</th><th>Documento</th><th>Tarjeta profesional</th><th>Correo</th><th>Fecha generación</th><th>Acciones</th></tr>
+              <tr><th>Tipo</th><th>Número de certificado</th><th>NIT / Número de documento</th><th>Nombre completo / Razón social</th><th>Fecha de generación</th><th>Fecha de firma</th><th>Estado</th><th>Acciones</th></tr>
             </thead>
-            <tbody id="certificatesTableBody">
-              <tr data-document="1035441227" data-expedient="427524">
-                <td>427524</td>
-                <td>Sebastian Cuencar Cardona</td>
-                <td>CC 1035441227</td>
-                <td>TP 441227-T</td>
-                <td>scuencar@nexura.com</td>
-                <td>2026-07-09 16:30:12</td>
-                <td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td>
-              </tr>
-              <tr data-document="1035441229" data-expedient="427525"><td>427525</td><td>Laura Martínez Gómez</td><td>CC 1035441229</td><td>TP 441229-T</td><td>laura.martinez@example.com</td><td>2026-07-08 10:15:43</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
-              <tr data-document="1035441228" data-expedient="427526"><td>427526</td><td>Andrés Felipe Ruiz</td><td>CC 1035441228</td><td>TP 441228-T</td><td>andres.ruiz@example.com</td><td>2026-07-08 11:42:18</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
-              <tr data-document="9014567891" data-expedient="427530"><td>427530</td><td>Cuencar Consultores S.A.S.</td><td>NIT 901.456.789-1</td><td>SC-001458</td><td>contacto@cuencarconsultores.com</td><td>2026-07-12 08:51:06</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
-              <tr data-document="9003257418" data-expedient="427531"><td>427531</td><td>Auditores del Valle Ltda.</td><td>NIT 900.325.741-8</td><td>SC-001459</td><td>contacto@auditoresdelvalle.com</td><td>2026-07-11 14:27:35</td><td><a class="btn btn-outline-primary btn-sm btn-icon" href="Certificado de vigencia y antecedentes.pdf" download="Certificado de vigencia y antecedentes.pdf" title="Certificado de vigencia y antecedentes" aria-label="Certificado de vigencia y antecedentes">⬇</a></td></tr>
-            </tbody>
+            <tbody id="certificatesTableBody"></tbody>
           </table>
         </div>
-        <div class="table-footer"><span id="certificatesRecordInfo">5 certificados disponibles</span></div>
+        <div class="table-footer"><span id="certificatesRecordInfo">2 certificados encontrados</span></div>
       </section>
     </section>
 
@@ -3913,9 +3918,7 @@ en <!DOCTYPE html>
     if($("certificatesViewTitle")){
       const isCertificatesReport=activeReportRoute==="certificates";
       $("certificatesViewTitle").textContent=isCertificatesReport?"Reporte certificados":"Certificados";
-      $("certificatesViewDescription").textContent=isCertificatesReport
-        ?"Consulte, filtre y exporte la información de los certificados generados."
-        :"Consulte y descargue los certificados disponibles para contadores y sociedades.";
+      $("certificatesViewDescription").textContent="Consulta unificada de certificados de vigencia y antecedentes de contadores públicos y sociedades.";
     }
     if($("historyViewTitle")){
       const isNotificationReport=activeReportRoute==="notifications";
@@ -4136,7 +4139,6 @@ en <!DOCTYPE html>
     ["#brandingMenuGroup","branding.view"],
     ["#qrValidatorMenuGroup","qr.view"],
     ['#nxSidebar a[href="#auditoria"]',"audit.view"],
-    ["#exportCertificatesBtn","certificates.export"],
     ['#certificatesView > .certificate-filters-card',"certificates.filter"],
     ['#certificatesTableBody a[href$=".pdf"]',"certificates.download"],
     ["#saveNotificationBtn","notifications.create"],
@@ -5183,256 +5185,161 @@ en <!DOCTYPE html>
     showToast(`${rows.length} registros exportados.`);
   });
 
-  const certificateColumns=[
-    ["expediente","Expediente"],
-    ["titular","Contador/sociedad"],
-    ["documento","Documento"],
-    ["tarjetaProfesional","Tarjeta profesional"],
-    ["correo","Correo"],
-    ["fechaGeneracion","Fecha generación"]
+  const certificates=[
+    {
+      id:"contador-0221114451sa",
+      type:"Contador",
+      certificateNumber:"0221114451sa",
+      identifier:"1000000000",
+      holder:"NOMBRE EJEMPLO APELLIDO UNO APELLIDO DOS",
+      generatedAt:"12/10/2026",
+      signedAt:null,
+      status:"ACTIVO",
+      professionalCard:"TP 441227-T",
+      cardType:"Primera vez",
+      documentMunicipality:"Bogotá, D.C.",
+      documentDepartment:"Bogotá, D.C.",
+      updatedAt:"13/10/2026",
+      antecedents:[
+        {sanctionType:"Amonestación",durationMonths:"3",resolutionNumber:"RES-0187-2024",resolutionDate:"15/02/2024",enforcementDate:"01/03/2024",completionDate:"01/06/2024"},
+        {sanctionType:"Suspensión",durationMonths:"6",resolutionNumber:"RES-0042-2022",resolutionDate:"20/01/2022",enforcementDate:"05/02/2022",completionDate:"05/08/2022"}
+      ]
+    },
+    {
+      id:"sociedad-cert-ejemplo-0002",
+      type:"Sociedad",
+      certificateNumber:"CERT-EJEMPLO-0002",
+      identifier:"900000000",
+      holder:"SOCIEDAD EJEMPLO S.A.S.",
+      generatedAt:"15/10/2026",
+      signedAt:null,
+      status:"ACTIVO",
+      companyCode:"SOC-0002",
+      legalRepresentative:"MARÍA EJEMPLO REPRESENTANTE",
+      municipality:"Bogotá, D.C.",
+      department:"Cundinamarca",
+      updatedAt:"16/10/2026",
+      antecedents:[]
+    }
   ];
-  let appliedCertificateFilters=[];
-  let stagedCertificateFilters=[];
-  let certificateFilterSequence=0;
 
-  function getCertificateRowData(row){
-    const values=[...row.cells].slice(0,-1).map(cell=>cell.textContent.trim());
-    return Object.fromEntries(certificateColumns.map(([key],index)=>[key,values[index]||""]));
+  function normalizeCertificateSearch(value){
+    return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
   }
 
-  function filterCertificates(){
-    const query=$("certificatesSearch").value.trim().toLowerCase();
-    const rows=[...document.querySelectorAll("#certificatesTableBody tr")];
-    let visible=0;
-    rows.forEach(row=>{
-      const data=getCertificateRowData(row);
-      const matchQuery=!query||Object.values(data).some(value=>String(value).toLowerCase().includes(query));
-      const matchesFilter=filter=>{
-        const rowValue=String(data[filter.column]??"").toLowerCase();
-        if(filter.column==="fechaGeneracion"){
-          const rowDate=rowValue.slice(0,10);
-          return rowDate>=filter.dateFrom&&rowDate<=filter.dateTo;
-        }
-        return filter.column==="expediente"
-          ?rowValue===filter.value
-          :rowValue.includes(filter.value);
-      };
-      const filterColumns=[...new Set(appliedCertificateFilters.map(filter=>filter.column))];
-      const matchFilters=filterColumns.every(column=>
-        appliedCertificateFilters.filter(filter=>filter.column===column).some(matchesFilter)
-      );
-      const match=matchQuery&&matchFilters;
-      row.style.display=match?"":"none";
-      if(match)visible++;
+  function getFilteredCertificates(){
+    const query=normalizeCertificateSearch($("certificatesSearch").value.trim());
+    const holderType=$("certificateHolderType").value;
+    return certificates.filter(certificate=>{
+      const matchesType=holderType==="todos"||certificate.type.toLowerCase()===holderType;
+      const searchable=[certificate.certificateNumber,certificate.identifier,certificate.holder]
+        .map(normalizeCertificateSearch).join(" ");
+      return matchesType&&(!query||searchable.includes(query));
     });
-    $("certificatesRecordInfo").textContent=`${visible} certificado${visible===1?"":"s"} disponible${visible===1?"":"s"}`;
   }
 
-  function refreshCertificateFilterOptions(){
-    const rows=[...$("certificateFiltersList").querySelectorAll(".cards-filter-row")];
-    const stagedColumns=stagedCertificateFilters.map(filter=>filter.column);
-    const restrictRepeatedColumns=!allowsRepeatedReportFilters();
-    rows.forEach(row=>{
-      const select=row.querySelector(".certificate-filter-column");
-      [...select.options].forEach(option=>{
-        const alreadyAdded=Boolean(restrictRepeatedColumns&&option.value&&option.value!==select.value&&stagedColumns.includes(option.value));
-        option.disabled=alreadyAdded;
-        option.hidden=alreadyAdded;
-      });
-    });
-    const currentColumn=rows[0]?.querySelector(".certificate-filter-column").value||"";
-    const reachedColumnLimit=restrictRepeatedColumns&&stagedColumns.length>=certificateColumns.length;
-    $("addCertificateFilterBtn").disabled=!currentColumn||reachedColumnLimit;
-    $("certificateFiltersList").hidden=reachedColumnLimit;
+  function renderCertificates(){
+    const filtered=getFilteredCertificates();
+    $("certificatesTableBody").innerHTML=filtered.length
+      ?filtered.map(certificate=>`
+        <tr>
+          <td><span class="certificate-type-badge ${certificate.type==="Contador"?"accountant":"company"}">${escapeHtml(certificate.type)}</span></td>
+          <td>${escapeHtml(certificate.certificateNumber)}</td>
+          <td>${escapeHtml(certificate.identifier)}</td>
+          <td>${escapeHtml(certificate.holder)}</td>
+          <td>${escapeHtml(certificate.generatedAt)}</td>
+          <td>${escapeHtml(certificate.signedAt||"No disponible")}</td>
+          <td><span class="certificate-active-status">${escapeHtml(certificate.status)}</span></td>
+          <td>
+            <div class="certificate-actions">
+              <button type="button" class="btn btn-outline-primary btn-sm certificate-detail-btn" data-certificate-id="${escapeHtml(certificate.id)}">Consultar detalle</button>
+              <a class="btn btn-outline-secondary btn-sm certificate-download-btn" href="Certificado de vigencia y antecedentes.pdf" download="${escapeHtml(certificate.certificateNumber)}.pdf">Descargar</a>
+            </div>
+          </td>
+        </tr>`).join("")
+      :`<tr><td colspan="8"><div class="empty-state">No se encontraron registros que coincidan con los criterios de búsqueda</div></td></tr>`;
+    const countText=`${filtered.length} certificado${filtered.length===1?"":"s"} encontrado${filtered.length===1?"":"s"}`;
+    $("certificatesResultSummary").textContent=filtered.length
+      ?`Se ${filtered.length===1?"encontró":"encontraron"} ${filtered.length} certificado${filtered.length===1?"":"s"}.`
+      :"No se encontraron certificados.";
+    $("certificatesRecordInfo").textContent=countText;
+    applyCurrentUserPermissions();
   }
 
-  function renderCertificateFilterValue(row,column){
-    const host=row.querySelector(".certificate-filter-value-host");
-    const label=row.querySelector(".certificate-filter-value-label");
-    const columnLabel=certificateColumns.find(([key])=>key===column)?.[1]||"Valor";
-    label.textContent=columnLabel;
-
-    if(!column){
-      host.innerHTML='<input class="control certificate-filter-value" disabled placeholder="Seleccione una columna">';
-    }else if(column==="fechaGeneracion"){
-      label.textContent="Rango de fecha generación";
-      host.innerHTML=`
-        <div class="cards-date-range">
-          <div><label>Fecha inicio</label><input class="control certificate-filter-date-from" type="date"></div>
-          <div><label>Fecha fin</label><input class="control certificate-filter-date-to" type="date"></div>
-        </div>`;
-    }else if(column==="expediente"){
-      host.innerHTML=`<input class="control certificate-filter-value" type="number" min="0" step="1" placeholder="Ingrese ${escapeHtml(columnLabel.toLowerCase())}">`;
-    }else{
-      host.innerHTML=`<input class="control certificate-filter-value" placeholder="Ingrese ${escapeHtml(columnLabel.toLowerCase())}">`;
-    }
+  function certificateDetailItem(label,value){
+    return `<div class="detail-item"><label>${escapeHtml(label)}</label><strong>${escapeHtml(value??"No disponible")}</strong></div>`;
   }
 
-  function addCertificateFilterRow(){
-    $("certificateFiltersList").innerHTML="";
-    const row=document.createElement("div");
-    row.className="cards-filter-row";
-    row.innerHTML=`
-      <div class="field">
-        <label>Columna</label>
-        <select class="control certificate-filter-column">
-          <option value="">Seleccione una columna</option>
-          ${certificateColumns.map(([key,label])=>`<option value="${escapeHtml(key)}">${escapeHtml(label)}</option>`).join("")}
-        </select>
-      </div>
-      <div class="field">
-        <label class="certificate-filter-value-label">Valor</label>
-        <div class="certificate-filter-value-host"></div>
-      </div>
-      <button type="button" class="btn btn-outline-primary" id="addCertificateFilterBtn">+ Añadir filtro</button>`;
-
-    $("certificateFiltersList").appendChild(row);
-    renderCertificateFilterValue(row,"");
-    row.querySelector(".certificate-filter-column").addEventListener("change",event=>{
-      renderCertificateFilterValue(row,event.target.value);
-      refreshCertificateFilterOptions();
-    });
-    row.querySelector("#addCertificateFilterBtn").addEventListener("click",()=>{
-      if(stageCertificateFilter())showToast("Filtro añadido. Pulse Filtrar para aplicar la consulta.");
-    });
-    refreshCertificateFilterOptions();
+  function renderCertificateAntecedents(antecedents){
+    if(!antecedents.length)return '<div class="certificate-no-records">Sin antecedentes registrados</div>';
+    return `<div class="table-wrap">
+      <table class="data-table certificate-detail-table">
+        <thead><tr><th>Tipo de sanción</th><th>Duración en meses</th><th>Número de resolución</th><th>Fecha de resolución</th><th>Fecha de ejecutoria</th><th>Fecha de finalización</th></tr></thead>
+        <tbody>${antecedents.map(item=>`<tr>
+          <td>${escapeHtml(item.sanctionType)}</td>
+          <td>${escapeHtml(item.durationMonths)}</td>
+          <td>${escapeHtml(item.resolutionNumber)}</td>
+          <td>${escapeHtml(item.resolutionDate)}</td>
+          <td>${escapeHtml(item.enforcementDate)}</td>
+          <td>${escapeHtml(item.completionDate)}</td>
+        </tr>`).join("")}</tbody>
+      </table>
+    </div>`;
   }
 
-  function getCertificateFilterFromEditor(){
-    const row=$("certificateFiltersList").querySelector(".cards-filter-row");
-    const column=row?.querySelector(".certificate-filter-column").value||"";
-    if(!column){
-      showToast("Seleccione una columna para añadir el filtro.");
-      return null;
-    }
-    if(!allowsRepeatedReportFilters()&&stagedCertificateFilters.some(filter=>filter.column===column)){
-      showToast("Esta columna ya fue añadida como filtro.");
-      return null;
-    }
-
-    if(column==="fechaGeneracion"){
-      const dateFrom=row.querySelector(".certificate-filter-date-from").value;
-      const dateTo=row.querySelector(".certificate-filter-date-to").value;
-      if(!dateFrom||!dateTo){
-        showToast("Complete la fecha de inicio y la fecha de fin.");
-        return null;
-      }
-      if(dateFrom>dateTo){
-        showToast("La fecha de inicio no puede ser posterior a la fecha de fin.");
-        return null;
-      }
-      return {column,dateFrom,dateTo};
-    }
-
-    const control=row.querySelector(".certificate-filter-value");
-    const displayValue=control.value.trim();
-    if(!displayValue){
-      showToast("Complete el valor del filtro.");
-      return null;
-    }
-    return {column,value:displayValue.toLowerCase(),displayValue};
-  }
-
-  function stageCertificateFilter(){
-    const filter=getCertificateFilterFromEditor();
-    if(!filter)return false;
-    stagedCertificateFilters.push({...filter,filterId:++certificateFilterSequence});
-    const row=$("certificateFiltersList").querySelector(".cards-filter-row");
-    row.querySelector(".certificate-filter-column").value="";
-    renderCertificateFilterValue(row,"");
-    refreshCertificateFilterOptions();
-    renderActiveCertificateFilters();
-    return true;
+  function openCertificateDetail(certificateId){
+    const certificate=certificates.find(item=>item.id===certificateId);
+    if(!certificate)return;
+    const commonItems=[
+      certificateDetailItem("Número de certificado",certificate.certificateNumber),
+      certificate.type==="Contador"
+        ?certificateDetailItem("Nombre completo",certificate.holder)
+        :certificateDetailItem("Razón social",certificate.holder),
+      certificate.type==="Contador"
+        ?certificateDetailItem("Número de documento",certificate.identifier)
+        :certificateDetailItem("NIT",certificate.identifier)
+    ];
+    const specificItems=certificate.type==="Contador"
+      ?[
+        certificateDetailItem("Número de tarjeta profesional",certificate.professionalCard),
+        certificateDetailItem("Tipo de tarjeta",certificate.cardType),
+        certificateDetailItem("Estado",certificate.status),
+        certificateDetailItem("Municipio del documento",certificate.documentMunicipality),
+        certificateDetailItem("Departamento del documento",certificate.documentDepartment)
+      ]
+      :[
+        certificateDetailItem("Código de sociedad",certificate.companyCode),
+        certificateDetailItem("Representante legal",certificate.legalRepresentative),
+        certificateDetailItem("Estado",certificate.status),
+        certificateDetailItem("Municipio",certificate.municipality),
+        certificateDetailItem("Departamento",certificate.department)
+      ];
+    const dateItems=[
+      certificateDetailItem("Fecha de generación",certificate.generatedAt),
+      certificateDetailItem("Fecha de actualización",certificate.updatedAt),
+      certificateDetailItem("Fecha de firma",certificate.signedAt||"No disponible")
+    ];
+    const body=`
+      <div class="detail-grid">${[...commonItems,...specificItems,...dateItems].join("")}</div>
+      <h4 class="certificate-detail-section-title">Antecedentes</h4>
+      ${renderCertificateAntecedents(certificate.antecedents)}`;
+    openModal("Detalle del certificado",`${certificate.type} · ${certificate.certificateNumber}`,body);
   }
 
   function resetCertificateFilterBuilder(){
-    appliedCertificateFilters=[];
-    stagedCertificateFilters=[];
-    addCertificateFilterRow();
-    filterCertificates();
-    renderActiveCertificateFilters();
-  }
-
-  function renderActiveCertificateFilters(){
-    const host=$("certificateActiveFilters");
-    if(!stagedCertificateFilters.length){
-      host.innerHTML='<strong>Filtros activos</strong><span class="certificate-filter-empty">No hay filtros aplicados.</span>';
-      return;
-    }
-
-    host.innerHTML=`
-      <strong>Filtros activos</strong>
-      ${stagedCertificateFilters.map(filter=>{
-        const label=certificateColumns.find(([key])=>key===filter.column)?.[1]||filter.column;
-        const value=filter.column==="fechaGeneracion"
-          ?`${filter.dateFrom} — ${filter.dateTo}`
-          :filter.displayValue||filter.value;
-        return `<button type="button" class="certificate-filter-chip" data-filter-id="${filter.filterId}" title="Quitar filtro">
-          <b>${escapeHtml(label)}:</b> ${escapeHtml(value)} <i aria-hidden="true">×</i>
-        </button>`;
-      }).join("")}`;
-
-    host.querySelectorAll(".certificate-filter-chip").forEach(chip=>{
-      chip.addEventListener("click",()=>{
-        const filterId=Number(chip.dataset.filterId);
-        stagedCertificateFilters=stagedCertificateFilters.filter(filter=>filter.filterId!==filterId);
-        appliedCertificateFilters=appliedCertificateFilters.filter(filter=>filter.filterId!==filterId);
-        refreshCertificateFilterOptions();
-        filterCertificates();
-        renderActiveCertificateFilters();
-      });
-    });
-  }
-
-  document.querySelectorAll("#certificatesTableBody a[href$='.pdf']").forEach(link=>{
-    link.target="_blank";
-    link.rel="noopener";
-    link.removeAttribute("download");
-  });
-
-  $("clearCertificateFiltersBtn").addEventListener("click",()=>{
+    if(!$("certificatesSearch")||!$("certificateHolderType"))return;
     $("certificatesSearch").value="";
-    resetCertificateFilterBuilder();
-    showToast("Filtros de certificados limpiados.");
+    $("certificateHolderType").value="todos";
+    renderCertificates();
+  }
+
+  $("certificatesSearch").addEventListener("input",renderCertificates);
+  $("certificateHolderType").addEventListener("change",renderCertificates);
+  $("certificatesTableBody").addEventListener("click",event=>{
+    const button=event.target.closest(".certificate-detail-btn");
+    if(button)openCertificateDetail(button.dataset.certificateId);
   });
-  $("certificateFilterBtn").addEventListener("click",()=>{
-    const editorColumn=$("certificateFiltersList").querySelector(".certificate-filter-column")?.value||"";
-    if(editorColumn&&!stageCertificateFilter()){
-      return;
-    }
-    appliedCertificateFilters=stagedCertificateFilters.map(filter=>({...filter}));
-    filterCertificates();
-    renderActiveCertificateFilters();
-    const count=appliedCertificateFilters.length;
-    showToast(count?`${count} filtro${count===1?"":"s"} aplicado${count===1?"":"s"}.`:"Filtros retirados.");
-  });
-  $("certificatesSearch").addEventListener("input",filterCertificates);
-  $("exportCertificatesBtn").addEventListener("click",()=>{
-    const rows=[...document.querySelectorAll("#certificatesTableBody tr")].filter(row=>row.style.display!=="none");
-    if(!rows.length){
-      showToast("No hay certificados para exportar con el filtro actual.");
-      return;
-    }
-    const csvValue=value=>`"${String(value).replaceAll('"','""')}"`;
-    const csv=[
-      certificateColumns.map(([,label])=>csvValue(label)).join(";"),
-      ...rows.map(row=>{
-        const data=getCertificateRowData(row);
-        return certificateColumns.map(([key])=>csvValue(data[key])).join(";");
-      })
-    ].join("\r\n");
-    const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
-    const url=URL.createObjectURL(blob);
-    const link=document.createElement("a");
-    link.href=url;
-    link.download=`certificados_${new Date().toISOString().slice(0,10)}.csv`;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
-    showToast(`${rows.length} certificados exportados.`);
-  });
-  resetCertificateFilterBuilder();
+  renderCertificates();
 
   function populateIssueTypeSelect(selectId){
     const select=$(selectId);
