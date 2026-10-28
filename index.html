@@ -3654,8 +3654,42 @@ en <!DOCTYPE html>
         <article class="card report-chart-card" data-report-scope="cards">
           <div class="report-card-header">
             <div>
-              <h3>Tarjetas por estado</h3>
-              <p>Distribución consolidada de contadores y sociedades.</p>
+              <h3>Tarjetas estado de registro</h3>
+              <p>Distribución por estado del registro de contadores y sociedades.</p>
+            </div>
+            <span class="report-card-period">Julio 2026</span>
+          </div>
+
+          <div class="horizontal-chart" id="cardsRegistryStatusChart">
+            <div class="horizontal-chart-row">
+              <span class="chart-label">Activo</span>
+              <div class="chart-track"><div class="chart-fill active" style="width:79.7%"></div></div>
+              <strong>1.253</strong>
+            </div>
+            <div class="horizontal-chart-row">
+              <span class="chart-label">Cancelada</span>
+              <div class="chart-track"><div class="chart-fill cancelled" style="width:0%"></div></div>
+              <strong>0</strong>
+            </div>
+            <div class="horizontal-chart-row">
+              <span class="chart-label">Fallecido</span>
+              <div class="chart-track"><div class="chart-fill deceased" style="width:0%"></div></div>
+              <strong>0</strong>
+            </div>
+          </div>
+
+          <div class="report-chart-footer">
+            <span><i class="legend active"></i>Activo</span>
+            <span><i class="legend cancelled"></i>Cancelada</span>
+            <span><i class="legend deceased"></i>Fallecido</span>
+          </div>
+        </article>
+
+        <article class="card report-chart-card" data-report-scope="cards">
+          <div class="report-card-header">
+            <div>
+              <h3>Tarjetas estado</h3>
+              <p>Distribución según el estado de la tarjeta.</p>
             </div>
             <span class="report-card-period">Julio 2026</span>
           </div>
@@ -3672,11 +3706,6 @@ en <!DOCTYPE html>
               <strong>0</strong>
             </div>
             <div class="horizontal-chart-row">
-              <span class="chart-label">Fallecido</span>
-              <div class="chart-track"><div class="chart-fill deceased" style="width:0%"></div></div>
-              <strong>0</strong>
-            </div>
-            <div class="horizontal-chart-row">
               <span class="chart-label">Emitida</span>
               <div class="chart-track"><div class="chart-fill issued" style="width:20.3%"></div></div>
               <strong>319</strong>
@@ -3686,7 +3715,6 @@ en <!DOCTYPE html>
           <div class="report-chart-footer">
             <span><i class="legend active"></i>Activa</span>
             <span><i class="legend cancelled"></i>Cancelada</span>
-            <span><i class="legend deceased"></i>Fallecido</span>
             <span><i class="legend issued"></i>Emitida</span>
           </div>
         </article>
@@ -6772,8 +6800,16 @@ en <!DOCTYPE html>
 
     const {total,active,issued}=selectedCards;
 
+    const registryStatusRows=$("cardsRegistryStatusChart").querySelectorAll(".horizontal-chart-row");
+    const registryChartValues=[active,0,0];
+    registryStatusRows.forEach((row,index)=>{
+      const value=registryChartValues[index];
+      row.querySelector(".chart-fill").style.width=(total?(value/total)*100:0)+"%";
+      row.querySelector("strong").textContent=value.toLocaleString("es-CO");
+    });
+
     const statusRows=$("cardsStatusChart").querySelectorAll(".horizontal-chart-row");
-    const chartValues=[active,0,0,issued];
+    const chartValues=[active,0,issued];
     statusRows.forEach((row,index)=>{
       const value=chartValues[index];
       row.querySelector(".chart-fill").style.width=(total?(value/total)*100:0)+"%";
